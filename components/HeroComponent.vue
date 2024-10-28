@@ -6,7 +6,7 @@
         <!-- Image du plat -->
         <div class="plat-image-wrapper">
           <img 
-            src="/images/plat-principal.jpg" 
+            src="/images/hero/plat-principal.jpg" 
             alt="Plat gastronomique" 
             class="hero-image"
           />
@@ -14,7 +14,7 @@
         <!-- Image du restaurant -->
         <div class="restaurant-image-wrapper">
           <img 
-            src="/images/restaurant-interieur.png" 
+            src="/images/hero/restaurant-interieur.png" 
             alt="Intérieur du restaurant" 
             class="hero-image"
           />

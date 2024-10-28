@@ -8,7 +8,7 @@
       <div class="icon-container">
         <div class="icon-wrapper">
           <div class="circle-border"></div>
-          <img :src="`/images/${item.image}`" alt="icon" class="icon" />
+          <img :src="`/images/showcase/${item.image}`" alt="icon" class="icon" />
         </div>
       </div>
       <h3 class="title">{{ item.title }}</h3>
