@@ -34,15 +34,7 @@
           {{ brasserie.subtitle }}
         </h3>
         
-        <!-- Séparateur décoratif -->
-        <div class="separator-container">
-          <div class="diamond-container">
-            <div class="diamond-outer">
-              <div class="diamond-inner"></div>
-            </div>
-          </div>
-          <div class="separator-line"></div>
-        </div>
+        <SeparatorComponent :showLeftLine="false" />
         
         <p class="hero-description">
           {{ brasserie.description }}
@@ -59,6 +51,9 @@
 <script>
 export default {
   name: 'BrasserieHero',
+  components: {
+    SeparatorComponent: () => import('./SeparatorComponent.vue')
+  },
   data() {
     return {
       brasserie: {
@@ -130,39 +125,5 @@ export default {
 
 .hero-call-to-action {
   @apply text-gray-300 text-xl italic font-light mt-8;
-}
-
-.separator-container {
-  @apply my-8 flex items-center relative;
-  gap: 1rem;
-}
-
-.diamond-container {
-  @apply relative w-10 h-10 flex items-center justify-center;
-}
-
-.diamond-outer {
-  @apply w-8 h-8 border-2 border-orange-500 flex items-center justify-center;
-  transform: rotate(45deg);
-}
-
-.diamond-inner {
-  @apply w-4 h-4 bg-orange-500;
-}
-
-.separator-line {
-  @apply h-1 bg-orange-500 flex-1;
-}
-
-.diamond-outer, .diamond-inner {
-  @apply transition-all duration-300;
-}
-
-.separator-container:hover .diamond-outer {
-  @apply transform rotate-90;
-}
-
-.separator-container:hover .diamond-inner {
-  @apply transform rotate-90;
 }
 </style>
