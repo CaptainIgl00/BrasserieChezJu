@@ -60,7 +60,10 @@ export default {
 }
 
 .showcase-item {
-  @apply text-center text-white w-full md:w-1/2 lg:w-1/4 xl:w-1/6 p-6 rounded-3xl bg-gray-800 shadow-lg transition-all duration-300 ease-in-out;
+  @apply text-center text-white w-full md:w-1/2 lg:w-1/4 xl:w-1/6 p-6 rounded-3xl shadow-lg transition-all duration-300 ease-in-out;
+  background-image: url("/images/showcase/background.svg");
+  background-size: cover;
+  background-position: center;
 }
 
 .showcase-item:hover {
@@ -72,9 +75,7 @@ export default {
 }
 
 .icon-wrapper {
-  @apply relative flex justify-center items-center bg-black rounded-full;
-  width: 180px;
-  height: 180px;
+  @apply relative flex justify-center items-center bg-black rounded-full w-48 h-48;
 }
 
 .circle-border {

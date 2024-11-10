@@ -12,7 +12,8 @@
   "dependencies": {
     "nuxt": "^3.13.2",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "vuetify": "^3.7.4"
   },
   "devDependencies": {
     "@nuxt/content": "^2.13.4",
