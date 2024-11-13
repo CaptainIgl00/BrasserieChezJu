@@ -8,5 +8,10 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/image', '@nuxt/content'],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@nuxt/image',
+    '@nuxt/content',
+    'vuetify-nuxt-module',
+  ],
 })
