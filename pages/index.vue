@@ -3,11 +3,10 @@ const route = useRoute()
 </script>
 
 <template>
-  <div>
-    <!-- <DisplayComponent />
+  <div class="home-page">
+    <DisplayComponent />
     <ShowcaseComponent />
-    <HeroComponent /> -->
-    <MenuComponent />
-    <!-- <ContactComponent /> -->
+    <HeroComponent />
+    <ContactComponent />
   </div>
 </template>
