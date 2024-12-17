@@ -7,6 +7,7 @@ const route = useRoute()
     <DisplayComponent />
     <ShowcaseComponent />
     <HeroComponent />
+    <StaffComponent />
     <ContactComponent />
   </div>
 </template>
