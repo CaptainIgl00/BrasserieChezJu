@@ -2,7 +2,7 @@
   <div class="hero-section">
     <div class="hero-container">
       <!-- Colonne des images -->
-      <div class="image-column">
+      <div class="image-column fade-in">
         <!-- Image du plat -->
         <div class="plat-image-wrapper">
           <img 
@@ -24,23 +24,23 @@
       <!-- Colonne du texte -->
       <div class="text-column">
         <h2 
-          class="hero-title"
+          class="hero-title fade-in"
           :style="{ fontFamily: 'Dancing Script, cursive' }"
         >
           {{ brasserie.title }}
         </h2>
         
-        <h3 class="hero-subtitle">
+        <h3 class="hero-subtitle fade-in">
           {{ brasserie.subtitle }}
         </h3>
         
-        <SeparatorComponent :showLeftLine="false" />
+        <SeparatorComponent :showLeftLine="false" class="fade-in" />
         
-        <p class="hero-description">
+        <p class="hero-description fade-in">
           {{ brasserie.description }}
         </p>
         
-        <p class="hero-call-to-action">
+        <p class="hero-call-to-action fade-in">
           {{ brasserie.callToAction }}
         </p>
       </div>
@@ -71,12 +71,25 @@ export default {
           moments délicieux dans un cadre qui respire la tradition.`
       }
     };
+  },
+  mounted() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-visible');
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   }
 };
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital@0;1&family=Cormorant+Garamond:ital@0;1&family=Lora:ital@0;1&display=swap');
 
 .hero-section {
   @apply bg-gray-900 min-h-screen p-8;
@@ -87,7 +100,7 @@ export default {
 }
 
 .image-column {
-  @apply relative w-full h-[400px] flex items-center justify-center;
+  @apply relative w-full h-[400px] flex items-center justify-center bottom-24;
 }
 
 .plat-image-wrapper {
@@ -95,7 +108,7 @@ export default {
 }
 
 .restaurant-image-wrapper {
-  @apply w-1/2 h-1/2 absolute z-20 bottom-0 left-0 transform -translate-x-1/2 translate-y-1/2;
+  @apply absolute z-20 bottom-0 left-0 transform -translate-x-1/2 translate-y-1/2;
 }
 
 .hero-image {
@@ -116,14 +129,35 @@ export default {
 }
 
 .hero-subtitle {
-  @apply text-3xl md:text-5xl text-white font-light leading-tight;
+  @apply text-2xl md:text-3xl text-white leading-tight;
+  font-family: 'Lora', serif;
+  font-weight: 400;
 }
 
 .hero-description {
   @apply text-gray-300 text-lg leading-relaxed;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
 }
 
 .hero-call-to-action {
-  @apply text-gray-300 text-xl italic font-light mt-8;
+  @apply text-gray-300 mt-8;
+  font-size: 28px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Animation de fade-in au scroll */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: opacity, transform;
+}
+
+.fade-in-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>

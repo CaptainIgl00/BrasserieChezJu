@@ -37,18 +37,15 @@ onUnmounted(() => {
 <style scoped>
 .navbar {
   @apply flex justify-between items-center
-         px-8 py-6
+         px-8 py-6 fixed top-0 left-0 right-0 z-50
          transition-all duration-300 ease-in-out;
-  background-color: #090C0F;
-  background-size: cover;
-  background-position: center;
+  background-color: transparent;
 }
 
 .navbar-fixed {
-  @apply fixed top-0 left-0 right-0 z-50
-         bg-black/0
-         shadow-lg;
-  background-image: none;
+  @apply shadow-lg;
+  background-color: rgba(9, 12, 15, 0.85);
+  backdrop-filter: blur(8px);
 }
 
 .logo-link {

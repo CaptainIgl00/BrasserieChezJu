@@ -1,18 +1,23 @@
 <template>
-  <div class="showcase">
-    <div 
-      class="showcase-item"
-      v-for="item in showcaseItems" 
-      :key="item.title"
-    >
-      <div class="icon-container">
-        <div class="icon-wrapper">
-          <div class="circle-border"></div>
-          <img :src="`/images/showcase/${item.image}`" alt="icon" class="icon" />
+  <div class="showcase-container">
+    <div class="showcase-content">
+      <div class="showcase">
+        <div 
+          class="showcase-item fade-in"
+          v-for="(item, index) in showcaseItems" 
+          :key="item.title"
+          :style="{ animationDelay: `${index * 100}ms` }"
+        >
+          <div class="icon-container">
+            <div class="icon-wrapper">
+              <div class="circle-border"></div>
+              <img :src="`/images/showcase/${item.image}`" alt="icon" class="icon" />
+            </div>
+          </div>
+          <h3 class="title">{{ item.title }}</h3>
+          <p class="description">{{ item.description }}</p>
         </div>
       </div>
-      <h3 class="title">{{ item.title }}</h3>
-      <p class="description">{{ item.description }}</p>
     </div>
   </div>
 </template>
@@ -50,13 +55,34 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-visible');
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   }
 };
 </script>
 
 <style scoped>
+.showcase-container {
+  @apply bg-gray-900 py-32;
+}
+
+.showcase-content {
+  @apply mx-auto px-4 sm:px-6 lg:px-8;
+}
+
 .showcase {
-  @apply flex flex-wrap justify-center bg-gray-900 p-8 gap-8;
+  @apply flex flex-wrap justify-center gap-8;
 }
 
 .showcase-item {
@@ -123,5 +149,18 @@ export default {
     width: 100px;
     height: 100px;
   }
+}
+
+/* Animation de fade-in au scroll */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: opacity, transform;
+}
+
+.fade-in-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>

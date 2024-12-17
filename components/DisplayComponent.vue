@@ -3,7 +3,7 @@
       <!-- Nouvelle structure pour la grille -->
       <div class="image-grid">
         <!-- Colonne de gauche -->
-        <div class="left-images">
+        <div class="left-images fade-in">
           <img src="/images/display/vin.jpg" alt="Wine" class="wine-image" />
           <img src="/images/display/plat-principal.jpg" alt="Restaurant dish" class="dish-image" />
           <img src="/images/display/logo.png" alt="Logo" class="logo-image" />
@@ -13,23 +13,23 @@
 
         <!-- Contenu central -->
         <div class="content">
-          <h1 class="title">Brasserie Chez Ju</h1>
-          <div class="subtitle">MAÎTRE RESTAURATEUR</div>
-          <div class="separator-wrapper">
+          <h1 class="title fade-in">Brasserie Chez Ju</h1>
+          <div class="subtitle fade-in">MAÎTRE RESTAURATEUR</div>
+          <div class="separator-wrapper fade-in">
             <SeparatorComponent show-left-line />
           </div>
-          <div class="category">
+          <div class="category fade-in">
             BRASSERIE · BAR · TAPAS
           </div>
           
-          <p class="description">
+          <p class="description fade-in">
             Notre brasserie traditionnelle vous propose une cuisine généreuse mettant<br />
             en valeur les produits locaux et de qualité de notre beau terroir.
           </p>
         </div>
 
         <!-- Colonne de droite -->
-        <div class="right-images">
+        <div class="right-images fade-in">
           <img src="/images/display/restaurant-interieur.jpg" alt="Restaurant interior" class="interior-image" />
           <img src="/images/display/entrecote.jpg" alt="Entrecote" class="entrecote-image" />
           <img src="/images/display/slider-img-8.jpg" alt="Slider image" class="slider-image" />
@@ -46,18 +46,31 @@
     data() {
       return {
         parallaxLevels: {
-          wine: -2,
-          dish: 2,
-          interior: -2,
-          entrecote: 2,
-          logo: 3,
-          plume: -2
+          wine: -0.5,
+          dish: 0.5,
+          interior: -0.5,
+          entrecote: 0.5,
+          logo: 0.8,
+          plume: -0.3
         }
       }
     },
 
     mounted() {
       window.addEventListener('mousemove', this.handleParallax);
+      
+      // Ajout de l'Intersection Observer pour le fade-in
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in-visible');
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     },
 
     beforeDestroy() {
@@ -78,8 +91,8 @@
           const container = img.closest('.left-images, .right-images');
           const level = this.parallaxLevels[img.className.split('-')[0]] || 0;
           
-          const offsetX = moveX * level * 10;
-          const offsetY = moveY * level * 10;
+          const offsetX = moveX * level * 5;
+          const offsetY = moveY * level * 5;
           
           container.style.setProperty('--parallax-offset', `${offsetY}px`);
           img.style.transform = `translateX(${offsetX}px)`;
@@ -90,6 +103,8 @@
   </script>
   
   <style scoped>
+  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;500;600&display=swap');
+
   .restaurant-display {
     @apply bg-gray-900 text-white min-h-screen p-8 relative;
   }
@@ -129,15 +144,21 @@
   }
   
   .subtitle {
-    @apply text-sm tracking-widest mb-8 font-semibold;
+    @apply text-2xl tracking-wide mb-6;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
   }
   
   .category {
-    @apply text-orange-500 text-lg tracking-wider mb-8 font-bold;
+    @apply text-orange-500 text-xl tracking-widest mb-8;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
   }
   
   .description {
-    @apply text-gray-300 leading-relaxed;
+    @apply text-gray-300 text-sm leading-relaxed max-w-2xl mx-auto;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
   }
   
   .logo-image {
@@ -278,6 +299,10 @@
     animation: fadeIn 1s ease-in-out 0.9s backwards;
   }
 
+  .description {
+    animation: fadeIn 1s ease-in-out 1.2s backwards;
+  }
+
   /* Effet parallax */
   .left-images, .right-images {
     transform: translateY(var(--parallax-offset, 0));
@@ -306,5 +331,18 @@
 
   .left-images:hover img, .right-images:hover img {
     opacity: 1;
+  }
+
+  /* Animation de fade-in au scroll */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    will-change: opacity, transform;
+  }
+
+  .fade-in-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
   </style>
