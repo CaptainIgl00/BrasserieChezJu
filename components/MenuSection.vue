@@ -52,52 +52,41 @@ export default {
 
 <style scoped>
 .menu-section {
-  padding: 1.5rem;
-  border: 2px solid #F1A67B;
-  border-radius: 12px;
-  margin-bottom: 1rem;
-  background: rgba(241, 166, 123, 0.05);
+  @apply p-6 border-2 border-orange-500 rounded-xl relative overflow-hidden h-full;
+  background: rgba(249, 115, 22, 0.05);
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
 }
 
 .menu-section:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(241, 166, 123, 0.2);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+}
+
+.menu-header {
+  @apply mb-4;
 }
 
 .title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #F1A67B;
-  margin-bottom: 0.5rem;
-  position: relative;
+  @apply text-2xl font-bold text-orange-500 mb-2;
+  font-family: 'Playfair Display', serif;
 }
 
 .subtitle {
-  color: #9CA3AF;
-  font-style: italic;
-  margin-bottom: 0.75rem;
-  font-size: 0.95rem;
+  @apply text-gray-400 italic text-sm mb-3;
 }
 
 .items {
-  color: #9CA3AF;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin-bottom: 1rem;
+  @apply text-gray-300 text-base leading-relaxed mb-4;
 }
 
 .price {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #F1A67B;
-  margin-top: 0.5rem;
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  background: rgba(241, 166, 123, 0.1);
+  @apply text-xl font-bold text-orange-500 mt-auto inline-block px-3 py-1;
+  background: rgba(249, 115, 22, 0.1);
   border-radius: 6px;
+}
+
+.menu-content {
+  @apply flex flex-col h-full;
 }
 
 /* Animation au hover */
@@ -110,7 +99,7 @@ export default {
   height: 100%;
   background: linear-gradient(
     45deg,
-    rgba(241, 166, 123, 0.1) 0%,
+    rgba(249, 115, 22, 0.1) 0%,
     transparent 100%
   );
   opacity: 0;

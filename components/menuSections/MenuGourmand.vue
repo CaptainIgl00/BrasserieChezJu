@@ -1,7 +1,7 @@
 <template>
   <div class="menu-card">
     <div class="menu-header">
-      <h2 class="text-3xl font-bold text-[#F1A67B] font-playfair">Menu Gourmand</h2>
+      <h2 class="text-3xl font-bold text-orange-500 font-playfair">Menu Gourmand</h2>
       <div class="price-tag">41 €</div>
     </div>
 
@@ -88,18 +88,18 @@ import SeparatorComponent from '../SeparatorComponent.vue'
 <style scoped>
 /* Card principale */
 .menu-card {
-  @apply p-8 bg-black/60 border-2 border-[#F1A67B] rounded-xl relative overflow-hidden 
-         transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_6px_15px_rgba(241,166,123,0.3)];
+  @apply p-8 bg-black/60 border-2 border-orange-500 rounded-xl relative overflow-hidden 
+         transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_6px_15px_rgba(249,115,22,0.3)];
 }
 
 /* Header du menu */
 .menu-header {
-  @apply flex justify-between items-center mb-8 pb-4 border-b border-[#F1A67B]/30;
+  @apply flex justify-between items-center mb-8 pb-4 border-b border-orange-500/30;
 }
 
 .price-tag {
-  @apply text-2xl font-semibold text-[#F1A67B] px-4 py-2 border-2 border-[#F1A67B] 
-         rounded-lg bg-[#F1A67B]/10;
+  @apply text-2xl font-semibold text-orange-500 px-4 py-2 border-2 border-orange-500 
+         rounded-lg bg-orange-500/10;
 }
 
 /* Sections */
@@ -108,7 +108,7 @@ import SeparatorComponent from '../SeparatorComponent.vue'
 }
 
 .section-title {
-  @apply text-2xl font-semibold text-[#F1A67B] text-center mb-6;
+  @apply text-2xl font-semibold text-orange-500 text-center mb-6;
   font-family: 'Playfair Display', serif;
 }
 
@@ -119,7 +119,7 @@ import SeparatorComponent from '../SeparatorComponent.vue'
 /* Plats */
 .dish-item {
   @apply p-3 text-center text-gray-200 text-lg 
-         hover:text-[#F1A67B] transition-colors duration-300;
+         hover:text-orange-500 transition-colors duration-300;
 }
 
 .dish-item-with-desc {
@@ -130,11 +130,11 @@ import SeparatorComponent from '../SeparatorComponent.vue'
 .dish-name {
   @apply block text-gray-200 text-center text-lg 
          transition-all duration-300 group-hover:-translate-y-2 
-         group-hover:text-[#F1A67B];
+         group-hover:text-orange-500;
 }
 
 .dish-description {
-  @apply absolute w-full left-0 bg-[#F1A67B]/10 text-[#F1A67B] 
+  @apply absolute w-full left-0 bg-orange-500/10 text-orange-500 
          p-3 text-sm italic text-center transition-all duration-300 
          transform translate-y-full group-hover:translate-y-0
          backdrop-blur-sm rounded-b-lg;
@@ -144,7 +144,7 @@ import SeparatorComponent from '../SeparatorComponent.vue'
 .menu-card::after {
   @apply content-[''] absolute -top-1/2 -left-1/2 w-[200%] h-[200%] 
          pointer-events-none opacity-0 transition-opacity duration-300;
-  background: radial-gradient(circle, rgba(241, 166, 123, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 70%);
 }
 
 .menu-card:hover::after {

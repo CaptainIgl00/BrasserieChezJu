@@ -1,20 +1,13 @@
 <template>
-  <v-container class="py-8">
-    <v-btn 
-      color="primary" 
-      @click="toggleMenu"
-      :class="{ 'rotate-btn': showMenu }"
-    >
-      Formules et Menus
-    </v-btn>
-    
-    <v-row v-if="showMenu" class="menu-transition">
-      <v-container class="d-flex flex-wrap justify-space-around">
+  <div class="menu-container">
+    <!-- Formules Section -->
+    <section class="formules-section">
+      <h2 class="section-title">Nos Formules</h2>
+      <div class="formules-grid">
         <v-card
           v-for="(menu, index) in menus"
           :key="index"
-          class="ma-2 pa-4 menu-card"
-          width="350"
+          class="menu-card"
           theme="dark"
           :style="{ animationDelay: `${index * 100}ms` }"
         >
@@ -25,17 +18,23 @@
             :price="menu.price"
             :subtitle="menu.subtitle"
           />
-          <MenuGourmand/>
         </v-card>
-      </v-container>
-    </v-row>
-  </v-container>
+      </div>
+    </section>
+
+    <!-- Menu Gourmand Section -->
+    <section class="menu-gourmand-section">
+      <h2 class="section-title">Menu Signature</h2>
+      <div class="menu-gourmand-container">
+        <MenuGourmand />
+      </div>
+    </section>
+  </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import MenuGourmand from './menuSections/MenuGourmand.vue'
-const showMenu = ref(false)
 
 const menus = [
   {
@@ -72,38 +71,30 @@ const menus = [
     subtitle: "pour les moins de 12 ans"
   }
 ]
-
-const toggleMenu = () => {
-  showMenu.value = !showMenu.value
-}
 </script>
 
 <style scoped>
-.bg-black {
-  background-color: #000;
-}
-.text-orange-500 {
-  color: #F1A67B;
+.menu-container {
+  @apply space-y-16 mx-auto max-w-7xl;
 }
 
-/* Animation du bouton */
-.rotate-btn {
-  transform: scale(1.05);
-  transition: transform 0.3s ease;
+.section-title {
+  @apply text-3xl font-playfair text-orange-500 text-center font-bold mb-8;
 }
 
-/* Animation d'apparition des cartes */
+.formules-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4;
+}
+
 .menu-card {
-  animation: fadeInUp 0.5s ease forwards;
-  opacity: 0;
+  @apply animate-fadeIn backdrop-blur-sm bg-black/60 h-full;
 }
 
-/* Animation de transition du menu */
-.menu-transition {
-  animation: slideDown 0.3s ease-out;
+.menu-gourmand-container {
+  @apply max-w-3xl mx-auto px-4;
 }
 
-@keyframes fadeInUp {
+@keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -114,14 +105,7 @@ const toggleMenu = () => {
   }
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
 }
 </style>
