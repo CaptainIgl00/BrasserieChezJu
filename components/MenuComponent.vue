@@ -1,13 +1,13 @@
 <template>
-  <div class="menu-container">
+  <div class="space-y-16 mx-auto max-w-7xl">
     <!-- Formules Section -->
     <section class="formules-section">
-      <h2 class="section-title">Nos Formules</h2>
-      <div class="formules-grid">
+      <h2 class="text-3xl font-playfair text-orange-500 text-center font-bold mb-8">Nos Formules</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
         <v-card
           v-for="(menu, index) in menus"
           :key="index"
-          class="menu-card"
+          class="animate-fadeIn backdrop-blur-sm bg-black/60 h-full"
           theme="dark"
           :style="{ animationDelay: `${index * 100}ms` }"
         >
@@ -24,8 +24,8 @@
 
     <!-- Menu Gourmand Section -->
     <section class="menu-gourmand-section">
-      <h2 class="section-title">Menu Signature</h2>
-      <div class="menu-gourmand-container">
+      <h2 class="text-3xl font-playfair text-orange-500 text-center font-bold mb-8">Menu Signature</h2>
+      <div class="max-w-3xl mx-auto px-4">
         <MenuGourmand />
       </div>
     </section>
@@ -74,26 +74,6 @@ const menus = [
 </script>
 
 <style scoped>
-.menu-container {
-  @apply space-y-16 mx-auto max-w-7xl;
-}
-
-.section-title {
-  @apply text-3xl font-playfair text-orange-500 text-center font-bold mb-8;
-}
-
-.formules-grid {
-  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4;
-}
-
-.menu-card {
-  @apply animate-fadeIn backdrop-blur-sm bg-black/60 h-full;
-}
-
-.menu-gourmand-container {
-  @apply max-w-3xl mx-auto px-4;
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;

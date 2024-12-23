@@ -1,14 +1,14 @@
 <template>
-  <div class="restaurant-menu">
+  <div class="w-full max-w-7xl mx-auto px-4">
     <!-- En-tête décoratif -->
-    <div class="menu-header fade-in">
-      <div class="decorative-line"></div>
-      <h2 class="header-title">Notre carte change au fil des saisons,<br/>notre bonne humeur jamais !</h2>
-      <div class="decorative-line"></div>
+    <div class="flex items-center justify-center space-x-4 mb-16 fade-in">
+      <div class="flex-grow h-px bg-orange-500/50 max-w-[100px]"></div>
+      <h2 class="text-xl md:text-2xl text-center font-playfair text-orange-500 italic px-4">Notre carte change au fil des saisons,<br/>notre bonne humeur jamais !</h2>
+      <div class="flex-grow h-px bg-orange-500/50 max-w-[100px]"></div>
     </div>
 
     <!-- Sections du menu -->
-    <div class="menu-content">
+    <div class="space-y-16">
       <!-- Entrées -->
       <div class="fade-in">
         <MenuCategory 
@@ -291,26 +291,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.restaurant-menu {
-  @apply w-full max-w-7xl mx-auto px-4;
-}
-
-.menu-header {
-  @apply flex items-center justify-center space-x-4 mb-16;
-}
-
-.decorative-line {
-  @apply flex-grow h-px bg-orange-500/50 max-w-[100px];
-}
-
-.header-title {
-  @apply text-xl md:text-2xl text-center font-playfair text-orange-500 italic px-4;
-}
-
-.menu-content {
-  @apply space-y-16;
-}
-
 /* Animation de fade-in au scroll */
 .fade-in {
   opacity: 0;
@@ -326,23 +306,23 @@ onMounted(() => {
 
 /* Responsive adjustments */
 @media (max-width: 640px) {
-  .restaurant-menu {
+  .w-full {
     @apply py-8;
   }
 
-  .menu-header {
+  .flex {
     @apply mb-12 px-2;
   }
 
-  .decorative-line {
+  .flex-grow {
     @apply max-w-[60px];
   }
 
-  .header-title {
-    @apply text-lg md:text-xl px-2;
+  .text-xl {
+    @apply text-lg px-2;
   }
 
-  .menu-content {
+  .space-y-16 {
     @apply space-y-12;
   }
 }

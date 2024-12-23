@@ -1,18 +1,18 @@
 <template>
-  <div v-if="suggestion" class="suggestion-container">
-    <div class="suggestion-content" @click="selectFormula">
-      <div class="time-badge">
+  <div v-if="suggestion" class="bg-black/40 rounded-xl p-1">
+    <div class="flex items-center gap-6 p-4 rounded-lg cursor-pointer transition-all duration-300 hover:bg-orange-500/5" @click="selectFormula">
+      <div class="px-4 py-2 rounded-lg bg-orange-500/10 text-orange-500 font-medium text-sm border border-orange-500/20">
         {{ suggestion.timeRange }}
       </div>
-      <div class="suggestion-text">
-        <h3 class="suggestion-title">{{ suggestion.title }}</h3>
-        <p class="suggestion-description">{{ suggestion.description }}</p>
+      <div class="flex-1">
+        <h3 class="text-xl font-medium text-orange-500 mb-1">{{ suggestion.title }}</h3>
+        <p class="text-sm text-gray-400 italic">{{ suggestion.description }}</p>
       </div>
-      <div class="suggestion-price">
+      <div class="text-2xl font-bold text-orange-500">
         {{ suggestion.price }}€
       </div>
-      <div class="suggestion-action">
-        <span class="action-text">Voir la formule</span>
+      <div class="flex items-center gap-2 text-orange-500">
+        <span class="text-sm font-medium">Voir la formule</span>
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
@@ -98,50 +98,12 @@ const selectFormula = () => {
 </script>
 
 <style scoped>
-.suggestion-container {
-  @apply bg-black/40 rounded-xl p-1;
-}
-
-.suggestion-content {
-  @apply flex items-center gap-6 p-4 rounded-lg cursor-pointer
-         transition-all duration-300 hover:bg-orange-500/5;
-}
-
-.time-badge {
-  @apply px-4 py-2 rounded-lg bg-orange-500/10 text-orange-500 font-medium text-sm
-         border border-orange-500/20;
-}
-
-.suggestion-text {
-  @apply flex-1;
-}
-
-.suggestion-title {
-  @apply text-xl font-medium text-orange-500 mb-1;
-}
-
-.suggestion-description {
-  @apply text-sm text-gray-400 italic;
-}
-
-.suggestion-price {
-  @apply text-2xl font-bold text-orange-500;
-}
-
-.suggestion-action {
-  @apply flex items-center gap-2 text-orange-500;
-}
-
-.action-text {
-  @apply text-sm font-medium;
-}
-
 @media (max-width: 640px) {
-  .suggestion-content {
+  .flex {
     @apply flex-col text-center gap-4 p-6;
   }
 
-  .suggestion-action {
+  .flex .flex {
     @apply justify-center;
   }
 }
