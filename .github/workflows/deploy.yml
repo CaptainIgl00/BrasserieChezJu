@@ -1,0 +1,38 @@
+name: Deploy to Freebox Alpine Linux VM
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Étape 1 : Récupérer le code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Étape 2 : Installer les dépendances et builder le projet
+      - name: Install dependencies and build
+        run: |
+          npm install
+          npm run build
+
+      # Étape 3 : Configurer SSH
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Étape 4 : Envoyer les fichiers sur le serveur
+      - name: Deploy to Mini Server
+        run: |
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "rm -rf ~/BrasserieChezJu/.output && mkdir -p ~/BrasserieChezJu"
+          scp -P 14857 -r .output/ freebox@toulouse-plage.freeboxos.fr:~/BrasserieChezJu
+
+      # Étape 5 : Redémarrer l'application
+      - name: Restart application
+        run: |
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "pm2 restart BrasserieChezJu || pm2 start ~/BrasserieChezJu/.output/server/index.mjs --name BrasserieChezJu"
