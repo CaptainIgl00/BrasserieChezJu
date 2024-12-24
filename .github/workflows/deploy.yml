@@ -27,7 +27,7 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       # Étape 4 : Envoyer les fichiers sur le serveur
-      - name: Deploy to Mini Server
+      - name: Deploy to Freebox
         run: |
           ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "rm -rf ~/BrasserieChezJu/.output && mkdir -p ~/BrasserieChezJu"
           scp -P 14857 -r .output/ freebox@toulouse-plage.freeboxos.fr:~/BrasserieChezJu
