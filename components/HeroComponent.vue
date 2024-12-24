@@ -92,23 +92,26 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital@0;1&family=Cormorant+Garamond:ital@0;1&family=Lora:ital@0;1&display=swap');
 
 .hero-section {
-  @apply bg-gray-900 min-h-screen p-8;
+  @apply bg-gray-900 min-h-screen p-4 md:p-8;
 }
 
 .hero-container {
-  @apply max-w-7xl mx-auto grid md:grid-cols-2 gap-8 items-center;
+  @apply max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center;
 }
 
 .image-column {
-  @apply relative w-full h-[400px] flex items-center justify-center bottom-24;
+  @apply relative w-full h-[250px] md:h-[400px] flex items-center justify-center 
+         order-1 md:order-none mt-4 md:mt-0 md:bottom-24;
 }
 
 .plat-image-wrapper {
-  @apply w-[100%] h-[100%] relative z-10;
+  @apply w-[65%] md:w-[100%] h-[100%] relative z-10 mx-auto;
 }
 
 .restaurant-image-wrapper {
-  @apply absolute z-20 bottom-0 left-0 transform -translate-x-1/2 translate-y-1/2;
+  @apply absolute z-20 bottom-0 left-1/2 md:left-0 transform 
+         -translate-x-1/2 translate-y-1/3 md:translate-y-1/2 
+         w-[45%] md:w-auto;
 }
 
 .hero-image {
@@ -120,32 +123,29 @@ export default {
 }
 
 .text-column {
-  @apply space-y-6 px-4 md:px-8;
+  @apply space-y-4 md:space-y-6 px-4 md:px-8 order-2 md:order-none 
+         -mt-8 md:mt-0;
 }
 
 .hero-title {
-  @apply text-orange-500 text-4xl md:text-5xl;
+  @apply text-orange-500 text-3xl md:text-4xl lg:text-5xl text-center md:text-left;
   font-family: 'Dancing Script', cursive;
 }
 
 .hero-subtitle {
-  @apply text-2xl md:text-3xl text-white leading-tight;
+  @apply text-lg md:text-2xl lg:text-3xl text-white leading-tight text-center md:text-left;
   font-family: 'Lora', serif;
-  font-weight: 400;
 }
 
 .hero-description {
-  @apply text-gray-300 text-lg leading-relaxed;
+  @apply text-gray-300 text-sm md:text-lg leading-relaxed max-w-2xl mx-auto md:mx-0;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 300;
 }
 
 .hero-call-to-action {
-  @apply text-gray-300 mt-8;
-  font-size: 28px;
+  @apply text-gray-300 mt-4 md:mt-8 text-lg md:text-2xl text-center md:text-left;
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-weight: 400;
 }
 
 /* Animation de fade-in au scroll */

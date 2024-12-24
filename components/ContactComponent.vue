@@ -91,58 +91,51 @@
 
 <style scoped>
 .footer-content {
-  @apply flex justify-between items-center p-16 relative bg-[#090C0F];
+  @apply flex flex-col md:flex-row justify-between items-center 
+         p-8 md:p-16 relative bg-[#090C0F] gap-8 md:gap-4;
 }
 
 .logo {
-  @apply text-white flex flex-col items-center relative;
+  @apply text-white flex flex-col items-center relative order-first md:order-none;
   background-image: url('/images/contact/bg-foot.png');
-  background-size: cover;
+  background-size: contain;
   background-position: center;
-  width: 300px;
-  height: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  img {
-    @apply transition-all duration-300;
-    &:hover {
-      @apply scale-110 rotate-3;
-    }
-  }
+  background-repeat: no-repeat;
+  width: 200px;
+  height: 200px;
+  @apply md:w-[300px] md:h-[300px];
 }
 
 .contact-info, .hours-info {
-  @apply text-white;
+  @apply text-white w-full md:w-auto;
 }
 
 .title {
-  @apply text-lg mb-6;
+  @apply text-lg mb-4 md:mb-6 text-center md:text-left;
 }
 
 .contact-items {
-  @apply flex flex-col gap-4;
+  @apply flex flex-col gap-4 items-center md:items-start;
 }
 
 .contact-item {
   @apply flex items-center gap-4 
          transition-all duration-300
-         hover:translate-x-2;
+         hover:translate-x-2
+         w-full max-w-xs md:max-w-none
+         justify-center md:justify-start;
 }
 
 .contact-icon {
   @apply w-5 h-5 fill-current text-orange-500
-         transition-colors duration-300;
-}
-
-.contact-item:hover .contact-icon {
-  @apply text-orange-400;
+         transition-colors duration-300
+         flex-shrink-0;
 }
 
 .contact-item p {
   @apply text-white hover:text-orange-200
-         transition-colors duration-300;
+         transition-colors duration-300
+         text-sm md:text-base;
 }
 
 .logo-img {
@@ -167,12 +160,36 @@
   @apply w-5 h-5 fill-current;
 }
 
+.hours-info {
+  @apply text-center md:text-left;
+}
+
 .hours-info p {
-  @apply mb-2;
+  @apply mb-2 text-sm md:text-base;
 }
 
 .font-bold {
   font-weight: bold;
   color: #EA5C0B;
+}
+
+/* Ajustements pour très petits écrans */
+@media (max-width: 360px) {
+  .footer-content {
+    @apply p-4;
+  }
+
+  .logo {
+    width: 150px;
+    height: 150px;
+  }
+
+  .contact-item {
+    @apply text-xs;
+  }
+
+  .hours-info p {
+    @apply text-xs;
+  }
 }
 </style>

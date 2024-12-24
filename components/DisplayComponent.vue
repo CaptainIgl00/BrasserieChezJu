@@ -106,16 +106,17 @@
   @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;500;600&display=swap');
 
   .restaurant-display {
-    @apply bg-gray-900 text-white min-h-screen p-8 relative;
+    @apply bg-gray-900 text-white min-h-screen p-4 md:p-8 relative;
   }
   
   .image-grid {
-    @apply grid grid-cols-3 gap-8 mb-8 relative;
-    min-height: 920px;
+    @apply grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 relative;
+    min-height: 600px;
+    @apply md:min-h-[920px];
   }
   
   .left-images, .right-images {
-    @apply relative h-full;
+    @apply hidden md:block relative h-full;
   }
   
   .wine-image {
@@ -135,28 +136,28 @@
   }
   
   .content {
-    @apply flex flex-col items-center justify-center text-center px-8;
+    @apply flex flex-col items-center justify-center text-center px-4 md:px-8 py-8 md:py-0;
   }
   
   .title {
-    @apply text-7xl mb-4;
+    @apply text-4xl md:text-7xl mb-4;
     font-family: 'Dancing Script', cursive;
   }
   
   .subtitle {
-    @apply text-2xl tracking-wide mb-6;
+    @apply text-xl md:text-2xl tracking-wide mb-4 md:mb-6;
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
   }
   
   .category {
-    @apply text-orange-500 text-xl tracking-widest mb-8;
+    @apply text-orange-500 text-lg md:text-xl tracking-widest mb-6 md:mb-8;
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
   }
   
   .description {
-    @apply text-gray-300 text-sm leading-relaxed max-w-2xl mx-auto;
+    @apply text-gray-300 text-sm md:text-base leading-relaxed max-w-xl md:max-w-2xl mx-auto;
     font-family: 'Montserrat', sans-serif;
     font-weight: 300;
   }
@@ -344,5 +345,67 @@
   .fade-in-visible {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  /* Version mobile des images */
+  @media (max-width: 768px) {
+    .image-grid {
+      @apply grid-cols-1;
+    }
+
+    .content {
+      @apply order-first;
+    }
+
+    .left-images, .right-images {
+      @apply relative h-[300px] mx-auto max-w-md;
+    }
+
+    .wine-image {
+      @apply absolute top-0 left-0 w-[150px] h-[200px] md:w-[200px] md:h-[250px];
+    }
+
+    .dish-image {
+      @apply absolute top-[50px] right-0 w-[200px] h-[250px] md:w-[300px] md:h-[400px];
+    }
+
+    .interior-image {
+      @apply absolute top-0 left-0 w-[200px] h-[250px] md:w-[300px] md:h-[350px];
+    }
+
+    .entrecote-image {
+      @apply absolute top-[50px] right-0 w-[150px] h-[200px] md:w-[250px] md:h-[300px];
+    }
+
+    .logo-image, .slider-image, .plume-image {
+      @apply hidden;
+    }
+  }
+
+  /* Ajustements pour petits écrans */
+  @media (max-width: 480px) {
+    .title {
+      @apply text-3xl;
+    }
+
+    .subtitle {
+      @apply text-lg;
+    }
+
+    .category {
+      @apply text-base;
+    }
+
+    .description {
+      @apply text-sm;
+    }
+
+    .wine-image, .interior-image {
+      @apply w-[120px] h-[160px];
+    }
+
+    .dish-image, .entrecote-image {
+      @apply w-[160px] h-[200px];
+    }
   }
   </style>

@@ -74,19 +74,19 @@ export default {
 
 <style scoped>
 .showcase-container {
-  @apply bg-gray-900 py-32;
+  @apply bg-gray-900 py-16 md:py-32;
 }
 
 .showcase-content {
-  @apply mx-auto px-4 sm:px-6 lg:px-8;
+  @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
 }
 
 .showcase {
-  @apply flex flex-wrap justify-center gap-8;
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-8;
 }
 
 .showcase-item {
-  @apply text-center text-white w-full md:w-1/2 lg:w-1/4 xl:w-1/6 p-6 rounded-3xl shadow-lg transition-all duration-300 ease-in-out;
+  @apply text-center text-white p-4 md:p-6 rounded-3xl shadow-lg transition-all duration-300 ease-in-out;
   background-image: url("/images/showcase/background.svg");
   background-size: cover;
   background-position: center;
@@ -101,7 +101,10 @@ export default {
 }
 
 .icon-wrapper {
-  @apply relative flex justify-center items-center bg-black rounded-full w-48 h-48;
+  @apply relative flex justify-center items-center bg-black rounded-full mx-auto;
+  width: 120px;
+  height: 120px;
+  @apply md:w-[180px] md:h-[180px];
 }
 
 .circle-border {
@@ -119,8 +122,8 @@ export default {
 
 .icon {
   @apply transition-transform duration-300 ease-in-out z-10;
-  width: 90%;
-  height: 90%;
+  width: 75%;
+  height: 75%;
   object-fit: contain;
 }
 
@@ -129,25 +132,38 @@ export default {
 }
 
 .title {
-  @apply text-2xl mb-4 font-bold;
+  @apply text-xl md:text-2xl mb-2 md:mb-4 font-bold;
 }
 
 .description {
-  @apply text-lg;
+  @apply text-sm md:text-lg;
 }
 
-@media (max-width: 768px) {
-  .showcase {
-    @apply p-4 gap-4;
+/* Ajustements pour très petits écrans */
+@media (max-width: 480px) {
+  .showcase-container {
+    @apply py-12;
   }
-  
+
+  .showcase {
+    @apply gap-3;
+  }
+
   .showcase-item {
-    @apply w-full;
+    @apply p-3;
   }
 
   .icon-wrapper {
     width: 100px;
     height: 100px;
+  }
+
+  .title {
+    @apply text-lg mb-2;
+  }
+
+  .description {
+    @apply text-xs;
   }
 }
 
