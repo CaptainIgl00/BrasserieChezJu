@@ -14,6 +14,7 @@
         <MenuCategory 
           title="Toc toc toc... entrées"
           :dishes="starters"
+          :dish-images="starterImages"
         />
       </div>
       
@@ -28,42 +29,44 @@
       </div>
 
       <SeparatorComponent />
-
+      
       <!-- T'as faim de tradition ? -->
       <div class="fade-in">
         <MenuCategory 
-          title="T'as faim de tradition ?"
-          :dishes="traditional"
-        />
-      </div>
-
-      <SeparatorComponent />
-
-      <!-- Côté Mer -->
-      <div class="fade-in">
-        <MenuCategory 
+        title="T'as faim de tradition ?"
+        :dishes="traditional"
+        :dish-images="traditionalImages"
+          />
+        </div>
+        
+        <SeparatorComponent />
+        
+        <!-- Côté Mer -->
+        <div class="fade-in">
+          <MenuCategory 
           title="Côté Mer"
           :dishes="seafood"
-        />
-      </div>
-
-      <SeparatorComponent />
-
-      <!-- Côté Terre -->
+          />
+        </div>
+        
+        <SeparatorComponent />
+        
+        <!-- Côté Terre -->
       <div class="fade-in">
         <MenuCategory 
-          title="Côté Terre"
-          :dishes="meat"
+        title="Côté Terre"
+        :dishes="meat"
         />
       </div>
-
+      
       <SeparatorComponent />
-
+      
       <!-- Côté Flamme -->
       <div class="fade-in">
         <MenuCategory 
-          title="Côté Flamme"
-          :dishes="grill"
+        title="Côté Flamme"
+        :dishes="grill"
+        :dish-images="meatImages"
         />
       </div>
 
@@ -74,6 +77,7 @@
         <MenuCategory 
           title="Finir en douceur"
           :dishes="desserts"
+          :dish-images="dessertImages"
         />
       </div>
     </div>
@@ -84,6 +88,25 @@
 import { onMounted } from 'vue'
 import MenuCategory from './menuSections/MenuCategory.vue'
 import SeparatorComponent from './SeparatorComponent.vue'
+
+// Images mapping pour chaque section
+const starterImages = {
+  'Planche de jambon Serrano et jambon blanc truffé': '/images/menu/planche_charcuterie.jpg',
+  'Planche de foie gras mi-cuit du Périgord': '/images/menu/foie_gras.jpg'
+}
+
+const traditionalImages = {
+  'Cassoulet du chef Becq': '/images/menu/cassoulet.jpg',
+  'Le fameux Welsh de Fred au Maroilles': '/images/menu/welch.jpg'
+}
+
+const meatImages = {
+  'Magret de canard du Périgord': '/images/menu/magret.jpg'
+}
+
+const dessertImages = {
+  'Profiterole XL': '/images/menu/profiteroles.jpg'
+}
 
 // Données du menu (à déplacer dans un store ou une API plus tard)
 const starters = [
