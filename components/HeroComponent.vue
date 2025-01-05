@@ -92,7 +92,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital@0;1&family=Cormorant+Garamond:ital@0;1&family=Lora:ital@0;1&display=swap');
 
 .hero-section {
-  @apply bg-gray-900 min-h-screen p-4 md:p-8;
+  @apply bg-black/90 p-4 md:p-8;
 }
 
 .hero-container {
@@ -100,18 +100,25 @@ export default {
 }
 
 .image-column {
-  @apply relative w-full h-[250px] md:h-[400px] flex items-center justify-center 
-         order-1 md:order-none mt-4 md:mt-0 md:bottom-24;
+  @apply relative w-full flex items-center justify-center 
+         order-1 md:order-none;
+  height: auto;
+  margin-bottom: 2rem;
 }
 
 .plat-image-wrapper {
-  @apply w-[65%] md:w-[100%] h-[100%] relative z-10 mx-auto;
+  @apply w-[80%] md:w-[90%] relative z-10;
+  height: 250px;
+  @apply md:h-[400px];
 }
 
 .restaurant-image-wrapper {
-  @apply absolute z-20 bottom-0 left-1/2 md:left-0 transform 
-         -translate-x-1/2 translate-y-1/3 md:translate-y-1/2 
-         w-[45%] md:w-auto;
+  @apply absolute z-20 transform w-[40%] md:w-[45%];
+  height: 180px;
+  @apply md:h-[250px];
+  left: 10%;
+  bottom: 0;
+  transform: translate(-50%, 50%);
 }
 
 .hero-image {
@@ -123,8 +130,7 @@ export default {
 }
 
 .text-column {
-  @apply space-y-4 md:space-y-6 px-4 md:px-8 order-2 md:order-none 
-         -mt-8 md:mt-0;
+  @apply space-y-4 md:space-y-6 px-4 md:px-8 order-2 md:order-none;
 }
 
 .hero-title {
@@ -159,5 +165,60 @@ export default {
 .fade-in-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Version mobile spécifique */
+@media (max-width: 768px) {
+  .hero-section {
+    @apply pt-8 pb-8;
+    min-height: auto;
+  }
+
+  .hero-container {
+    @apply gap-4;
+  }
+
+  .plat-image-wrapper {
+    @apply w-[85%];
+    height: 220px;
+  }
+
+  .restaurant-image-wrapper {
+    height: 150px;
+    width: 45%;
+    left: 7.5%;
+  }
+
+  .text-column {
+    @apply px-2 space-y-4 mt-20;
+  }
+
+  .hero-title {
+    @apply text-3xl;
+  }
+
+  .hero-subtitle {
+    @apply text-lg;
+  }
+
+  .hero-description {
+    @apply text-sm leading-relaxed;
+  }
+
+  .hero-call-to-action {
+    @apply text-base mt-4;
+  }
+}
+
+/* Petits écrans */
+@media (max-width: 360px) {
+  .plat-image-wrapper {
+    height: 180px;
+  }
+
+  .restaurant-image-wrapper {
+    height: 120px;
+    width: 50%;
+  }
 }
 </style>

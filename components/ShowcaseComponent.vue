@@ -6,7 +6,7 @@
           class="showcase-item fade-in"
           v-for="(item, index) in showcaseItems" 
           :key="item.title"
-          :style="{ animationDelay: `${index * 100}ms` }"
+          :style="{ '--delay': `${0.2 + index * 0.2}s` }"
         >
           <div class="icon-container">
             <div class="icon-wrapper">
@@ -78,18 +78,25 @@ export default {
 }
 
 .showcase-content {
-  @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+  @apply mx-auto px-4 sm:px-6 lg:px-8;
+  max-width: 1920px;
 }
 
 .showcase {
-  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-8;
+  @apply grid gap-4 md:gap-8;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 .showcase-item {
-  @apply text-center text-white p-4 md:p-6 rounded-3xl shadow-lg transition-all duration-300 ease-in-out;
+  @apply text-center text-white p-6 lg:p-8 rounded-3xl shadow-lg transition-all duration-300 ease-in-out;
   background-image: url("/images/showcase/background.svg");
   background-size: cover;
   background-position: center;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .showcase-item:hover {
@@ -97,14 +104,14 @@ export default {
 }
 
 .icon-container {
-  @apply flex justify-center items-center mb-6;
+  @apply flex justify-center items-center mb-8;
 }
 
 .icon-wrapper {
   @apply relative flex justify-center items-center bg-black rounded-full mx-auto;
-  width: 120px;
-  height: 120px;
-  @apply md:w-[180px] md:h-[180px];
+  width: 160px;
+  height: 160px;
+  @apply lg:w-[200px] lg:h-[200px];
 }
 
 .circle-border {
@@ -132,11 +139,13 @@ export default {
 }
 
 .title {
-  @apply text-xl md:text-2xl mb-2 md:mb-4 font-bold;
+  @apply text-2xl lg:text-3xl mb-4 lg:mb-6 font-bold;
 }
 
 .description {
-  @apply text-sm md:text-lg;
+  @apply text-base lg:text-lg leading-relaxed;
+  max-width: 90%;
+  margin: 0 auto;
 }
 
 /* Ajustements pour très petits écrans */
@@ -150,20 +159,21 @@ export default {
   }
 
   .showcase-item {
-    @apply p-3;
+    @apply p-4;
+    min-height: 320px;
   }
 
   .icon-wrapper {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
   }
 
   .title {
-    @apply text-lg mb-2;
+    @apply text-xl mb-3;
   }
 
   .description {
-    @apply text-xs;
+    @apply text-sm;
   }
 }
 
@@ -172,7 +182,7 @@ export default {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  will-change: opacity, transform;
+  transition-delay: var(--delay, 0s);
 }
 
 .fade-in-visible {

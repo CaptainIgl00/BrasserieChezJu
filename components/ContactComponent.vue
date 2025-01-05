@@ -97,13 +97,35 @@
 
 .logo {
   @apply text-white flex flex-col items-center relative order-first md:order-none;
-  background-image: url('/images/contact/bg-foot.png');
-  background-size: contain;
+  background-image: url('/images/contact/france_map_theme.png');
+  background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
   width: 200px;
   height: 200px;
   @apply md:w-[300px] md:h-[300px];
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo a {
+  @apply flex items-center justify-center;
+  width: 100%;
+  height: 100%;
+}
+
+.logo img {
+  @apply transition-all duration-300;
+  width: auto;
+  height: 120px;
+  @apply md:h-[180px];
+  object-fit: contain;
+}
+
+.logo:hover img {
+  @apply scale-105;
+  transition: transform 0.3s ease-in-out;
 }
 
 .contact-info, .hours-info {

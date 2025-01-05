@@ -1,20 +1,20 @@
 <template>
   <div class="staff-container">
-    <h1 class="title font-marcellus">L'Équipe</h1>
-    <h2 class="subtitle font-marcellus">En Cuisine</h2>
+    <h1 class="title font-marcellus fade-in">L'Équipe</h1>
+    <h2 class="subtitle font-marcellus fade-in" style="--delay: 0.2s">En Cuisine</h2>
     
-    <div class="separator-container">
+    <div class="separator-container fade-in" style="--delay: 0.4s">
       <SeparatorComponent />
     </div>
 
     <div class="staff-grid">
-      <div class="staff-member">
+      <div class="staff-member fade-in" style="--delay: 0.6s">
         <img src="/images/staff/fred.jpg" alt="Frédéric Becq" class="staff-image" />
         <h3 class="staff-name">Frédéric Becq</h3>
         <p class="staff-role">Chef</p>
       </div>
 
-      <div class="staff-member">
+      <div class="staff-member fade-in" style="--delay: 0.8s">
         <img src="/images/staff/jb.jpg" alt="Jean-Baptiste" class="staff-image" />
         <h3 class="staff-name">Jean-Baptiste</h3>
         <p class="staff-role">Second de cuisine</p>
@@ -24,16 +24,31 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import SeparatorComponent from './SeparatorComponent.vue';
+
+onMounted(() => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('fade-in-visible')
+      }
+    })
+  }, {
+    threshold: 0.1
+  })
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el))
+})
 </script>
 
 <style scoped>
 .staff-container {
-  @apply flex flex-col items-center justify-center py-24 px-4 bg-[#090C0F];
+  @apply flex flex-col items-center justify-center py-24 px-4 bg-gray-900;
 }
 
 .title {
-  @apply text-4xl text-white mb-2 text-orange-500 ;
+  @apply text-4xl mb-2 text-orange-500;
   font-family: 'Dancing Script', serif;
 }
 
@@ -72,4 +87,16 @@ import SeparatorComponent from './SeparatorComponent.vue';
   @apply w-56
 }
 
+/* Animation de fade-in au scroll */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transition-delay: var(--delay, 0s);
+}
+
+.fade-in-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 </style> 

@@ -84,8 +84,7 @@ import SeparatorComponent from '../SeparatorComponent.vue'
 }
 
 .price-tag {
-  @apply text-2xl font-semibold text-orange-500 px-4 py-2 border-2 border-orange-500 
-         rounded-lg bg-orange-500/10;
+  @apply text-2xl font-semibold text-orange-500 px-4 py-2;
 }
 
 /* Sections */

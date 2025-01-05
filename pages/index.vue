@@ -8,6 +8,7 @@ const route = useRoute()
     <ShowcaseComponent />
     <HeroComponent />
     <StaffComponent />
+    <InstagramFeedComponent />
     <ContactComponent />
   </div>
 </template>
