@@ -10,9 +10,9 @@
         <!-- Left Side Cards -->
         <div class="flex flex-wrap lg:flex-col gap-4 lg:w-[40%]">
           <div v-for="dish in leftSideCards" :key="dish.name" 
-               @mouseenter="updateImage(dish.name)"
-               @mouseleave="resetImage"
+               @mouseenter="setActiveImage(dish.name)"
                class="flex-1 lg:flex-none p-4 rounded-lg transition-all duration-300 relative backdrop-blur-sm hover:-translate-y-0.5 group min-w-[280px] lg:min-w-0"
+               :class="{ 'active-card': activeCard === dish.name }"
                :style="{ background: 'rgba(0, 0, 0, 0.4)' }">
             <div class="space-y-2">
               <div class="flex justify-between items-start gap-4">
@@ -40,9 +40,9 @@
           <!-- Bottom Cards -->
           <div class="flex flex-wrap gap-4">
             <div v-for="dish in bottomCards" :key="dish.name" 
-                 @mouseenter="updateImage(dish.name)"
-                 @mouseleave="resetImage"
+                 @mouseenter="setActiveImage(dish.name)"
                  class="flex-1 p-4 rounded-lg transition-all duration-300 relative backdrop-blur-sm hover:-translate-y-0.5 group min-w-[280px]"
+                 :class="{ 'active-card': activeCard === dish.name }"
                  :style="{ background: 'rgba(0, 0, 0, 0.4)' }">
               <div class="space-y-2">
                 <div class="flex justify-between items-start gap-4">
@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 const props = defineProps({
   title: {
@@ -116,20 +116,37 @@ const bottomCards = computed(() => {
 
 const isHovered = ref(false)
 const currentImage = ref(defaultImage.value)
-const lastHoveredImage = ref(defaultImage.value)
+const activeCard = ref(null)
 
 const updateImage = (dishName) => {
   if (props.dishImages && props.dishImages[dishName]) {
     currentImage.value = props.dishImages[dishName]
-    lastHoveredImage.value = props.dishImages[dishName]
     isHovered.value = true
+    activeCard.value = dishName
   }
 }
 
 const resetImage = () => {
-  currentImage.value = lastHoveredImage.value
   isHovered.value = false
 }
+
+const setActiveImage = (dishName) => {
+  if (props.dishImages && props.dishImages[dishName]) {
+    currentImage.value = props.dishImages[dishName]
+    activeCard.value = dishName
+  }
+}
+
+// Initialiser l'état au montage du composant
+onMounted(() => {
+  if (props.dishes.length > 0 && props.dishImages) {
+    // Trouver le premier plat qui a une image associée
+    const firstDishWithImage = props.dishes.find(dish => props.dishImages[dish.name])
+    if (firstDishWithImage) {
+      setActiveImage(firstDishWithImage.name)
+    }
+  }
+})
 </script>
 
 <style scoped>
@@ -145,4 +162,15 @@ const resetImage = () => {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* Ajout d'une bordure transparente par défaut sur toutes les cartes */
+[class*="flex-1"] {
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.active-card {
+  border-color: rgb(249, 115, 22);
+}
+
 </style>

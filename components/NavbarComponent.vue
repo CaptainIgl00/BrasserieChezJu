@@ -15,29 +15,35 @@ onUnmounted(() => {
 
 <template>
   <nav :class="['navbar', { 'navbar-fixed': isScrolled }]">
-    <NuxtLink to="/menu" class="nav-link">
-      Menu
-    </NuxtLink>
-    
-    <NuxtLink to="/" class="logo-link">
-      <img src="/images/display/logo.png" alt="Brasserie Chez Ju" class="h-20 w-auto" />
-    </NuxtLink>
+    <div class="nav-container">
+      <!-- Section gauche -->
+      <div class="nav-side">
+        <NuxtLink to="/menu" class="nav-link">
+          Menu
+        </NuxtLink>
+      </div>
+      
+      <!-- Logo central -->
+      <div class="nav-center">
+        <NuxtLink to="/" class="logo-link">
+          <img src="/images/display/logo.png" alt="Brasserie Chez Ju" class="h-20 w-auto" />
+        </NuxtLink>
+      </div>
 
-
-    <NuxtLink to="https://www.google.com/maps/reserve/v/dine/c/o0LDliLAXCA"
-      class="text-white text-lg font-semibold
-        px-4 py-2 rounded-lg mx-8
-        transition-all duration-300
-        hover:bg-orange-500 hover:scale-105">
-      Réserver
-    </NuxtLink>
+      <!-- Section droite -->
+      <div class="nav-side">
+        <NuxtLink to="https://www.google.com/maps/reserve/v/dine/c/o0LDliLAXCA"
+          class="nav-link">
+          Réserver
+        </NuxtLink>
+      </div>
+    </div>
   </nav>
 </template>
 
 <style scoped>
 .navbar {
-  @apply flex justify-between items-center
-         px-8 py-6 fixed top-0 left-0 right-0 z-50
+  @apply fixed top-0 left-0 right-0 z-50
          transition-all duration-300 ease-in-out;
   background-color: transparent;
 }
@@ -48,19 +54,70 @@ onUnmounted(() => {
   backdrop-filter: blur(8px);
 }
 
-.logo-link {
-  @apply absolute left-1/2 transform -translate-x-1/2
-         transition-transform duration-300 hover:scale-105;
+.nav-container {
+  @apply container mx-auto flex items-center justify-between relative px-4 py-6;
+  max-width: 1920px;
 }
 
-.nav-links {
-  @apply flex gap-6;
+.nav-side {
+  @apply w-[200px] flex;
+}
+
+.nav-side:first-child {
+  @apply justify-start;
+}
+
+.nav-side:last-child {
+  @apply justify-end;
+}
+
+.nav-center {
+  @apply absolute left-1/2 transform -translate-x-1/2;
+}
+
+.logo-link {
+  @apply transition-transform duration-300 hover:scale-105 block;
 }
 
 .nav-link {
   @apply text-white text-lg font-semibold
-         px-4 py-2 rounded-lg mx-8
+         rounded-lg
          transition-all duration-300
-         hover:bg-orange-500 hover:scale-105;
+         hover:bg-orange-500 hover:scale-105
+         flex items-center justify-center;
+  width: 110px;
+  height: 40px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-side {
+    @apply w-[120px];
+  }
+
+  .nav-link {
+    width: 90px;
+    height: 36px;
+    @apply text-base;
+  }
+
+  .logo-link img {
+    @apply h-16;
+  }
+}
+
+@media (max-width: 360px) {
+  .nav-side {
+    @apply w-[100px];
+  }
+
+  .nav-link {
+    width: 80px;
+    @apply text-sm;
+  }
+
+  .logo-link img {
+    @apply h-14;
+  }
 }
 </style> 
