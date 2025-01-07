@@ -11,7 +11,15 @@
           <div class="icon-container">
             <div class="icon-wrapper">
               <div class="circle-border"></div>
-              <img :src="`/images/showcase/${item.image}`" alt="icon" class="icon" />
+              <nuxt-img 
+                :src="`/images/showcase/${item.image}`" 
+                :alt="item.title" 
+                class="icon"
+                loading="lazy"
+                format="webp"
+                quality="80"
+                sizes="sm:80px md:120px lg:150px"
+              />
             </div>
           </div>
           <h3 class="title">{{ item.title }}</h3>

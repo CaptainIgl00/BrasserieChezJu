@@ -5,18 +5,26 @@
       <div class="image-column fade-in">
         <!-- Image du plat -->
         <div class="plat-image-wrapper">
-          <img 
+          <nuxt-img 
             src="/images/hero/plat-principal.jpg" 
             alt="Plat gastronomique" 
             class="hero-image"
+            loading="lazy"
+            format="webp"
+            quality="80"
+            sizes="sm:100vw md:50vw lg:400px"
           />
         </div>
         <!-- Image du restaurant -->
         <div class="restaurant-image-wrapper">
-          <img 
+          <nuxt-img 
             src="/images/hero/restaurant-interieur.png" 
             alt="Intérieur du restaurant" 
             class="hero-image"
+            loading="lazy"
+            format="webp"
+            quality="80"
+            sizes="sm:100vw md:50vw lg:400px"
           />
         </div>
       </div>

@@ -4,10 +4,26 @@
       <!-- Images de gauche -->
       <div class="side-images left-images">
         <div class="image-container tall fade-in" style="--delay: 0s">
-          <img src="/images/display/plat-principal.jpg" alt="Plat principal" />
+          <nuxt-img 
+            src="/images/display/plat-principal.jpg" 
+            alt="Plat principal" 
+            class="w-full h-full object-cover transition-all duration-500"
+            loading="lazy"
+            format="webp"
+            quality="90"
+            sizes="sm:100vw md:50vw lg:400px"
+          />
         </div>
         <div class="image-container fade-in" style="--delay: 0.3s; margin-top: -100px; margin-left: 50px;">
-          <img src="/images/display/vin.jpg" alt="Vin" />
+          <nuxt-img 
+            src="/images/display/vin.jpg" 
+            alt="Vin" 
+            class="w-full h-full object-cover transition-all duration-500"
+            loading="lazy"
+            format="webp"
+            quality="90"
+            sizes="sm:100vw md:50vw lg:400px"
+          />
         </div>
       </div>
 
@@ -30,10 +46,26 @@
       <!-- Images de droite -->
       <div class="side-images right-images">
         <div class="image-container fade-in" style="--delay: 0.3s; margin-left: -50px;">
-          <img src="/images/display/restaurant-interieur.jpg" alt="Intérieur du restaurant" />
+          <nuxt-img 
+            src="/images/display/restaurant-interieur.jpg" 
+            alt="Intérieur du restaurant" 
+            class="w-full h-full object-cover transition-all duration-500"
+            loading="lazy"
+            format="webp"
+            quality="80"
+            sizes="sm:100vw md:50vw lg:400px"
+          />
         </div>
         <div class="image-container tall fade-in" style="--delay: 0s; margin-top: -100px;">
-          <img src="/images/display/entrecote.jpg" alt="Entrecôte" />
+          <nuxt-img 
+            src="/images/display/entrecote.jpg" 
+            alt="Entrecôte" 
+            class="w-full h-full object-cover transition-all duration-500"
+            loading="lazy"
+            format="webp"
+            quality="80"
+            sizes="sm:100vw md:50vw lg:400px"
+          />
         </div>
       </div>
     </div>

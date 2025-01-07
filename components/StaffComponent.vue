@@ -9,13 +9,29 @@
 
     <div class="staff-grid">
       <div class="staff-member fade-in" style="--delay: 0.6s">
-        <img src="/images/staff/fred.jpg" alt="Frédéric Becq" class="staff-image" />
+        <nuxt-img 
+          src="/images/staff/fred.jpg" 
+          alt="Frédéric Becq" 
+          class="staff-image"
+          loading="lazy"
+          format="webp"
+          quality="80"
+          sizes="sm:100vw md:50vw lg:300px"
+        />
         <h3 class="staff-name">Frédéric Becq</h3>
         <p class="staff-role">Chef</p>
       </div>
 
       <div class="staff-member fade-in" style="--delay: 0.8s">
-        <img src="/images/staff/jb.jpg" alt="Jean-Baptiste" class="staff-image" />
+        <nuxt-img 
+          src="/images/staff/jb.jpg" 
+          alt="Jean-Baptiste" 
+          class="staff-image"
+          loading="lazy"
+          format="webp"
+          quality="80"
+          sizes="sm:100vw md:50vw lg:300px"
+        />
         <h3 class="staff-name">Jean-Baptiste</h3>
         <p class="staff-role">Second de cuisine</p>
       </div>

@@ -29,11 +29,15 @@
         <div class="lg:w-[60%] flex flex-col gap-4">
           <!-- Image -->
           <div class="w-full h-[400px] lg:h-[500px] rounded-xl overflow-hidden">
-            <img 
+            <nuxt-img 
               :src="currentImage" 
               :alt="title"
               class="w-full h-full object-cover transition-all duration-700"
               :class="{'scale-105': isHovered}"
+              loading="lazy"
+              format="webp"
+              quality="80"
+              sizes="sm:100vw md:50vw lg:800px"
             />
           </div>
 

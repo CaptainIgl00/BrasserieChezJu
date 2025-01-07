@@ -26,7 +26,15 @@ onUnmounted(() => {
       <!-- Logo central -->
       <div class="nav-center">
         <NuxtLink to="/" class="logo-link">
-          <img src="/images/display/logo.png" alt="Brasserie Chez Ju" class="h-20 w-auto" />
+          <nuxt-img 
+            src="/images/display/logo.png" 
+            alt="Brasserie Chez Ju" 
+            class="h-20 w-auto"
+            loading="eager"
+            format="webp"
+            quality="90"
+            sizes="sm:80px md:120px lg:150px"
+          />
         </NuxtLink>
       </div>
 

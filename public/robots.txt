@@ -1,1 +1,23 @@
+# Règles globales
+User-agent: *
+Allow: /
+Allow: /menu
+Allow: /images/
+Disallow: /assets/
+Disallow: /.nuxt/
+Disallow: /node_modules/
 
+# Règles spécifiques pour les bots
+User-agent: Googlebot
+Allow: /
+Allow: /*.js$
+Allow: /*.css$
+
+User-agent: Googlebot-Image
+Allow: /images/
+
+# Temps d'attente entre les requêtes
+Crawl-delay: 10
+
+# Sitemap
+Sitemap: https://brasseriechezu.fr/sitemap.xml

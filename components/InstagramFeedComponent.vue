@@ -20,11 +20,14 @@
             <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
               <span class="text-white text-sm">Voir sur Instagram</span>
             </div>
-            <img 
+            <nuxt-img 
               :src="post.imageUrl" 
               :alt="post.title" 
               class="w-full h-[300px] md:h-[400px] object-cover transition-transform duration-500 group-hover:scale-110"
               loading="lazy"
+              format="webp"
+              quality="80"
+              sizes="sm:100vw md:33vw lg:400px"
             />
           </a>
         </div>
