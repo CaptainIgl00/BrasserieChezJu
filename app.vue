@@ -42,7 +42,7 @@ html {
 }
 
 body {
-  @apply bg-black text-white font-sans antialiased;
+  @apply bg-gray-500 text-white font-sans antialiased;
 }
 
 /* Optimisation du FCP (First Contentful Paint) */
