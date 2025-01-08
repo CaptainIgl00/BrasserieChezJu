@@ -1,7 +1,9 @@
 name: Initialize Alpine Linux
 
 on:
-  workflow_dispatch:  # Déclenchement manuel
+  workflow_dispatch:  # Déclenchement manuel depuis n'importe quelle branche
+    branches:
+      - '*'
 
 jobs:
   init-alpine:
