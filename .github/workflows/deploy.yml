@@ -14,13 +14,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Étape 2 : Installer les dépendances et builder le projet
-      - name: Install dependencies and build
-        run: |
-          npm install
-          npm run build
+      # Étape 2 : SetupNode.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
 
-      # Étape 3 : Configurer SSH
+      # Étape 3 : Installer les dépendances et builder le projet
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: |
+          npm run build
+          ls -la .output/
+
+      # Étape 4 : Configurer SSH
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.7.0
         with:
@@ -30,13 +40,34 @@ jobs:
         run: |
           ssh-keyscan -p 14857 toulouse-plage.freeboxos.fr >> ~/.ssh/known_hosts
 
-      # Étape 4 : Envoyer les fichiers sur le serveur
+      # Étape 5 : Vérifier l'espace disque et les processus existants
+      - name: Check server status
+        run: |
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "df -h && pm2 list"
+
+      # Étape 6 : Backup de l'ancienne version
+      - name: Backup old version
+        run: |
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "if [ -d ~/BrasserieChezJu/.output ]; then mv ~/BrasserieChezJu/.output ~/BrasserieChezJu/.output_backup_$(date +%Y%m%d_%H%M%S); fi"
+
+      # Étape 7 : Envoyer les fichiers sur le serveur
       - name: Deploy to Freebox
         run: |
-          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "rm -rf ~/BrasserieChezJu/.output && mkdir -p ~/BrasserieChezJu"
-          scp -P 14857 -r .output/ freebox@toulouse-plage.freeboxos.fr:~/BrasserieChezJu
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "mkdir -p ~/BrasserieChezJu"
+          scp -P 14857 -r .output/ freebox@toulouse-plage.freeboxos.fr:~/BrasserieChezJu/
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "ls -la ~/BrasserieChezJu/.output/"
 
-      # Étape 5 : Redémarrer l'application
+      # Étape 8 : Redémarrer l'application avec logs
       - name: Restart application
         run: |
-          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "pm2 restart BrasserieChezJu || pm2 start ~/BrasserieChezJu/.output/server/index.mjs --name BrasserieChezJu"
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "cd ~/BrasserieChezJu && \
+          if pm2 list | grep -q 'BrasserieChezJu'; then \
+            pm2 delete BrasserieChezJu; \
+          fi && \
+          NODE_ENV=production pm2 start .output/server/index.mjs --name BrasserieChezJu --log ~/BrasserieChezJu/app.log && \
+          pm2 logs BrasserieChezJu --lines 50"
+
+      # Étape 9 : Vérifier le statut de l'application
+      - name: Check application status
+        run: |
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "pm2 show BrasserieChezJu"
