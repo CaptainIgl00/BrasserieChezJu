@@ -23,25 +23,25 @@ jobs:
       - name: Install security packages
         run: |
           ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "\
-          sudo apk update && \
-          sudo apk add ufw nginx fail2ban"
+          doas apk update && \
+          doas apk add ufw nginx fail2ban"
 
       # Étape 3 : Configuration du pare-feu UFW
       - name: Configure UFW
         run: |
           ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "\
-          sudo ufw default deny incoming && \
-          sudo ufw default allow outgoing && \
-          sudo ufw allow 14857/tcp && \
-          sudo ufw allow 80/tcp && \
-          sudo ufw allow 443/tcp && \
-          sudo ufw allow 3000/tcp && \
-          echo 'y' | sudo ufw enable"
+          doas ufw default deny incoming && \
+          doas ufw default allow outgoing && \
+          doas ufw allow 14857/tcp && \
+          doas ufw allow 80/tcp && \
+          doas ufw allow 443/tcp && \
+          doas ufw allow 3000/tcp && \
+          echo 'y' | doas ufw enable"
 
       # Étape 4 : Configuration de Nginx
       - name: Configure Nginx
         run: |
-          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "sudo tee /etc/nginx/http.d/default.conf << 'EOL'
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "doas tee /etc/nginx/http.d/default.conf << 'EOL'
           # Limites de taux globales
           limit_req_zone \$binary_remote_addr zone=one:10m rate=30r/m;
 
@@ -84,7 +84,7 @@ jobs:
       # Étape 5 : Configuration de Fail2ban
       - name: Configure Fail2ban
         run: |
-          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "sudo tee /etc/fail2ban/jail.local << 'EOL'
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "doas tee /etc/fail2ban/jail.local << 'EOL'
           [DEFAULT]
           bantime = 3600
           findtime = 600
@@ -108,14 +108,14 @@ jobs:
       - name: Restart services
         run: |
           ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "\
-          sudo nginx -t && \
-          sudo service nginx restart && \
-          sudo service fail2ban restart"
+          doas nginx -t && \
+          doas rc-service nginx restart && \
+          doas rc-service fail2ban restart"
 
       # Étape 7 : Vérification des services
       - name: Check services status
         run: |
           ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "\
-          sudo ufw status && \
-          sudo nginx -t && \
-          sudo service fail2ban status" 
+          doas ufw status && \
+          doas nginx -t && \
+          doas rc-service fail2ban status" 

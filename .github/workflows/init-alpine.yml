@@ -1,0 +1,41 @@
+name: Initialize Alpine Linux
+
+on:
+  workflow_dispatch:  # Déclenchement manuel
+
+jobs:
+  init-alpine:
+    runs-on: ubuntu-latest
+    steps:
+      # Étape 1 : Configuration SSH
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add server to known_hosts
+        run: |
+          ssh-keyscan -p 14857 toulouse-plage.freeboxos.fr >> ~/.ssh/known_hosts
+
+      # Étape 2 : Installation et configuration initiale
+      - name: Setup Alpine
+        run: |
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "\
+          # Mise à jour du système
+          su -c 'apk update && apk upgrade' && \
+          
+          # Installation de doas
+          su -c 'apk add doas' && \
+          
+          # Configuration de doas
+          su -c 'echo \"permit nopass freebox as root\" > /etc/doas.conf' && \
+          
+          # Test de la configuration
+          doas id"
+
+      # Étape 3 : Vérification
+      - name: Verify configuration
+        run: |
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "\
+          cat /etc/doas.conf && \
+          doas echo 'doas is working!'" 
