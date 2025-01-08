@@ -57,15 +57,24 @@ jobs:
           scp -P 14857 -r .output/ freebox@toulouse-plage.freeboxos.fr:~/BrasserieChezJu/
           ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "ls -la ~/BrasserieChezJu/.output/"
 
-      # Étape 8 : Redémarrer l'application avec logs
-      - name: Restart application
+      # Étape 8 : Configurer et redémarrer l'application
+      - name: Configure and restart application
         run: |
           ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "cd ~/BrasserieChezJu && \
           if pm2 list | grep -q 'BrasserieChezJu'; then \
             pm2 delete BrasserieChezJu; \
           fi && \
-          NODE_ENV=production pm2 start .output/server/index.mjs --name BrasserieChezJu --log ~/BrasserieChezJu/app.log && \
-          pm2 logs BrasserieChezJu --lines 50"
+          export PORT=3000 && \
+          export HOST=localhost && \
+          export NODE_ENV=production && \
+          pm2 start .output/server/index.mjs --name BrasserieChezJu \
+          --log ~/BrasserieChezJu/app.log \
+          --time \
+          --max-memory-restart 300M \
+          --env production \
+          -- --port 3000 --hostname localhost && \
+          pm2 save && \
+          pm2 logs BrasserieChezJu --lines 20 --nostream"
 
       # Étape 9 : Vérifier le statut de l'application
       - name: Check application status

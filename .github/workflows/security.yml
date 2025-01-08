@@ -1,0 +1,121 @@
+name: Security Configuration
+
+on:
+  workflow_dispatch:  # Déclenchement manuel
+  schedule:
+    - cron: '0 0 * * 0'  # Exécution hebdomadaire (dimanche à minuit)
+
+jobs:
+  secure-infrastructure:
+    runs-on: ubuntu-latest
+    steps:
+      # Étape 1 : Configuration SSH
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add server to known_hosts
+        run: |
+          ssh-keyscan -p 14857 toulouse-plage.freeboxos.fr >> ~/.ssh/known_hosts
+
+      # Étape 2 : Installation des dépendances de sécurité
+      - name: Install security packages
+        run: |
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "\
+          sudo apk update && \
+          sudo apk add ufw nginx fail2ban"
+
+      # Étape 3 : Configuration du pare-feu UFW
+      - name: Configure UFW
+        run: |
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "\
+          sudo ufw default deny incoming && \
+          sudo ufw default allow outgoing && \
+          sudo ufw allow 14857/tcp && \
+          sudo ufw allow 80/tcp && \
+          sudo ufw allow 443/tcp && \
+          sudo ufw allow 3000/tcp && \
+          echo 'y' | sudo ufw enable"
+
+      # Étape 4 : Configuration de Nginx
+      - name: Configure Nginx
+        run: |
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "sudo tee /etc/nginx/http.d/default.conf << 'EOL'
+          # Limites de taux globales
+          limit_req_zone \$binary_remote_addr zone=one:10m rate=30r/m;
+
+          # Configuration du serveur
+          server {
+              listen 80;
+              server_name brasseriechezu.fr www.brasseriechezu.fr;
+
+              # En-têtes de sécurité
+              add_header X-Frame-Options 'SAMEORIGIN';
+              add_header X-Content-Type-Options 'nosniff';
+              add_header X-XSS-Protection '1; mode=block';
+              add_header Strict-Transport-Security 'max-age=31536000; includeSubDomains';
+
+              # Protection contre les requêtes malveillantes
+              location ~ \.(php|asp|aspx|jsp|cgi|env)$ {
+                  return 404;
+              }
+
+              # Bloquer l'accès aux fichiers sensibles
+              location ~ /\. {
+                  deny all;
+              }
+
+              # Proxy vers l'application Node.js
+              location / {
+                  limit_req zone=one burst=5;
+                  proxy_pass http://localhost:3000;
+                  proxy_http_version 1.1;
+                  proxy_set_header Upgrade \$http_upgrade;
+                  proxy_set_header Connection 'upgrade';
+                  proxy_set_header Host \$host;
+                  proxy_cache_bypass \$http_upgrade;
+                  proxy_set_header X-Real-IP \$remote_addr;
+                  proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+              }
+          }
+          EOL"
+
+      # Étape 5 : Configuration de Fail2ban
+      - name: Configure Fail2ban
+        run: |
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "sudo tee /etc/fail2ban/jail.local << 'EOL'
+          [DEFAULT]
+          bantime = 3600
+          findtime = 600
+          maxretry = 5
+
+          [nginx-http-auth]
+          enabled = true
+          filter = nginx-http-auth
+          port = http,https
+          logpath = /var/log/nginx/error.log
+
+          [nginx-botsearch]
+          enabled = true
+          filter = nginx-botsearch
+          port = http,https
+          logpath = /var/log/nginx/access.log
+          maxretry = 2
+          EOL"
+
+      # Étape 6 : Redémarrage des services
+      - name: Restart services
+        run: |
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "\
+          sudo nginx -t && \
+          sudo service nginx restart && \
+          sudo service fail2ban restart"
+
+      # Étape 7 : Vérification des services
+      - name: Check services status
+        run: |
+          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "\
+          sudo ufw status && \
+          sudo nginx -t && \
+          sudo service fail2ban status" 
