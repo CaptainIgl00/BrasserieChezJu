@@ -20,4 +20,4 @@ Allow: /images/
 Crawl-delay: 10
 
 # Sitemap
-Sitemap: https://brasseriechezu.fr/sitemap.xml
+Sitemap: https://brasseriechezju.fr/sitemap.xml
