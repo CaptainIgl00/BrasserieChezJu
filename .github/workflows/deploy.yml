@@ -14,13 +14,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Étape 2 : Installer les dépendances et builder le projet
-      - name: Install dependencies and build
-        run: |
-          npm install
-          npm run build
+      # Étape 2 : Login to Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Étape 3 : Configurer SSH
+      # Étape 3 : Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Étape 4 : Build et Push
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/arm64/v8
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/brasseriechezju:latest
+
+      # Étape 5 : Configurer SSH
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.7.0
         with:
@@ -28,15 +42,25 @@ jobs:
 
       - name: Add server to known_hosts
         run: |
-          ssh-keyscan -p 14857 toulouse-plage.freeboxos.fr >> ~/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      # Étape 4 : Envoyer les fichiers sur le serveur
-      - name: Deploy to Freebox
+      # Étape 6 : Copier les fichiers de configuration
+      - name: Copy configuration files
         run: |
-          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "rm -rf ~/BrasserieChezJu/.output && mkdir -p ~/BrasserieChezJu"
-          scp -P 14857 -r .output/ freebox@toulouse-plage.freeboxos.fr:~/BrasserieChezJu
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p ~/BrasserieChezJu/nginx"
+          scp -P ${{ secrets.SSH_PORT }} docker-compose.yml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/BrasserieChezJu/
+          scp -P ${{ secrets.SSH_PORT }} nginx/nginx.conf ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/BrasserieChezJu/nginx/
 
-      # Étape 5 : Redémarrer l'application
-      - name: Restart application
+      # Étape 7 : Nettoyer et déployer
+      - name: Clean and Deploy
         run: |
-          ssh -p 14857 freebox@toulouse-plage.freeboxos.fr "pm2 restart BrasserieChezJu || pm2 start ~/BrasserieChezJu/.output/server/index.mjs --name BrasserieChezJu"
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ~/BrasserieChezJu && \
+          docker system prune -f && \
+          docker-compose pull && \
+          docker-compose up -d && \
+          docker image prune -f"
+
+      # Étape 8 : Vérifier le déploiement
+      - name: Check deployment
+        run: |
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ~/BrasserieChezJu && docker-compose ps"

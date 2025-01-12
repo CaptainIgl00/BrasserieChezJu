@@ -1,28 +1,20 @@
-FROM node:18-alpine
-
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+FROM --platform=linux/arm64/v8 node:18-alpine
 
 WORKDIR /app
 
+# Install all dependencies
 COPY package*.json ./
+RUN npm ci
 
-RUN if [ "$NODE_ENV" = "production" ]; then \
-        npm ci --only=production; \
-    else \
-        npm install; \
-    fi
-
+# Copy the rest of the application
 COPY . .
 
-RUN if [ "$NODE_ENV" = "production" ]; then \
-        npm run build; \
-    fi
+# Build the application
+RUN npm run build
 
 EXPOSE 3000
 
-CMD if [ "$NODE_ENV" = "production" ]; then \
-        npm run start; \
-    else \
-        npm run dev; \
-    fi
+ENV HOST=0.0.0.0
+ENV PORT=3000
+
+CMD ["node", ".output/server/index.mjs"]
