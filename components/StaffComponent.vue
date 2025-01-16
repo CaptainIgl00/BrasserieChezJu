@@ -1,7 +1,9 @@
 <template>
   <div class="staff-container">
     <h1 class="title font-marcellus fade-in">L'Équipe</h1>
-    <h2 class="subtitle font-marcellus fade-in" style="--delay: 0.2s">En Cuisine</h2>
+    <h2 class="subtitle font-marcellus fade-in" style="--delay: 0.2s">
+      Une équipe passionnée, à votre service
+    </h2>
     
     <div class="separator-container fade-in" style="--delay: 0.4s">
       <SeparatorComponent />
@@ -18,22 +20,42 @@
           quality="80"
           sizes="sm:100vw md:50vw lg:300px"
         />
-        <h3 class="staff-name">Frédéric Becq</h3>
-        <p class="staff-role">Chef</p>
+        <div class="staff-text">
+          <h3 class="staff-name">Frédéric Becq</h3>
+          <p class="staff-role">Chef</p>
+        </div>
       </div>
 
       <div class="staff-member fade-in" style="--delay: 0.8s">
         <nuxt-img 
-          src="/images/staff/jb.jpg" 
-          alt="Jean-Baptiste" 
+          src="/images/staff/jb&romain.jpg" 
+          alt="Jean-Baptiste & Romain" 
           class="staff-image"
           loading="lazy"
           format="webp"
           quality="80"
           sizes="sm:100vw md:50vw lg:300px"
         />
-        <h3 class="staff-name">Jean-Baptiste</h3>
-        <p class="staff-role">Second de cuisine</p>
+        <div class="staff-text">
+          <h3 class="staff-name">Jean-Baptiste & Romain</h3>
+          <p class="staff-role">En cuisine</p>
+        </div>
+      </div>
+
+      <div class="staff-member fade-in" style="--delay: 1s">
+        <nuxt-img 
+          src="/images/staff/tino&oceane.jpg" 
+          alt="Océane & Valentino" 
+          class="staff-image"
+          loading="lazy"
+          format="webp"
+          quality="80"
+          sizes="sm:100vw md:50vw lg:300px"
+        />
+        <div class="staff-text">
+          <h3 class="staff-name">Océane & Valentino</h3>
+          <p class="staff-role">En salle</p>
+        </div>
       </div>
     </div>
   </div>
@@ -69,11 +91,13 @@ onMounted(() => {
 }
 
 .subtitle {
-  @apply text-2xl text-white mb-8;
+  @apply text-2xl text-white mb-8 italic;
+  font-family: 'Cormorant Garamond', serif;
+  letter-spacing: 0.02em;
 }
 
 .staff-grid {
-  @apply grid grid-cols-1 md:grid-cols-2 gap-12 mt-12 max-w-6xl mx-auto;
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-12 max-w-6xl mx-auto;
 }
 
 .staff-member {
@@ -88,6 +112,10 @@ onMounted(() => {
 .staff-member:hover .staff-image {
   filter: grayscale(0%);
   @apply scale-105;
+}
+
+.staff-text {
+  @apply text-center mt-4;
 }
 
 .staff-name {

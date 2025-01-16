@@ -72,18 +72,16 @@
     <div class="hours-info">
       <h3 class="title">Horaires</h3>
       <p>
-        <span class="font-bold">Lun.</span> 8h00 – 22h30
+        <span class="font-bold">Lun.</span> 10h00 – 14h00 | 18h30 – 22h00
       </p>
       <p>
-        <span class="font-bold">Mar. – Sam.</span> 5h00 – 14h30 | 18h30 – 22h30
+        <span class="font-bold">Mar. – Ven.</span> 5h00 – 14h00 | 18h30 – 22h00
       </p>
-      <p>Ouverture samedi à 09h00</p>
       <p>
-        <span class="font-bold">Dim.</span> 10h00 – 15h00
+        <span class="font-bold">Sam.</span> 10h00 – 14h00 | 18h30 – 22h00
       </p>
-      <h3 class="title">Petit-déjeuner</h3>
       <p>
-        <span class="font-bold">Lun. – Sam.</span> 05h00 – 11h30
+        <span class="font-bold">Dim.</span> 10h00 – 14h30
       </p>
     </div>
   </div>

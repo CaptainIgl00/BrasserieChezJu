@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-card">
+  <div class="menu-card" id="menu-gourmand">
     <div class="menu-header">
       <h2 class="text-3xl font-bold text-orange-500 font-playfair">Menu Gourmand</h2>
       <div class="price-tag">41 €</div>

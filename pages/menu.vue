@@ -30,7 +30,10 @@
 
     <!-- Suggestion Component -->
     <div class="suggestion-section">
-      <MenuSuggestion @select-formula="scrollToFormula" />
+      <MenuSuggestion 
+        :hideInFormulaTab="activeTab === 'formulas'"
+        @select-formula="scrollToFormula" 
+      />
     </div>
 
     <!-- Menu Content -->
@@ -49,25 +52,46 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 import RestaurantMenu from '../components/RestaurantMenu.vue'
-import MenuComponent from '../components/MenuComponent.vue'
+import MenuComponent from '../components/FormuleComponent.vue'
 import MenuSuggestion from '../components/MenuSuggestion.vue'
 
 const activeTab = ref('menu')
 
-const scrollToFormula = (formulaId) => {
+const scrollToFormula = async (formulaId) => {
+  // D'abord on change l'onglet
   activeTab.value = 'formulas'
-  // On attend le prochain tick pour que le contenu soit rendu
-  nextTick(() => {
-    const element = document.getElementById(formulaId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-      // Ajouter une classe pour mettre en évidence la formule
-      element.classList.add('highlighted')
-      setTimeout(() => element.classList.remove('highlighted'), 2000)
-    }
-  })
+  
+  try {
+    // On attend que le DOM soit mis à jour
+    await nextTick()
+    
+    // On attend un peu que l'animation de changement d'onglet soit terminée
+    setTimeout(() => {
+      const element = document.getElementById(formulaId)
+      if (element) {
+        // Calculer la position avec un offset
+        const offset = 100 // offset en pixels
+        const elementPosition = element.getBoundingClientRect().top
+        const offsetPosition = elementPosition + window.pageYOffset - offset
+
+        // Scroll avec une animation douce
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        })
+
+        // Ajouter la classe highlighted avec un délai pour correspondre à l'animation
+        setTimeout(() => {
+          element.classList.add('highlighted')
+          setTimeout(() => element.classList.remove('highlighted'), 2000)
+        }, 800) // Attendre que le scroll soit presque terminé
+      }
+    }, 300)
+  } catch (error) {
+    console.error('Erreur lors du scroll:', error)
+  }
 }
 </script>
 
@@ -121,8 +145,10 @@ const scrollToFormula = (formulaId) => {
 
 /* Animation pour la mise en évidence des formules */
 @keyframes highlight {
-  0%, 100% { background-color: transparent; }
-  50% { background-color: rgba(249, 115, 22, 0.1); }
+  0% { background-color: transparent; }
+  20% { background-color: rgba(249, 115, 22, 0.15); }
+  80% { background-color: rgba(249, 115, 22, 0.15); }
+  100% { background-color: transparent; }
 }
 
 .highlighted {

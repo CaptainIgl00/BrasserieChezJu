@@ -6,15 +6,22 @@
       <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 px-4">
         <!-- Left Column -->
         <div class="lg:w-1/4 space-y-8">
-          <div v-for="menu in menus.slice(0, 3)" :key="menu.title" class="formula-card">
+          <div v-for="menu in menus.slice(0, 3)" :key="menu.title" class="formula-card" :id="getFormulaId(menu.title)">
             <h3 class="formula-title">{{ menu.title }}</h3>
-            <div class="formula-content">
+            <div v-if="menu.isLunchMenu" class="formula-content">
+              <div v-for="(formule, index) in menu.formules" :key="index" class="formula-item lunch-item">
+                <p>{{ formule.type }}</p>
+                <p class="lunch-price">{{ formule.price }} €</p>
+              </div>
+              <p v-if="menu.note" class="formula-note">{{ menu.note }}</p>
+            </div>
+            <div v-else class="formula-content">
               <p v-for="(item, index) in menu.formule" :key="index" class="formula-item">
                 {{ item }}
               </p>
             </div>
             <p v-if="menu.description" class="formula-subtitle">{{ menu.description }}</p>
-            <div class="formula-price">{{ menu.price }} €</div>
+            <div v-if="!menu.isLunchMenu" class="formula-price">{{ menu.price }} €</div>
           </div>
         </div>
 
@@ -42,8 +49,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import MenuGourmand from './menuSections/MenuGourmand.vue'
+
+const getFormulaId = (title) => {
+  const mapping = {
+    "Formule Petit déj'": 'petit-dej',
+    "Formule Déjeuner": 'dejeuner',
+    "Menu Gourmand": 'menu-gourmand',
+    "Formule Routiers": 'routier'
+  }
+  return mapping[title] || title.toLowerCase().replace(/\s+/g, '-')
+}
 
 const menus = [
   {
@@ -55,10 +71,14 @@ const menus = [
   },
   {
     title: "Formule Déjeuner",
-    formule: ["Entrée + Plat", "ou", "Plat + Dessert"],
+    isLunchMenu: true,
+    formules: [
+      { type: "Entrée + Plat ou Plat + Dessert", price: "19" },
+      { type: "Entrée + Plat + Dessert", price: "23" },
+      { type: "Plat du Jour", price: "15" }
+    ],
     description: "du lundi au vendredi",
-    price: "19 / 23",
-    subtitle: "du lundi au vendredi"
+    note: "voir ardoise"
   },
   {
     title: "Formule Routiers",
@@ -126,11 +146,25 @@ const menus = [
 }
 
 .formula-price {
-  @apply text-orange-500 font-semibold text-lg text-center mt-4 pt-3 border-t border-orange-500/30 transition-all duration-300;
+  @apply text-orange-500 font-semibold text-lg text-center mt-4 transition-all duration-300;
 }
 
-.formula-card:hover .formula-price {
+/* Prix avec divider pour toutes les formules sauf déjeuner */
+.formula-card:not(:has(.formula-note)) .formula-price {
+  @apply pt-3 border-t border-orange-500/30;
+}
+
+.formula-card:not(:has(.formula-note)):hover .formula-price {
   @apply border-orange-500;
+}
+
+.formula-note {
+  @apply text-gray-400 text-sm italic text-center transition-colors duration-300;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.formula-card:hover .formula-note {
+  @apply text-orange-500/70;
 }
 
 @keyframes fadeIn {
@@ -146,5 +180,57 @@ const menus = [
 
 .animate-fadeIn {
   animation: fadeIn 0.5s ease-out forwards;
+}
+
+.lunch-formula {
+  @apply p-6 bg-black/60 border border-orange-500/50 rounded-xl relative overflow-hidden;
+}
+
+.lunch-options {
+  @apply space-y-2 text-gray-200 mb-4;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.lunch-option {
+  @apply flex justify-between items-center transition-colors duration-300;
+  font-size: 1.05rem;
+}
+
+.lunch-formula:hover .lunch-option {
+  @apply text-orange-500/90;
+}
+
+.lunch-price {
+  @apply font-medium text-orange-500;
+}
+
+.lunch-note {
+  @apply text-gray-400 text-sm italic text-center mt-2 transition-colors duration-300;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.lunch-formula:hover .lunch-note {
+  @apply text-orange-500/70;
+}
+
+.lunch-divider {
+  @apply w-full border-t border-orange-500/30 my-3 transition-colors duration-300;
+}
+
+.lunch-formula:hover .lunch-divider {
+  @apply border-orange-500;
+}
+
+.lunch-note {
+  @apply text-gray-400 text-sm italic text-center transition-colors duration-300;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.lunch-item {
+  @apply flex justify-between items-center gap-2;
+}
+
+.lunch-price {
+  @apply text-orange-500 font-semibold whitespace-nowrap;
 }
 </style>
