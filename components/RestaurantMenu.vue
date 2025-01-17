@@ -46,6 +46,7 @@
           <MenuCategory 
           title="Côté Mer"
           :dishes="seafood"
+          :dish-images="seafoodImages"
           />
         </div>
         
@@ -75,9 +76,9 @@
       <!-- Desserts -->
       <div class="fade-in">
         <MenuCategory 
-          title="Finir en douceur"
-          :dishes="desserts"
-          :dish-images="dessertImages"
+        title="Finir en douceur"
+        :dishes="desserts"
+        :dish-images="dessertImages"
         />
       </div>
     </div>
@@ -100,12 +101,19 @@ const traditionalImages = {
   'Le fameux Welsh de Fred au Maroilles': '/images/menu/welch.jpg'
 }
 
+const seafoodImages = {
+  'Filets de bar à la plancha': '/images/menu/bar.jpg',
+}
+
 const meatImages = {
   'Magret de canard du Périgord': '/images/menu/magret.jpg'
 }
 
 const dessertImages = {
-  'Profiterole XL': '/images/menu/profiteroles.jpg'
+  'Profiterole XL': '/images/menu/profiteroles.jpg',
+  'Café ou thé gourmand': '/images/menu/cafe_gourmand.jpg',
+  'Crème brûlée': '/images/menu/creme_brulee.jpg',
+  'Pavlova aux fruits rouges': '/images/menu/pavlova.jpg'
 }
 
 // Données du menu (à déplacer dans un store ou une API plus tard)
@@ -281,7 +289,7 @@ const desserts = [
     price: "9"
   },
   {
-    name: "Café ou le gourmand",
+    name: "Café ou thé gourmand",
     price: "10"
   },
   {
