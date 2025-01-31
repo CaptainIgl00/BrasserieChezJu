@@ -12,7 +12,7 @@
         <div class="dish-item">
           <h4 class="dish-name">Soupe de lentilles</h4>
           <p class="dish-description">Lardons, croûtons et œuf fermier mollet</p>
-        </div>
+          </div>
         <div class="dish-item">
           <h4 class="dish-name">Escalope de saumon</h4>
           <p class="dish-description">Marinée à l'aneth</p>
@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <SeparatorComponent />
+    <SeparatorComponent slim />
 
     <!-- Plats -->
     <div class="section-container">
@@ -33,7 +33,7 @@
         <div class="dish-item">
           <h4 class="dish-name">Filet de bar</h4>
           <p class="dish-description">À la plancha, sauce vierge à la ricotta et son toast de tapenade</p>
-        </div>
+          </div>
         <div class="dish-item">
           <h4 class="dish-name">Cassoulet du chef Becq</h4>
           <p class="dish-description">Élaboré par le chef Becq dans le respect des traditions</p>
@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <SeparatorComponent />
+    <SeparatorComponent slim />
 
     <!-- Desserts -->
     <div class="section-container">
@@ -54,15 +54,15 @@
         <div class="dish-item">
           <h4 class="dish-name">Crème brûlée</h4>
           <p class="dish-description">Et son caramel au beurre salé</p>
-        </div>
+          </div>
         <div class="dish-item">
           <h4 class="dish-name">Moelleux au chocolat</h4>
           <p class="dish-description">Avec sa crème anglaise</p>
         </div>
         <div class="dish-item">
           <h4 class="dish-name">Café ou chocolat liégeois</h4>
-        </div>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -74,7 +74,7 @@ import SeparatorComponent from '../SeparatorComponent.vue'
 <style scoped>
 /* Card principale */
 .menu-card {
-  @apply p-8 bg-black/60 border-2 border-orange-500 rounded-xl relative overflow-hidden;
+  @apply p-8 bg-black/60 border border-orange-500/50 rounded-xl relative overflow-hidden;
   font-family: 'Playfair Display', serif;
 }
 

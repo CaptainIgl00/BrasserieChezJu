@@ -3,7 +3,7 @@
     <h1 class="text-4xl md:text-5xl text-orange-500 mb-2 fade-in" style="font-family: 'Dancing Script', serif;">
       Actualité
     </h1>
-    <h2 class="text-xl md:text-2xl text-white mb-8 fade-in" style="--delay: 0.2s">Menu du moment</h2>
+    <h2 class="text-xl md:text-2xl text-white mb-8 fade-in" style="--delay: 0.2s">Menus du moment</h2>
     
     <div class="separator-container w-96 md:w-[32rem] mb-12 fade-in" style="--delay: 0.4s">
       <SeparatorComponent />
@@ -23,7 +23,7 @@
             <nuxt-img 
               :src="post.imageUrl" 
               :alt="post.title" 
-              class="w-full h-[300px] md:h-[400px] object-cover transition-transform duration-500 group-hover:scale-110"
+              class="w-full h-[300px] md:h-[400px] object-cover transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
               format="webp"
               quality="80"
@@ -68,24 +68,24 @@ interface InstagramPost {
 const instagramPosts = ref<InstagramPost[]>([
   {
     id: '1',
-    imageUrl: '/images/instagram/fermeture.jpg',
-    postUrl: 'https://www.instagram.com/p/DD42U3CICZT/',
-    title: 'Fermeture exceptionnelle',
-    description: 'Du 1er au 7 janvier'
+    imageUrl: '/images/instagram/truffe.png',
+    postUrl: 'https://www.instagram.com/p/DE5OHkVIKSz/',
+    title: 'Menu spécial truffe',
+    description: 'Vendredi 9 février'
   },
   {
     id: '2',
-    imageUrl: '/images/instagram/menu_de_la_semaine.jpg',
-    postUrl: 'https://www.instagram.com/p/DD1airRKvNN/',
+    imageUrl: '/images/instagram/menu_de_la_semaine.png',
+    postUrl: 'https://www.instagram.com/p/DFPiXlLq6yD/',
     title: 'Menu de la semaine',
-    description: 'Du lundi 23 au vendredi 27 décembre 2024'
+    description: 'Du lundi 27 au vendredi 31 janvier'
   },
   {
     id: '3',
-    imageUrl: '/images/instagram/saint_sylvestre.jpg',
-    postUrl: 'https://www.instagram.com/p/DCwpCvhILm1/',
-    title: 'Soirée spéciale Saint Sylvestre ✨️',
-    description: 'Animation musicale avec le duo Carinos & DJ Robbin. G'
+    imageUrl: '/images/instagram/saint_valentin.png',
+    postUrl: 'https://www.instagram.com/p/DExcRqEBDZj/',
+    title: 'Menu spéciale Saint Valentin ✨️',
+    description: 'Animation au piano par Gabriel'
   }
 ])
 
