@@ -80,7 +80,7 @@ def process_directory(input_dir, output_dir, max_size_mb=0.5):
 if __name__ == "__main__":
     # Dossiers à traiter
     folders_to_process = {
-        "public/images/staff": "public/images/staff_optimized"
+        "public/images/instagram": "public/images/instagram_optimized"
     }
     
     # Taille maximale souhaitée par image en MB
