@@ -68,21 +68,21 @@ interface InstagramPost {
 const instagramPosts = ref<InstagramPost[]>([
   {
     id: '1',
-    imageUrl: '/images/instagram/truffe.png',
+    imageUrl: '/images/instagram/truffe.jpg',
     postUrl: 'https://www.instagram.com/p/DE5OHkVIKSz/',
     title: 'Menu spécial truffe',
     description: 'Vendredi 9 février'
   },
   {
     id: '2',
-    imageUrl: '/images/instagram/menu_de_la_semaine.png',
+    imageUrl: '/images/instagram/menu_de_la_semaine.jpg',
     postUrl: 'https://www.instagram.com/p/DFPiXlLq6yD/',
     title: 'Menu de la semaine',
     description: 'Du lundi 27 au vendredi 31 janvier'
   },
   {
     id: '3',
-    imageUrl: '/images/instagram/saint_valentin.png',
+    imageUrl: '/images/instagram/saint_valentin.jpg',
     postUrl: 'https://www.instagram.com/p/DExcRqEBDZj/',
     title: 'Menu spéciale Saint Valentin ✨️',
     description: 'Animation au piano par Gabriel'
