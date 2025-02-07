@@ -148,7 +148,7 @@ const starters = [
   },
   {
     name: "La grande planche de Becq à partager",
-    description: "Serrano, jambon truffé, fois gras, camembert rôti, saumon mariné, sardines, tapenade",
+    description: "Serrano, jambon truffé, foie gras, camembert rôti, saumon mariné, sardines, tapenade",
     price: "59"
   }
 ]

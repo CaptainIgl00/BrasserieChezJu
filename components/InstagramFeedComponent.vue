@@ -71,14 +71,14 @@ const instagramPosts = ref<InstagramPost[]>([
     imageUrl: '/images/instagram/truffe.jpg',
     postUrl: 'https://www.instagram.com/p/DE5OHkVIKSz/',
     title: 'Menu spécial truffe',
-    description: 'Vendredi 9 février'
+    description: 'Vendredi 7 février'
   },
   {
     id: '2',
     imageUrl: '/images/instagram/menu_de_la_semaine.jpg',
-    postUrl: 'https://www.instagram.com/p/DFPiXlLq6yD/',
+    postUrl: 'https://www.instagram.com/p/DFhqvoQsUpk/',
     title: 'Menu de la semaine',
-    description: 'Du lundi 27 au vendredi 31 janvier'
+    description: 'Du lundi 3 au vendredi 7 février'
   },
   {
     id: '3',
