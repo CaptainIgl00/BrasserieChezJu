@@ -16,6 +16,33 @@ export default defineNuxtConfig({
     '@nuxtjs/sitemap',
     '@vite-pwa/nuxt'
   ],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
+  image: {
+    provider: 'ipx',
+    dir: 'public',
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+    },
+    presets: {
+      showcase: {
+        modifiers: {
+          format: 'webp',
+          quality: '80',
+          loading: 'lazy'
+        }
+      }
+    }
+  },
   app: {
     head: {
       htmlAttrs: {
@@ -64,19 +91,48 @@ export default defineNuxtConfig({
     workbox: {
       navigateFallback: '/',
       globPatterns: [
-        '**/*.{js,css,html,ico,png,jpg,jpeg,svg,webp}',
-        'manifest.webmanifest'
+        '**/*.{js,css}',
+        'images/**/*.{png,jpg,jpeg,svg,gif,webp}'
       ],
-      runtimeCaching: [{
-        urlPattern: '/',
-        handler: 'NetworkFirst'
-      }]
+      runtimeCaching: [
+        {
+          urlPattern: /^\/$/,
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'pages'
+          }
+        },
+        {
+          urlPattern: /^\/menu$/,
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'pages'
+          }
+        },
+        {
+          urlPattern: /\/_nuxt\//,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'nuxt-assets'
+          }
+        },
+        {
+          urlPattern: /\/images\//,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'images',
+            expiration: {
+              maxEntries: 50,
+              maxAgeSeconds: 7 * 24 * 60 * 60 // 7 jours
+            }
+          }
+        }
+      ]
     },
     devOptions: {
       enabled: true,
       type: 'module',
-      suppressWarnings: true,
-      navigateFallbackAllowlist: [/^\/$/]
+      suppressWarnings: true
     }
   }
 })

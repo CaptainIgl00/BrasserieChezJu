@@ -1,19 +1,21 @@
 <template>
   <div class="flex flex-col items-center justify-center py-24 px-4 bg-black/95">
-    <h1 class="text-4xl md:text-5xl text-orange-500 mb-2 fade-in" style="font-family: 'Dancing Script', serif;">
+    <h1 class="text-4xl md:text-5xl text-orange-500 mb-2" :class="{ 'fade-in': isMounted }" style="font-family: 'Dancing Script', serif;">
       Actualité
     </h1>
-    <h2 class="text-xl md:text-2xl text-white mb-8 fade-in" style="--delay: 0.2s">Menus du moment</h2>
+    <h2 class="text-xl md:text-2xl text-white mb-8" :class="{ 'fade-in-2': isMounted }">
+      Menus du moment
+    </h2>
     
-    <div class="separator-container w-96 md:w-[32rem] mb-12 fade-in" style="--delay: 0.4s">
+    <div class="separator-container w-96 md:w-[32rem] mb-12" :class="{ 'fade-in-3': isMounted }">
       <SeparatorComponent />
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 max-w-6xl mx-auto">
       <div v-for="(post, index) in instagramPosts" 
            :key="post.id" 
-           class="instagram-post group fade-in"
-           :style="{ '--delay': `${0.6 + index * 0.2}s` }"
+           class="instagram-post group"
+           :class="[{ 'fade-in': isMounted }, `fade-delay-${index + 1}`]"
       >
         <div class="relative overflow-hidden rounded-xl shadow-lg">
           <a :href="post.postUrl" target="_blank" class="block">
@@ -38,7 +40,7 @@
       </div>
     </div>
 
-    <div class="mt-12 flex justify-center fade-in" style="--delay: 1.2s">
+    <div class="mt-12 flex justify-center" :class="{ 'fade-in-last': isMounted }">
       <a 
         href="https://www.instagram.com/brasserie_chez_ju/" 
         target="_blank" 
@@ -56,6 +58,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import SeparatorComponent from './SeparatorComponent.vue'
+
+const isMounted = ref(false)
 
 interface InstagramPost {
   id: string
@@ -90,17 +94,7 @@ const instagramPosts = ref<InstagramPost[]>([
 ])
 
 onMounted(() => {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('fade-in-visible')
-      }
-    })
-  }, {
-    threshold: 0.1
-  })
-
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el))
+  isMounted.value = true
 })
 </script>
 
@@ -108,13 +102,45 @@ onMounted(() => {
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  transition-delay: var(--delay, 0s);
+  animation: fadeIn 0.6s ease-out forwards;
 }
 
-.fade-in-visible {
-  opacity: 1;
-  transform: translateY(0);
+.fade-in-2 {
+  composes: fade-in;
+  animation-delay: 0.2s;
+}
+
+.fade-in-3 {
+  composes: fade-in;
+  animation-delay: 0.4s;
+}
+
+.fade-delay-1 {
+  animation-delay: 0.6s;
+}
+
+.fade-delay-2 {
+  animation-delay: 0.8s;
+}
+
+.fade-delay-3 {
+  animation-delay: 1s;
+}
+
+.fade-in-last {
+  composes: fade-in;
+  animation-delay: 1.2s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 768px) {

@@ -11,20 +11,20 @@
 
       <!-- Tabs Navigation -->
       <div class="tabs-navigation">
-        <button 
+        <NuxtLink 
+          to="/menu#menu"
           class="tab-button"
           :class="{ 'active': activeTab === 'menu' }"
-          @click="activeTab = 'menu'"
         >
           La Carte
-        </button>
-        <button 
+        </NuxtLink>
+        <NuxtLink 
+          to="/menu#formules"
           class="tab-button"
           :class="{ 'active': activeTab === 'formulas' }"
-          @click="activeTab = 'formulas'"
         >
           Nos Formules
-        </button>
+        </NuxtLink>
       </div>
     </div>
 
@@ -52,12 +52,32 @@
 </template>
 
 <script setup>
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, watch, onMounted } from 'vue'
+import { useRoute } from '#app'
 import RestaurantMenu from '../components/RestaurantMenu.vue'
 import MenuComponent from '../components/FormuleComponent.vue'
 import MenuSuggestion from '../components/MenuSuggestion.vue'
 
+const route = useRoute()
 const activeTab = ref('menu')
+
+// Gérer les changements de hash
+const handleHash = () => {
+  if (route.hash === '#formules') {
+    activeTab.value = 'formulas'
+  } else {
+    activeTab.value = 'menu'
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// Surveiller les changements de hash
+watch(() => route.hash, handleHash)
+
+// Initialiser l'onglet en fonction du hash au chargement
+onMounted(() => {
+  handleHash()
+})
 
 const scrollToFormula = async (formulaId) => {
   // D'abord on change l'onglet

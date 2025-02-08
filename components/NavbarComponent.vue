@@ -1,5 +1,33 @@
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter, useRoute } from '#app'
+
+const router = useRouter()
+const route = useRoute()
 const isScrolled = ref(false)
+
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
+}
+
+const handleMenuClick = async (e) => {
+  e.preventDefault()
+  
+  // Si on est déjà sur la page menu
+  if (route.path === '/menu') {
+    // Trouver la page menu et appeler sa méthode
+    const menuPage = document.querySelector('.menu-page')?.__vueParentComponent?.ctx
+    if (menuPage?.switchToMenuTab) {
+      menuPage.switchToMenuTab()
+    }
+  } else {
+    // Sinon, naviguer vers la page menu
+    await router.push('/menu')
+  }
+}
 
 onMounted(() => {
   window.addEventListener('scroll', () => {
@@ -18,14 +46,14 @@ onUnmounted(() => {
     <div class="nav-container">
       <!-- Section gauche -->
       <div class="nav-side">
-        <NuxtLink to="/menu" class="nav-link">
+        <NuxtLink to="/menu#menu" class="nav-link">
           Menu
         </NuxtLink>
       </div>
       
       <!-- Logo central -->
       <div class="nav-center">
-        <NuxtLink to="/" class="logo-link">
+        <NuxtLink to="/" class="logo-link" @click="scrollToTop">
           <nuxt-img 
             src="/images/display/logo.png" 
             alt="Brasserie Chez Ju" 
