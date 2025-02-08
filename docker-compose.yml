@@ -42,6 +42,7 @@ services:
       - "traefik.http.routers.nuxt.entrypoints=websecure"
       - "traefik.http.routers.nuxt.tls.certresolver=myresolver"
       - "traefik.http.services.nuxt.loadbalancer.server.port=3000"
+      - "com.centurylinklabs.watchtower.scope=app"
     restart: unless-stopped
     networks:
       - web
@@ -62,6 +63,7 @@ services:
       - WATCHTOWER_POLL_INTERVAL=30
       - DOCKER_CONFIG=/
       - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_SCOPE=app
     restart: unless-stopped
     logging:
       driver: "json-file"
