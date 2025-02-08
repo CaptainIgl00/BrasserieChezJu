@@ -25,5 +25,8 @@ logs
 !.env.example
 myenv/
 
-# Downloaded images
-downloaded_images/
+# letsencrypt
+letsencrypt/
+
+# Logs
+logs/

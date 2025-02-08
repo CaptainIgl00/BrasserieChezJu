@@ -1,4 +1,4 @@
-name: Deploy to Freebox Alpine Linux VM
+name: Build and Push Docker Image
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,37 +30,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/arm64/v8
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/brasseriechezju:latest
-
-      # Étape 5 : Configurer SSH
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Add server to known_hosts
-        run: |
-          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-
-      # Étape 6 : Copier les fichiers de configuration
-      - name: Copy configuration files
-        run: |
-          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p ~/BrasserieChezJu/nginx"
-          scp -P ${{ secrets.SSH_PORT }} docker-compose.yml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/BrasserieChezJu/
-          scp -P ${{ secrets.SSH_PORT }} nginx/nginx.conf ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/BrasserieChezJu/nginx/
-
-      # Étape 7 : Nettoyer et déployer
-      - name: Clean and Deploy
-        run: |
-          ssh -o ServerAliveInterval=60 -o ServerAliveCountMax=10 -o TCPKeepAlive=yes -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ~/BrasserieChezJu && \
-          docker system prune -f && \
-          docker-compose pull && \
-          docker-compose up -d && \
-          docker image prune -f"
-
-      # Étape 8 : Vérifier le déploiement
-      - name: Check deployment
-        run: |
-          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ~/BrasserieChezJu && docker-compose ps"
+          tags: captainigl00/brasseriechezju:latest
+          cache-from: type=registry,ref=captainigl00/brasseriechezju:latest
+          cache-to: type=inline

@@ -1,16 +1,25 @@
-FROM --platform=linux/arm64/v8 node:18-alpine
+# Build stage
+FROM node:slim AS builder
 
 WORKDIR /app
 
-# Install all dependencies
+# Install dependencies
 COPY package*.json ./
 RUN npm ci
 
-# Copy the rest of the application
+# Copy source files
 COPY . .
 
 # Build the application
 RUN npm run build
+
+# Production stage
+FROM node:slim
+
+WORKDIR /app
+
+# Copy only the necessary files from builder
+COPY --from=builder /app/.output /app/.output
 
 EXPOSE 3000
 
