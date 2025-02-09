@@ -70,37 +70,48 @@ import { ref, nextTick, watch, onMounted, defineAsyncComponent } from 'vue'
 import { useRoute, useHead, useSeoMeta } from '#app'
 import MenuSuggestion from '../components/MenuSuggestion.vue'
 
-// Lazy load heavy components
-const RestaurantMenu = defineAsyncComponent(() => import('../components/RestaurantMenu.vue'))
-const MenuComponent = defineAsyncComponent(() => import('../components/FormuleComponent.vue'))
+// Lazy load heavy components avec des options de chargement plus robustes
+const RestaurantMenu = defineAsyncComponent({
+  loader: () => import('../components/RestaurantMenu.vue'),
+  delay: 0,
+  timeout: 30000
+})
+
+const MenuComponent = defineAsyncComponent({
+  loader: () => import('../components/FormuleComponent.vue'),
+  delay: 0,
+  timeout: 30000
+})
 
 const route = useRoute()
 const activeTab = ref('menu')
+const isLoading = ref(true)
 
 // Gérer les changements de hash
-const handleHash = () => {
+const handleHash = async () => {
+  isLoading.value = true
+  
   if (route.hash === '#formules') {
     activeTab.value = 'formulas'
   } else if (route.hash === '#menu') {
     activeTab.value = 'menu'
   } else {
-    // Par défaut, on affiche le menu
     activeTab.value = 'menu'
   }
+  
+  // Attendre le prochain tick pour s'assurer que le composant est monté
+  await nextTick()
+  isLoading.value = false
 }
 
-// Surveiller les changements de hash et de route
-watch([() => route.hash, () => route.path], () => {
-  handleHash()
+// Surveiller les changements de route complets
+watch(() => route.fullPath, async () => {
+  await handleHash()
 }, { immediate: true })
 
 // Initialiser l'onglet en fonction du hash au chargement
-onMounted(() => {
-  handleHash()
-  // Forcer un re-render après un court délai pour s'assurer que les composants sont chargés
-  setTimeout(() => {
-    handleHash()
-  }, 100)
+onMounted(async () => {
+  await handleHash()
 })
 
 const scrollToFormula = async (formulaId) => {

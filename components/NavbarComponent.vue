@@ -23,11 +23,11 @@ const handleMenuClick = async (e) => {
     activeTab.value = 'menu'
     // Attendre le prochain tick pour s'assurer que le composant est monté
     await nextTick()
-    // Mettre à jour le hash sans recharger la page
-    window.history.pushState(null, '', '/menu#menu')
+    // Mettre à jour le hash et forcer un rechargement
+    window.location.href = '/menu#menu'
   } else {
     // Naviguer vers la page menu avec le hash
-    await router.push('/menu#menu')
+    window.location.href = '/menu#menu'
   }
 }
 
