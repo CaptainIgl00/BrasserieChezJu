@@ -40,23 +40,39 @@
     <div class="menu-content">
       <!-- La Carte -->
       <div v-show="activeTab === 'menu'" class="tab-content">
-        <RestaurantMenu />
+        <Suspense>
+          <RestaurantMenu />
+          <template #fallback>
+            <div class="loading-placeholder">
+              <p class="text-orange-500 text-center">Chargement de la carte...</p>
+            </div>
+          </template>
+        </Suspense>
       </div>
 
       <!-- Formules -->
       <div v-show="activeTab === 'formulas'" class="tab-content">
-        <MenuComponent />
+        <Suspense>
+          <MenuComponent />
+          <template #fallback>
+            <div class="loading-placeholder">
+              <p class="text-orange-500 text-center">Chargement des formules...</p>
+            </div>
+          </template>
+        </Suspense>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, nextTick, watch, onMounted } from 'vue'
+import { ref, nextTick, watch, onMounted, defineAsyncComponent } from 'vue'
 import { useRoute } from '#app'
-import RestaurantMenu from '../components/RestaurantMenu.vue'
-import MenuComponent from '../components/FormuleComponent.vue'
 import MenuSuggestion from '../components/MenuSuggestion.vue'
+
+// Lazy load heavy components
+const RestaurantMenu = defineAsyncComponent(() => import('../components/RestaurantMenu.vue'))
+const MenuComponent = defineAsyncComponent(() => import('../components/FormuleComponent.vue'))
 
 const route = useRoute()
 const activeTab = ref('menu')

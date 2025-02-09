@@ -20,7 +20,10 @@ export default defineNuxtConfig({
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
-    },
+      'postcss-preset-env': {
+        stage: 1
+      }
+    }
   },
   image: {
     provider: 'ipx',
@@ -61,7 +64,8 @@ export default defineNuxtConfig({
       meta: [
         { name: 'theme-color', content: '#000000' },
       ]
-    }
+    },
+    pageTransition: { name: 'page', mode: 'out-in' }
   },
   sitemap: {
     urls: ['/', '/menu']
@@ -133,6 +137,37 @@ export default defineNuxtConfig({
       enabled: true,
       type: 'module',
       suppressWarnings: true
+    }
+  },
+  experimental: {
+    treeshakeClientOnly: true,
+    viewTransition: true,
+    renderJsonPayloads: true
+  },
+  routeRules: {
+    '/**': { 
+      prerender: true 
+    }
+  },
+  vite: {
+    build: {
+      cssMinify: true,
+      cssCodeSplit: true,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor-group': ['@vueuse/core']
+          }
+        }
+      },
+      chunkSizeWarningLimit: 1000
+    },
+    css: {
+      devSourcemap: false
+    },
+    optimizeDeps: {
+      include: ['@vueuse/core'],
+      exclude: ['vuetify']
     }
   }
 })
