@@ -61,7 +61,8 @@ export default defineNuxtConfig({
       meta: [
         { name: 'theme-color', content: '#000000' },
       ]
-    }
+    },
+    pageTransition: { name: 'page', mode: 'out-in' }
   },
   sitemap: {
     urls: ['/', '/menu']
@@ -133,6 +134,28 @@ export default defineNuxtConfig({
       enabled: true,
       type: 'module',
       suppressWarnings: true
+    }
+  },
+  experimental: {
+    viewTransition: true,
+    renderJsonPayloads: true
+  },
+  routeRules: {
+    '/**': { 
+      prerender: true 
+    }
+  },
+  vite: {
+    build: {
+      cssMinify: true,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vue-group': ['vue', 'vue-router'],
+            'vendor-group': ['@vueuse/core']
+          }
+        }
+      }
     }
   }
 })
