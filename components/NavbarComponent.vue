@@ -1,10 +1,11 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter, useRoute } from '#app'
 
 const router = useRouter()
 const route = useRoute()
 const isScrolled = ref(false)
+const activeTab = ref('menu')
 
 const scrollToTop = () => {
   window.scrollTo({
@@ -18,14 +19,15 @@ const handleMenuClick = async (e) => {
   
   // Si on est déjà sur la page menu
   if (route.path === '/menu') {
-    // Trouver la page menu et appeler sa méthode
-    const menuPage = document.querySelector('.menu-page')?.__vueParentComponent?.ctx
-    if (menuPage?.switchToMenuTab) {
-      menuPage.switchToMenuTab()
-    }
+    // Forcer la mise à jour de l'onglet menu
+    activeTab.value = 'menu'
+    // Attendre le prochain tick pour s'assurer que le composant est monté
+    await nextTick()
+    // Mettre à jour le hash sans recharger la page
+    window.history.pushState(null, '', '/menu#menu')
   } else {
-    // Sinon, naviguer vers la page menu
-    await router.push('/menu')
+    // Naviguer vers la page menu avec le hash
+    await router.push('/menu#menu')
   }
 }
 

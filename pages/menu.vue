@@ -81,18 +81,26 @@ const activeTab = ref('menu')
 const handleHash = () => {
   if (route.hash === '#formules') {
     activeTab.value = 'formulas'
+  } else if (route.hash === '#menu') {
+    activeTab.value = 'menu'
   } else {
+    // Par défaut, on affiche le menu
     activeTab.value = 'menu'
   }
-  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-// Surveiller les changements de hash
-watch(() => route.hash, handleHash)
+// Surveiller les changements de hash et de route
+watch([() => route.hash, () => route.path], () => {
+  handleHash()
+}, { immediate: true })
 
 // Initialiser l'onglet en fonction du hash au chargement
 onMounted(() => {
   handleHash()
+  // Forcer un re-render après un court délai pour s'assurer que les composants sont chargés
+  setTimeout(() => {
+    handleHash()
+  }, 100)
 })
 
 const scrollToFormula = async (formulaId) => {
