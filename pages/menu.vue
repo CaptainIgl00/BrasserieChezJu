@@ -1,5 +1,10 @@
 <template>
   <div class="menu-page">
+    <Title>Menu - Brasserie Chez Ju</Title>
+    <Meta name="description" content="Découvrez notre carte de brasserie traditionnelle, nos formules du jour et nos suggestions. Une cuisine authentique et raffinée mettant en valeur les produits locaux." />
+    <Meta property="og:title" content="Menu - Brasserie Chez Ju" />
+    <Meta property="og:description" content="Découvrez notre carte de brasserie traditionnelle, nos formules du jour et nos suggestions." />
+    <Meta property="og:image" content="https://brasseriechezju.com/images/display/plat-principal.jpg" />
     <!-- Hero Section avec Tabs -->
     <div class="hero-section">
       <h1 class="text-4xl md:text-5xl font-playfair text-orange-500 text-center font-bold mb-4 mt-10">
@@ -67,7 +72,7 @@
 
 <script setup>
 import { ref, nextTick, watch, onMounted, defineAsyncComponent } from 'vue'
-import { useRoute, useHead, useSeoMeta } from '#app'
+import { useRoute } from '#app'
 import MenuSuggestion from '../components/MenuSuggestion.vue'
 
 // Lazy load heavy components avec des options de chargement plus robustes
@@ -149,14 +154,6 @@ const scrollToFormula = async (formulaId) => {
   }
 }
 
-// SEO
-useSeoMeta({
-  title: 'Menu - Brasserie Chez Ju',
-  ogTitle: 'Menu - Brasserie Chez Ju',
-  description: 'Découvrez notre carte de brasserie traditionnelle, nos formules du jour et nos suggestions. Une cuisine authentique et raffinée mettant en valeur les produits locaux.',
-  ogDescription: 'Découvrez notre carte de brasserie traditionnelle, nos formules du jour et nos suggestions.',
-  ogImage: 'https://brasseriechezju.com/images/menu/plat-principal.jpg'
-})
 </script>
 
 <style scoped>

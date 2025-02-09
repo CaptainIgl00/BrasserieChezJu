@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useHead, useSeoMeta } from '#imports'
 
 const route = useRoute()
 
@@ -9,18 +8,15 @@ const StaffComponent = defineAsyncComponent(() => import('../components/StaffCom
 const InstagramFeedComponent = defineAsyncComponent(() => import('../components/InstagramFeedComponent.vue'))
 const ContactComponent = defineAsyncComponent(() => import('../components/ContactComponent.vue'))
 
-// SEO
-useSeoMeta({
-  title: 'Brasserie Chez Ju - Restaurant traditionnel à Carcassonne',
-  ogTitle: 'Brasserie Chez Ju - Restaurant traditionnel à Carcassonne',
-  description: 'Bienvenue à la Brasserie Chez Ju, votre restaurant traditionnel à Carcassonne. Cuisine authentique, produits frais et locaux, ambiance chaleureuse.',
-  ogDescription: 'Bienvenue à la Brasserie Chez Ju, votre restaurant traditionnel à Carcassonne. Cuisine authentique et produits locaux.',
-  ogImage: 'https://brasseriechezju.com/images/display/plat-principal.jpg'
-})
 </script>
 
 <template>
   <div class="home-page">
+    <Title>Brasserie Chez Ju - Restaurant traditionnel à Carcassonne</Title>
+    <Meta name="description" content="Bienvenue à la Brasserie Chez Ju, votre restaurant traditionnel à Carcassonne. Cuisine authentique, produits frais et locaux, ambiance chaleureuse." />
+    <Meta property="og:title" content="Brasserie Chez Ju - Restaurant traditionnel à Carcassonne" />
+    <Meta property="og:description" content="Bienvenue à la Brasserie Chez Ju, votre restaurant traditionnel à Carcassonne. Cuisine authentique et produits locaux." />
+    <Meta property="og:image" content="https://brasseriechezju.com/images/display/plat-principal.jpg" />
     <DisplayComponent />
     <ShowcaseComponent />
     <HeroComponent />

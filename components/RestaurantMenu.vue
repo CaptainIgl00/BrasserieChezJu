@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full max-w-7xl mx-auto px-4">
+  <div class="w-full max-w-7xl mx-auto px-4 menu-container">
     <!-- En-tête décoratif -->
-    <div class="flex items-center justify-center space-x-4 mb-16 fade-in">
+    <div class="flex items-center justify-center space-x-4 mb-16">
       <div class="flex-grow h-px bg-orange-500/50 max-w-[100px]"></div>
       <h2 class="text-xl md:text-2xl text-center font-playfair text-orange-500 italic px-4">Notre carte change au fil des saisons,<br/>notre bonne humeur jamais !</h2>
       <div class="flex-grow h-px bg-orange-500/50 max-w-[100px]"></div>
@@ -10,7 +10,7 @@
     <!-- Sections du menu -->
     <div class="space-y-16">
       <!-- Entrées -->
-      <div class="fade-in">
+      <div>
         <MenuCategory 
           title="Toc toc toc... entrées"
           :dishes="starters"
@@ -21,7 +21,7 @@
       <SeparatorComponent />
 
       <!-- Salades -->
-      <div class="fade-in">
+      <div>
         <MenuCategory 
           title="On se met au vert ?"
           :dishes="salads"
@@ -31,7 +31,7 @@
       <SeparatorComponent />
       
       <!-- T'as faim de tradition ? -->
-      <div class="fade-in">
+      <div>
         <MenuCategory 
         title="T'as faim de tradition ?"
         :dishes="traditional"
@@ -42,7 +42,7 @@
         <SeparatorComponent />
         
         <!-- Côté Mer -->
-        <div class="fade-in">
+        <div>
           <MenuCategory 
           title="Côté Mer"
           :dishes="seafood"
@@ -53,7 +53,7 @@
         <SeparatorComponent />
         
         <!-- Côté Terre -->
-      <div class="fade-in">
+      <div>
         <MenuCategory 
         title="Côté Terre"
         :dishes="meat"
@@ -63,7 +63,7 @@
       <SeparatorComponent />
       
       <!-- Côté Flamme -->
-      <div class="fade-in">
+      <div>
         <MenuCategory 
         title="Côté Flamme"
         :dishes="grill"
@@ -74,7 +74,7 @@
       <SeparatorComponent />
 
       <!-- Desserts -->
-      <div class="fade-in">
+      <div>
         <MenuCategory 
         title="Finir en douceur"
         :dishes="desserts"
@@ -322,6 +322,21 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.menu-container {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Animation de fade-in au scroll */
 .fade-in {
   opacity: 0;
