@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useHead } from '#imports'
+import { useHead, useSeoMeta } from '#imports'
 
 const route = useRoute()
 
@@ -10,13 +10,12 @@ const InstagramFeedComponent = defineAsyncComponent(() => import('../components/
 const ContactComponent = defineAsyncComponent(() => import('../components/ContactComponent.vue'))
 
 // SEO
-definePageMeta({
+useSeoMeta({
   title: 'Brasserie Chez Ju - Restaurant traditionnel à Carcassonne',
-  meta: [
-    { name: 'description', content: 'Bienvenue à la Brasserie Chez Ju, votre restaurant traditionnel à Carcassonne. Cuisine authentique, produits frais et locaux, ambiance chaleureuse.' },
-    { property: 'og:title', content: 'Brasserie Chez Ju - Restaurant traditionnel à Carcassonne' },
-    { property: 'og:description', content: 'Bienvenue à la Brasserie Chez Ju, votre restaurant traditionnel à Carcassonne. Cuisine authentique et produits locaux.' }
-  ]
+  ogTitle: 'Brasserie Chez Ju - Restaurant traditionnel à Carcassonne',
+  description: 'Bienvenue à la Brasserie Chez Ju, votre restaurant traditionnel à Carcassonne. Cuisine authentique, produits frais et locaux, ambiance chaleureuse.',
+  ogDescription: 'Bienvenue à la Brasserie Chez Ju, votre restaurant traditionnel à Carcassonne. Cuisine authentique et produits locaux.',
+  ogImage: 'https://brasseriechezju.com/images/display/plat-principal.jpg'
 })
 </script>
 
