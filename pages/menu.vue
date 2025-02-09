@@ -67,7 +67,7 @@
 
 <script setup>
 import { ref, nextTick, watch, onMounted, defineAsyncComponent } from 'vue'
-import { useRoute } from '#app'
+import { useRoute, useHead } from '#app'
 import MenuSuggestion from '../components/MenuSuggestion.vue'
 
 // Lazy load heavy components
@@ -137,6 +137,16 @@ const scrollToFormula = async (formulaId) => {
     console.error('Erreur lors du scroll:', error)
   }
 }
+
+// SEO
+definePageMeta({
+  title: 'Menu - Brasserie Chez Ju',
+  meta: [
+    { name: 'description', content: 'Découvrez notre carte de brasserie traditionnelle, nos formules du jour et nos suggestions. Une cuisine authentique et raffinée mettant en valeur les produits locaux.' },
+    { property: 'og:title', content: 'Menu - Brasserie Chez Ju' },
+    { property: 'og:description', content: 'Découvrez notre carte de brasserie traditionnelle, nos formules du jour et nos suggestions.' }
+  ]
+})
 </script>
 
 <style scoped>
