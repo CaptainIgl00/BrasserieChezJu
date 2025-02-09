@@ -20,7 +20,10 @@ export default defineNuxtConfig({
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
-    },
+      'postcss-preset-env': {
+        stage: 1
+      }
+    }
   },
   image: {
     provider: 'ipx',
@@ -137,6 +140,7 @@ export default defineNuxtConfig({
     }
   },
   experimental: {
+    treeshakeClientOnly: true,
     viewTransition: true,
     renderJsonPayloads: true
   },
@@ -148,14 +152,22 @@ export default defineNuxtConfig({
   vite: {
     build: {
       cssMinify: true,
+      cssCodeSplit: true,
       rollupOptions: {
         output: {
           manualChunks: {
-            'vue-group': ['vue', 'vue-router'],
             'vendor-group': ['@vueuse/core']
           }
         }
-      }
+      },
+      chunkSizeWarningLimit: 1000
+    },
+    css: {
+      devSourcemap: false
+    },
+    optimizeDeps: {
+      include: ['@vueuse/core'],
+      exclude: ['vuetify']
     }
   }
 })

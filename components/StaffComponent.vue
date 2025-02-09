@@ -28,7 +28,7 @@
 
       <div class="staff-member fade-in" style="--delay: 0.8s">
         <nuxt-img 
-          src="/images/staff/jb&romain.jpg" 
+          src="/images/staff/jb_romain.jpg" 
           alt="Jean-Baptiste & Romain" 
           class="staff-image"
           loading="lazy"
@@ -44,7 +44,7 @@
 
       <div class="staff-member fade-in" style="--delay: 1s">
         <nuxt-img 
-          src="/images/staff/tino&oceane.jpg" 
+          src="/images/staff/tino_oceane.jpg" 
           alt="Océane & Valentino" 
           class="staff-image"
           loading="lazy"
