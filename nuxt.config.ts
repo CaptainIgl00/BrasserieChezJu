@@ -1,10 +1,12 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+const isProduction = process.env.NODE_ENV !== 'development'
+
 export default defineNuxtConfig({
+  ssr: true,
   compatibilityDate: '2024-04-03',
   devtools: {
-    enabled: true,
+    enabled: isProduction,
     timeline: {
-      enabled: true,
+      enabled: isProduction,
     },
   },
   modules: [
@@ -108,7 +110,7 @@ export default defineNuxtConfig({
       }]
     },
     devOptions: {
-      enabled: true,
+      enabled: isProduction,
       type: 'module',
       suppressWarnings: true
     }
