@@ -26,10 +26,7 @@
               :src="post.imageUrl" 
               :alt="post.title" 
               class="w-full h-[300px] md:h-[400px] object-cover transition-transform duration-500 group-hover:scale-105"
-              loading="lazy"
-              format="webp"
-              quality="80"
-              sizes="sm:100vw md:33vw lg:400px"
+              preset="showcase"
             />
           </a>
         </div>

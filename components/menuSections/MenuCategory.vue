@@ -34,10 +34,7 @@
               :alt="title"
               class="w-full h-full object-cover transition-all duration-700"
               :class="{'scale-105': isHovered}"
-              loading="lazy"
-              format="webp"
-              quality="80"
-              sizes="sm:100vw md:50vw lg:800px"
+              preset="showcase"
             />
           </div>
 

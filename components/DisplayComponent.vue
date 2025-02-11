@@ -5,25 +5,24 @@
       <div class="side-images left-images">
         <div class="image-container tall fade-in" style="--delay: 0s">
           <nuxt-img 
-            src="/images/display/plat-principal.jpg" 
+            src="/images/display/plat_principal.jpg" 
             alt="Plat principal" 
             class="w-full h-full object-cover transition-all duration-500"
             loading="eager"
+            preset="showcase"
             fetchpriority="high"
-            format="webp"
-            quality="90"
-            sizes="sm:100vw md:50vw lg:400px"
+            placeholder
           />
         </div>
         <div class="image-container fade-in" style="--delay: 0.3s; margin-top: -100px; margin-left: 50px;">
           <nuxt-img 
             src="/images/display/vin.jpg" 
-            alt="Vin" 
+            alt="Vin"   
             class="w-full h-full object-cover transition-all duration-500"
             loading="eager"
-            format="webp"
-            quality="90"
-            sizes="sm:100vw md:50vw lg:400px"
+            preset="showcase"
+            fetchpriority="high"
+            placeholder
           />
         </div>
       </div>
@@ -48,13 +47,13 @@
       <div class="side-images right-images">
         <div class="image-container fade-in" style="--delay: 0.3s; margin-left: -50px;">
           <nuxt-img 
-            src="/images/display/restaurant-interieur.jpg" 
+            src="/images/display/restaurant_interieur.jpg" 
             alt="Intérieur du restaurant" 
             class="w-full h-full object-cover transition-all duration-500"
             loading="eager"
-            format="webp"
-            quality="80"
-            sizes="sm:100vw md:50vw lg:400px"
+            fetchpriority="high"
+            preset="showcase"
+            placeholder
           />
         </div>
         <div class="image-container tall fade-in" style="--delay: 0s; margin-top: -100px;">
@@ -63,9 +62,9 @@
             alt="Entrecôte" 
             class="w-full h-full object-cover transition-all duration-500"
             loading="eager"
-            format="webp"
-            quality="80"
-            sizes="sm:100vw md:50vw lg:400px"
+            fetchpriority="high"
+            preset="showcase"
+            placeholder
           />
         </div>
       </div>

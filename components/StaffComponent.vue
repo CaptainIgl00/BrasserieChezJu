@@ -15,10 +15,7 @@
           src="/images/staff/fred.jpg" 
           alt="Frédéric Becq" 
           class="staff-image"
-          loading="lazy"
-          format="webp"
-          quality="80"
-          sizes="sm:100vw md:50vw lg:300px"
+          preset="showcase"
         />
         <div class="staff-text">
           <h3 class="staff-name">Frédéric Becq</h3>
@@ -31,10 +28,7 @@
           src="/images/staff/jb_romain.jpg" 
           alt="Jean-Baptiste & Romain" 
           class="staff-image"
-          loading="lazy"
-          format="webp"
-          quality="80"
-          sizes="sm:100vw md:50vw lg:300px"
+          preset="showcase"
         />
         <div class="staff-text">
           <h3 class="staff-name">Jean-Baptiste & Romain</h3>
@@ -47,10 +41,8 @@
           src="/images/staff/tino_oceane.jpg" 
           alt="Océane & Valentino" 
           class="staff-image"
-          loading="lazy"
-          format="webp"
-          quality="80"
-          sizes="sm:100vw md:50vw lg:300px"
+          preset="showcase"
+          :modifiers="{ rotate: 90 }"
         />
         <div class="staff-text">
           <h3 class="staff-name">Océane & Valentino</h3>

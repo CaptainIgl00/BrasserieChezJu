@@ -39,7 +39,7 @@
     <div class="logo wgl-logotype-container default_logo">
       <a href="/">
         <img 
-          src="/images/display/logo.png" 
+          src="/images/contact/logo.png" 
           alt="Logo Chez Ju" 
           class="default_logo"
           style="height: 150px;"

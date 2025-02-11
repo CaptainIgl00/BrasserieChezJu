@@ -6,25 +6,21 @@
         <!-- Image du plat -->
         <div class="plat-image-wrapper">
           <nuxt-img 
-            src="/images/hero/plat-principal.jpg" 
-            alt="Plat gastronomique" 
-            class="hero-image"
-            loading="lazy"
-            format="webp"
-            quality="80"
-            sizes="sm:100vw md:50vw lg:400px"
+            src="/images/hero/plat_principal.jpg" 
+            alt="Plat principal" 
+            class="w-full h-full object-cover"
+            preset="showcase"
+            placeholder
           />
         </div>
         <!-- Image du restaurant -->
         <div class="restaurant-image-wrapper">
           <nuxt-img 
-            src="/images/hero/restaurant-interieur.png" 
+            src="/images/hero/restaurant_interieur.png" 
             alt="Intérieur du restaurant" 
             class="hero-image"
-            loading="lazy"
-            format="webp"
-            quality="80"
-            sizes="sm:100vw md:50vw lg:400px"
+            preset="showcase"
+            placeholder
           />
         </div>
       </div>

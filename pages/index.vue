@@ -16,7 +16,7 @@ const ContactComponent = defineAsyncComponent(() => import('../components/Contac
     <Meta name="description" content="Bienvenue à la Brasserie Chez Ju, votre restaurant traditionnel à Carcassonne. Cuisine authentique, produits frais et locaux, ambiance chaleureuse." />
     <Meta property="og:title" content="Brasserie Chez Ju - Restaurant traditionnel à Carcassonne" />
     <Meta property="og:description" content="Bienvenue à la Brasserie Chez Ju, votre restaurant traditionnel à Carcassonne. Cuisine authentique et produits locaux." />
-    <Meta property="og:image" content="https://brasseriechezju.com/images/display/plat-principal.jpg" />
+    <Meta property="og:image" content="https://brasseriechezju.com/images/display/plat_principal.jpg" />
     <DisplayComponent />
     <ShowcaseComponent />
     <HeroComponent />

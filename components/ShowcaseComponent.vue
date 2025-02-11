@@ -15,10 +15,8 @@
                 :src="`/images/showcase/${item.image}`" 
                 :alt="item.title" 
                 class="icon"
-                loading="lazy"
-                format="webp"
-                quality="80"
-                sizes="sm:80px md:120px lg:150px"
+                preset="showcase"
+                placeholder
               />
             </div>
           </div>
@@ -37,22 +35,22 @@ export default {
     return {
       showcaseItems: [
         {
-          image: "produits_frais.png",
+          image: "entrecote.png",
           title: "Produits frais",
           description: "Des produits locaux, frais, de saison, sélectionnés par notre chef"
         },
         {
-          image: "cuisine_passionnee.png",
+          image: "chef.png",
           title: "Cuisine passionnée",
           description: "Un chef et une brigade passionnés par la belle cuisine française"
         },
         {
-          image: "vins_de_region.png",
+          image: "vin.png",
           title: "Vins de région",
           description: "Des vins d'exceptions triés sur le volet pour offrir le meilleur de notre région"
         },
         {
-          image: "bar_a_cocktail.png",
+          image: "cocktail.png",
           title: "Bar à Cocktail",
           description: "Des cocktails maison et une multitude de digestifs de qualité supérieure de tous les instants"
         },

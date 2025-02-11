@@ -169,5 +169,8 @@ export default defineNuxtConfig({
       include: ['@vueuse/core'],
       exclude: ['vuetify']
     }
+  },
+  devServer: {
+    port: 3300
   }
 })

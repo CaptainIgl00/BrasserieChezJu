@@ -102,7 +102,7 @@ const traditionalImages = {
 }
 
 const seafoodImages = {
-  'Filets de bar à la plancha': '/images/menu/bar.jpg',
+  'Filets de bar à la plancha': '/images/menu/filet_de_bar.jpg',
 }
 
 const meatImages = {
