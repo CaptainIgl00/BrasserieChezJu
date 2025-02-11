@@ -72,66 +72,38 @@ export default defineNuxtConfig({
   },
   pwa: {
     manifest: {
-      name: 'Chez Ju',
+      name: 'Brasserie Chez Ju',
       short_name: 'Chez Ju',
-      description: 'Brasserie - Bar - Tapas',
-      theme_color: '#000000',
+      description: 'Restaurant traditionnel à Carcassonne',
+      theme_color: '#EA5C0B',
       background_color: '#000000',
-      display: 'standalone',
-      orientation: 'portrait',
       icons: [
         {
-          src: '/favicon-192x192.png',
+          src: 'android-chrome-192x192.png',
           sizes: '192x192',
           type: 'image/png'
         },
         {
-          src: '/favicon-512x512.png',
+          src: 'android-chrome-512x512.png',
           sizes: '512x512',
           type: 'image/png'
         }
       ]
     },
     workbox: {
-      navigateFallback: '/',
-      globPatterns: [
-        '**/*.{js,css}',
-        'images/**/*.{png,jpg,jpeg,svg,gif,webp}'
-      ],
-      runtimeCaching: [
-        {
-          urlPattern: /^\/$/,
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'pages'
-          }
-        },
-        {
-          urlPattern: /^\/menu$/,
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'pages'
-          }
-        },
-        {
-          urlPattern: /\/_nuxt\//,
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'nuxt-assets'
-          }
-        },
-        {
-          urlPattern: /\/images\//,
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'images',
-            expiration: {
-              maxEntries: 50,
-              maxAgeSeconds: 7 * 24 * 60 * 60 // 7 jours
-            }
+      globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+      globIgnores: ['**/images/**/*.{jpg,jpeg,png,gif}'],
+      runtimeCaching: [{
+        urlPattern: '/_ipx/**',
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'ipx-images',
+          expiration: {
+            maxEntries: 100,
+            maxAgeSeconds: 60 * 60 * 24 * 30 // 30 jours
           }
         }
-      ]
+      }]
     },
     devOptions: {
       enabled: true,
