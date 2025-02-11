@@ -116,21 +116,38 @@ export default defineNuxtConfig({
   experimental: {
     treeshakeClientOnly: true,
     viewTransition: true,
-    renderJsonPayloads: true
+    renderJsonPayloads: true,
+    payloadExtraction: true
   },
   routeRules: {
     '/**': { 
-      prerender: true 
+      prerender: true,
+      cache: {
+        maxAge: 60 * 60 * 24 * 7 // 7 jours
+      }
+    },
+    '/': { 
+      prerender: true,
+      cache: {
+        maxAge: 60 * 60 * 24 // 1 jour
+      }
     }
   },
   vite: {
     build: {
       cssMinify: true,
       cssCodeSplit: true,
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true
+        }
+      },
       rollupOptions: {
         output: {
           manualChunks: {
-            'vendor-group': ['@vueuse/core']
+            'vendor': ['@vueuse/core', 'vuetify']
           }
         }
       },
