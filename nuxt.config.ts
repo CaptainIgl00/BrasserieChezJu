@@ -1,10 +1,12 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+const isProduction = process.env.NODE_ENV !== 'development'
+
 export default defineNuxtConfig({
+  ssr: true,
   compatibilityDate: '2024-04-03',
   devtools: {
-    enabled: true,
+    enabled: isProduction,
     timeline: {
-      enabled: true,
+      enabled: isProduction,
     },
   },
   modules: [
@@ -54,6 +56,8 @@ export default defineNuxtConfig({
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
       link: [
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
         { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
@@ -106,7 +110,7 @@ export default defineNuxtConfig({
       }]
     },
     devOptions: {
-      enabled: true,
+      enabled: isProduction,
       type: 'module',
       suppressWarnings: true
     }
@@ -114,21 +118,38 @@ export default defineNuxtConfig({
   experimental: {
     treeshakeClientOnly: true,
     viewTransition: true,
-    renderJsonPayloads: true
+    renderJsonPayloads: true,
+    payloadExtraction: true
   },
   routeRules: {
     '/**': { 
-      prerender: true 
+      prerender: true,
+      cache: {
+        maxAge: 60 * 60 * 24 * 7 // 7 jours
+      }
+    },
+    '/': { 
+      prerender: true,
+      cache: {
+        maxAge: 60 * 60 * 24 // 1 jour
+      }
     }
   },
   vite: {
     build: {
       cssMinify: true,
       cssCodeSplit: true,
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true
+        }
+      },
       rollupOptions: {
         output: {
           manualChunks: {
-            'vendor-group': ['@vueuse/core']
+            'vendor': ['@vueuse/core', 'vuetify']
           }
         }
       },

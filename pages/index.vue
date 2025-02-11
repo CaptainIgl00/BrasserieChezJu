@@ -17,11 +17,52 @@ const ContactComponent = defineAsyncComponent(() => import('../components/Contac
     <Meta property="og:title" content="Brasserie Chez Ju - Restaurant traditionnel à Carcassonne" />
     <Meta property="og:description" content="Bienvenue à la Brasserie Chez Ju, votre restaurant traditionnel à Carcassonne. Cuisine authentique et produits locaux." />
     <Meta property="og:image" content="https://brasseriechezju.com/images/display/plat_principal.jpg" />
+    
+    <!-- Composants critiques chargés immédiatement -->
     <DisplayComponent />
-    <ShowcaseComponent />
     <HeroComponent />
-    <StaffComponent />
-    <InstagramFeedComponent />
-    <ContactComponent />
+    
+    <!-- Composants chargés de manière différée -->
+    <Suspense>
+      <template #default>
+        <ShowcaseComponent />
+      </template>
+      <template #fallback>
+        <div class="loading-placeholder">Chargement...</div>
+      </template>
+    </Suspense>
+
+    <Suspense>
+      <template #default>
+        <StaffComponent />
+      </template>
+      <template #fallback>
+        <div class="loading-placeholder">Chargement...</div>
+      </template>
+    </Suspense>
+
+    <Suspense>
+      <template #default>
+        <InstagramFeedComponent />
+      </template>
+      <template #fallback>
+        <div class="loading-placeholder">Chargement...</div>
+      </template>
+    </Suspense>
+
+    <Suspense>
+      <template #default>
+        <ContactComponent />
+      </template>
+      <template #fallback>
+        <div class="loading-placeholder">Chargement...</div>
+      </template>
+    </Suspense>
   </div>
 </template>
+
+<style scoped>
+.loading-placeholder {
+  @apply w-full h-32 flex items-center justify-center text-orange-500 bg-black/50;
+}
+</style>
