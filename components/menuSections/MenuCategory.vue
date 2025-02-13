@@ -126,20 +126,14 @@
                 Réessayer
               </button>
             </div>
-            <ClientOnly>
-              <nuxt-img 
-                v-show="activeCard === dish.name && !errorStates.get(dish.name)"
-                :key="imageKey"
-                :src="dishImages[dish.name]"
-                :alt="dish.name"
-                class="w-full h-full object-cover"
-                preset="showcase"
-                loading="eager"
-                fetchpriority="high"
-                @load="() => onImageLoaded(dish.name)"
-                @error="() => onImageError(dish.name)"
-              />
-            </ClientOnly>
+            <img v-if="activeCard === dish.name && !errorStates.get(dish.name)"
+                 :src="dishImages[dish.name]"
+                 :alt="dish.name"
+                 class="w-full h-full object-cover opacity-0 transition-opacity duration-300"
+                 :class="{ 'opacity-100': !loadingStates.get(dish.name) }"
+                 @load="() => onImageLoaded(dish.name)"
+                 @error="() => onImageError(dish.name)"
+            />
           </div>
         </div>
       </div>
@@ -197,7 +191,7 @@ const activeCard = ref(null)
 const loadTimeout = ref(null)
 const imageKey = ref(0) // Pour forcer le rechargement de l'image
 
-// Précharger une image spécifique avec Promise et timeout
+// Simplifier la fonction de préchargement
 const preloadImage = (src) => {
   if (process.server || !src) {
     return Promise.resolve()
@@ -205,48 +199,60 @@ const preloadImage = (src) => {
 
   return new Promise((resolve, reject) => {
     const img = new Image()
-    
     const timeout = setTimeout(() => {
       img.src = ''
       reject(new Error('Image loading timeout'))
     }, 10000)
-    
+
     img.onload = () => {
       clearTimeout(timeout)
-      preloadedImages.value.add(src)
-      imageCache.value.set(src, img)
       resolve()
     }
-    
+
     img.onerror = () => {
       clearTimeout(timeout)
       reject(new Error(`Failed to load image: ${src}`))
     }
-    
+
     img.src = src
   })
 }
 
-// Gérer le chargement d'une image
-const onImageLoaded = (dishName) => {
-  if (loadTimeout.value) {
-    clearTimeout(loadTimeout.value)
-    loadTimeout.value = null
+// Simplifier la fonction toggleMobileCard
+const toggleMobileCard = async (dishName) => {
+  // Si on ferme la carte
+  if (activeCard.value === dishName) {
+    activeCard.value = null
+    loadingStates.value.set(dishName, false)
+    errorStates.value.set(dishName, false)
+    return
   }
-  loadingStates.value.set(dishName, false)
-  errorStates.value.set(dishName, false)
-  isLoading.value = false
+
+  // Si on ouvre une nouvelle carte
+  if (props.dishImages && props.dishImages[dishName]) {
+    loadingStates.value.set(dishName, true)
+    errorStates.value.set(dishName, false)
+    activeCard.value = dishName
+
+    try {
+      await preloadImage(props.dishImages[dishName])
+      onImageLoaded(dishName)
+    } catch (error) {
+      console.error('Error loading image:', error)
+      onImageError(dishName)
+    }
+  }
 }
 
-// Gérer l'erreur de chargement d'une image
+// Simplifier la gestion du chargement
+const onImageLoaded = (dishName) => {
+  loadingStates.value.set(dishName, false)
+  errorStates.value.set(dishName, false)
+}
+
 const onImageError = (dishName) => {
-  if (loadTimeout.value) {
-    clearTimeout(loadTimeout.value)
-    loadTimeout.value = null
-  }
   loadingStates.value.set(dishName, false)
   errorStates.value.set(dishName, true)
-  isLoading.value = false
   console.error(`Failed to load image for ${dishName}`)
 }
 
@@ -263,36 +269,6 @@ const retryLoadImage = async (dishName) => {
     onImageLoaded(dishName)
   } catch (error) {
     onImageError(dishName)
-  }
-}
-
-// Fonction pour gérer le comportement accordéon sur mobile
-const toggleMobileCard = async (dishName) => {
-  // Si on ferme la carte, réinitialiser les états
-  if (activeCard.value === dishName) {
-    activeCard.value = null
-    loadingStates.value.set(dishName, false)
-    errorStates.value.set(dishName, false)
-    if (loadTimeout.value) {
-      clearTimeout(loadTimeout.value)
-      loadTimeout.value = null
-    }
-    return
-  }
-  
-  // Si on ouvre une nouvelle carte
-  if (props.dishImages && props.dishImages[dishName]) {
-    // Réinitialiser les états
-    loadingStates.value.set(dishName, true)
-    errorStates.value.set(dishName, false)
-    
-    try {
-      activeCard.value = dishName
-      await preloadImage(props.dishImages[dishName])
-      onImageLoaded(dishName)
-    } catch (error) {
-      onImageError(dishName)
-    }
   }
 }
 
@@ -380,8 +356,8 @@ onMounted(() => {
 
 /* Loading Spinner */
 .loading-spinner {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border: 3px solid rgba(249, 115, 22, 0.3);
   border-radius: 50%;
   border-top-color: rgb(249, 115, 22);
