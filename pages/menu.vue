@@ -123,6 +123,9 @@ const scrollToFormula = async (formulaId) => {
   // D'abord on change l'onglet
   activeTab.value = 'formulas'
   
+  // Mettre à jour le hashtag de l'URL
+  window.location.hash = '#formules'
+  
   try {
     // On attend que le DOM soit mis à jour
     await nextTick()
