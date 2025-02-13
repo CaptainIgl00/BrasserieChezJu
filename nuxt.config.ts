@@ -46,6 +46,9 @@ export default defineNuxtConfig({
           loading: 'lazy'
         }
       }
+    },
+    ipx: {
+      maxAge: 60 * 60 * 24 * 7 // 7 jours de cache
     }
   },
   app: {
@@ -99,20 +102,22 @@ export default defineNuxtConfig({
       globIgnores: ['**/images/**/*.{jpg,jpeg,png,gif}'],
       runtimeCaching: [{
         urlPattern: '/_ipx/**',
-        handler: 'CacheFirst',
+        handler: 'StaleWhileRevalidate',
         options: {
           cacheName: 'ipx-images',
           expiration: {
             maxEntries: 100,
             maxAgeSeconds: 60 * 60 * 24 * 30 // 30 jours
+          },
+          cacheableResponse: {
+            statuses: [0, 200]
           }
         }
       }]
     },
     devOptions: {
-      enabled: isProduction,
-      type: 'module',
-      suppressWarnings: true
+      enabled: false,
+      type: 'module'
     }
   },
   experimental: {
