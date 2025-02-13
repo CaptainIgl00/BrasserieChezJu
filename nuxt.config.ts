@@ -42,8 +42,9 @@ export default defineNuxtConfig({
       showcase: {
         modifiers: {
           format: 'webp',
-          quality: '80',
-          loading: 'lazy'
+          quality: '75',
+          loading: 'lazy',
+          fit: 'cover'
         }
       }
     },
@@ -158,7 +159,8 @@ export default defineNuxtConfig({
           }
         }
       },
-      chunkSizeWarningLimit: 1000
+      chunkSizeWarningLimit: 2000, // Augmenté pour gérer les assets plus volumineux
+      assetsInlineLimit: 4096 // 4kb - les fichiers plus grands seront servis comme assets externes
     },
     css: {
       devSourcemap: false
