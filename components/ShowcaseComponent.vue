@@ -94,7 +94,7 @@ export default {
 }
 
 .showcase-item {
-  @apply text-center text-white p-6 lg:p-8 rounded-3xl shadow-lg transition-all duration-300 ease-in-out;
+  @apply text-center text-white p-6 lg:p-8 rounded-3xl shadow-lg;
   background-image: url("/images/showcase/background.svg");
   background-size: cover;
   background-position: center;
@@ -103,10 +103,13 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transform: translateY(0);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .showcase-item:hover {
-  @apply transform -translate-y-2 shadow-xl;
+  transform: translateY(-4px);
+  @apply shadow-xl;
 }
 
 .icon-container {
@@ -123,25 +126,26 @@ export default {
 .circle-border {
   @apply absolute inset-0 border-4 border-transparent;
   border-radius: 9999px;
-  transition: border-color 0.3s ease-in-out, transform 0.6s ease-in-out;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   width: 100%;
   height: 100%;
 }
 
 .showcase-item:hover .circle-border {
   border-color: #EA5C0B;
-  transform: rotate(360deg);
+  transform: rotate(180deg) scale(1.05);
 }
 
 .icon {
-  @apply transition-transform duration-300 ease-in-out z-10;
+  @apply z-10;
   width: 75%;
   height: 75%;
   object-fit: contain;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .showcase-item:hover .icon {
-  @apply transform scale-110;
+  transform: scale(1.1) rotate(-5deg);
 }
 
 .title {
@@ -187,7 +191,7 @@ export default {
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
   transition-delay: var(--delay, 0s);
 }
 

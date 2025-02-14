@@ -111,13 +111,13 @@ export default {
 }
 
 .plat-image-wrapper {
-  @apply w-[80%] md:w-[90%] relative z-10;
+  @apply w-[80%] md:w-[90%] relative z-10 overflow-hidden rounded-lg shadow-lg;
   height: 250px;
   @apply md:h-[400px];
 }
 
 .restaurant-image-wrapper {
-  @apply absolute z-20 transform w-[40%] md:w-[45%];
+  @apply absolute z-20 transform w-[40%] md:w-[45%] overflow-hidden rounded-lg shadow-lg;
   height: 180px;
   @apply md:h-[250px];
   left: 10%;
@@ -125,8 +125,16 @@ export default {
   transform: translate(-50%, 50%);
 }
 
+.plat-image-wrapper img, .restaurant-image-wrapper img {
+  @apply w-full h-full object-cover transition-transform duration-300 ease-in-out;
+}
+
+.plat-image-wrapper:hover img, .restaurant-image-wrapper:hover img {
+  @apply transform scale-105;
+}
+
 .hero-image {
-  @apply w-full h-full object-cover rounded-lg shadow-lg transition-transform duration-300 ease-in-out;
+  @apply w-full h-full object-cover;
 }
 
 .hero-image:hover {
