@@ -13,7 +13,6 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxt/image',
     '@nuxt/content',
-    'vuetify-nuxt-module',
     '@vueuse/nuxt',
     '@nuxtjs/sitemap',
     '@vite-pwa/nuxt'
@@ -160,19 +159,19 @@ export default defineNuxtConfig({
       rollupOptions: {
         output: {
           manualChunks: {
-            'vendor': ['@vueuse/core', 'vuetify']
+            'vendor': ['@vueuse/core']
           }
         }
       },
-      chunkSizeWarningLimit: 2000, // Augmenté pour gérer les assets plus volumineux
-      assetsInlineLimit: 4096 // 4kb - les fichiers plus grands seront servis comme assets externes
+      chunkSizeWarningLimit: 2000,
+      assetsInlineLimit: 4096
     },
     css: {
       devSourcemap: false
     },
     optimizeDeps: {
       include: ['@vueuse/core'],
-      exclude: ['vuetify']
+      exclude: []
     }
   },
   devServer: {
