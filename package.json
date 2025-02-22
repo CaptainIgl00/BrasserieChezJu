@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "clean": "rm -rf .output .nuxt node_modules",
     "build": "nuxt build",
     "dev": "nuxt dev --port 3300",
     "generate": "nuxt generate",

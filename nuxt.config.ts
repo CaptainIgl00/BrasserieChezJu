@@ -28,7 +28,7 @@ export default defineNuxtConfig({
     }
   },
   image: {
-    provider: 'ipx',
+    provider: isProduction ? 'ipx' : 'none',
     dir: 'public',
     screens: {
       xs: 320,
@@ -48,9 +48,13 @@ export default defineNuxtConfig({
         }
       }
     },
-    ipx: {
+    domains: ['localhost'],
+    alias: {
+      public: '/'
+    },
+    ipx: isProduction ? {
       maxAge: 60 * 60 * 24 * 7 // 7 jours de cache
-    }
+    } : {}
   },
   app: {
     head: {
