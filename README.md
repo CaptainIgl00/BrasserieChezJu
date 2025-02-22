@@ -1,12 +1,12 @@
 # Brasserie Chez Ju - Site Web
 
-Site web de la Brasserie Chez Ju, un restaurant traditionnel situé à Carcassonne. Développé avec Nuxt 3 et déployé sur une VM Alpine Linux.
+Site web de la Brasserie Chez Ju, un restaurant traditionnel situé à Carcassonne. Développé avec Nuxt 3 et déployé sur un VPS OVH.
 
 ## Technologies
 
 - **Frontend**: Nuxt 3, Vue.js, TailwindCSS
-- **Déploiement**: Docker, GitHub Actions
-- **Serveur**: Nginx, Alpine Linux
+- **Déploiement**: Docker, Docker Hub, GitHub Actions
+- **Serveur**: Traefik, VPS OVH
 
 ## Fonctionnalités
 
@@ -54,13 +54,12 @@ docker-compose down
 ├── public/             # Assets statiques
 │   ├── images/         # Images du site
 │   └── fonts/          # Polices personnalisées
-├── nginx/              # Configuration Nginx
 └── docker-compose.yml  # Configuration Docker
 ```
 
 ## Déploiement automatique
 
-Le déploiement est automatisé via GitHub Actions. À chaque push sur la branche `main` :
+Le déploiement est automatisé via GitHub Actions. À chaque tag :
 1. Build de l'image Docker
 2. Push sur Docker Hub
-3. Déploiement sur la VM Alpine Linux
+3. Déploiement sur le VPS OVH via Watchtower
