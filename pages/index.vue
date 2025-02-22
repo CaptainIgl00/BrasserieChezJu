@@ -1,12 +1,13 @@
 <script setup lang="ts">
+import { defineAsyncComponent } from 'vue'
 
 const route = useRoute()
 
 // Lazy load components that are not immediately visible
-const ShowcaseComponent = defineAsyncComponent(() => import('../components/ShowcaseComponent.vue'))
-const StaffComponent = defineAsyncComponent(() => import('../components/StaffComponent.vue'))
-const InstagramFeedComponent = defineAsyncComponent(() => import('../components/InstagramFeedComponent.vue'))
-const ContactComponent = defineAsyncComponent(() => import('../components/ContactComponent.vue'))
+const ServicesShowcase = defineAsyncComponent(() => import('../components/home/ServicesShowcase.vue'))
+const TeamSection = defineAsyncComponent(() => import('../components/home/TeamSection.vue'))
+const InstagramFeed = defineAsyncComponent(() => import('../components/home/InstagramFeed.vue'))
+const TheFooter = defineAsyncComponent(() => import('../components/layout/TheFooter.vue'))
 
 </script>
 
@@ -19,13 +20,13 @@ const ContactComponent = defineAsyncComponent(() => import('../components/Contac
     <Meta property="og:image" content="https://brasseriechezju.com/images/display/plat_principal.jpg" />
     
     <!-- Composants critiques chargés immédiatement -->
-    <DisplayComponent />
-    <HeroComponent />
+    <RestaurantDisplay />
+    <HeroSection />
     
     <!-- Composants chargés de manière différée -->
     <Suspense>
       <template #default>
-        <ShowcaseComponent />
+        <ServicesShowcase />
       </template>
       <template #fallback>
         <div class="loading-placeholder">Chargement...</div>
@@ -34,7 +35,7 @@ const ContactComponent = defineAsyncComponent(() => import('../components/Contac
 
     <Suspense>
       <template #default>
-        <StaffComponent />
+        <TeamSection />
       </template>
       <template #fallback>
         <div class="loading-placeholder">Chargement...</div>
@@ -43,7 +44,7 @@ const ContactComponent = defineAsyncComponent(() => import('../components/Contac
 
     <Suspense>
       <template #default>
-        <InstagramFeedComponent />
+        <InstagramFeed />
       </template>
       <template #fallback>
         <div class="loading-placeholder">Chargement...</div>
@@ -52,7 +53,7 @@ const ContactComponent = defineAsyncComponent(() => import('../components/Contac
 
     <Suspense>
       <template #default>
-        <ContactComponent />
+        <TheFooter />
       </template>
       <template #fallback>
         <div class="loading-placeholder">Chargement...</div>

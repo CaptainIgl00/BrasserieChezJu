@@ -38,7 +38,7 @@
           {{ brasserie.subtitle }}
         </h3>
         
-        <SeparatorComponent :showLeftLine="false" class="fade-in" />
+        <BaseDivider :showLeftLine="false" class="fade-in" />
         
         <p class="hero-description fade-in">
           {{ brasserie.description }}
@@ -53,10 +53,12 @@
 </template>
 
 <script>
+import BaseDivider from '../layout/BaseDivider.vue'
+
 export default {
-  name: 'BrasserieHero',
+  name: 'HeroSection',
   components: {
-    SeparatorComponent: () => import('./SeparatorComponent.vue')
+    BaseDivider
   },
   data() {
     return {

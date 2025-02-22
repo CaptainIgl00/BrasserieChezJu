@@ -1,11 +1,15 @@
 <template>
   <div>
-    <NavbarComponent />
+    <TheNavbar />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
   </div>
 </template>
+
+<script setup>
+import TheNavbar from './components/layout/TheNavbar.vue'
+</script>
 
 <style>
 /* Scrollbar personnalisée pour les navigateurs Webkit (Chrome, Safari, etc.) */

@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <SeparatorComponent slim />
+    <BaseDivider slim />
 
     <!-- Plats -->
     <div class="section-container">
@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <SeparatorComponent slim />
+    <BaseDivider slim />
 
     <!-- Desserts -->
     <div class="section-container">
@@ -68,7 +68,7 @@
 </template>
 
 <script setup>
-import SeparatorComponent from '../SeparatorComponent.vue'
+import BaseDivider from '../layout/BaseDivider.vue'
 </script>
 
 <style scoped>

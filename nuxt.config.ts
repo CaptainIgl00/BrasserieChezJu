@@ -125,7 +125,8 @@ export default defineNuxtConfig({
     treeshakeClientOnly: true,
     viewTransition: true,
     renderJsonPayloads: true,
-    payloadExtraction: true
+    payloadExtraction: false,
+    localLayerAliases: false
   },
   routeRules: {
     '/**': { 
@@ -172,5 +173,10 @@ export default defineNuxtConfig({
   },
   devServer: {
     port: 3300
+  },
+  components: {
+    dirs: [
+      { path: '~/components', extensions: ['vue'], pathPrefix: false }
+    ]
   }
 })

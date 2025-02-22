@@ -14,7 +14,7 @@
   
   <script>
   export default {
-    name: 'SeparatorComponent',
+    name: 'BaseDivider',
     props: {
       showLeftLine: {
         type: Boolean,

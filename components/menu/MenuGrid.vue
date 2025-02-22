@@ -18,7 +18,8 @@
         />
       </div>
       
-      <SeparatorComponent />
+      <!-- Séparateur -->
+      <BaseDivider />
 
       <!-- Salades -->
       <div>
@@ -28,7 +29,8 @@
         />
       </div>
 
-      <SeparatorComponent />
+      <!-- Séparateur -->
+      <BaseDivider />
       
       <!-- T'as faim de tradition ? -->
       <div>
@@ -39,7 +41,8 @@
           />
         </div>
         
-        <SeparatorComponent />
+        <!-- Séparateur -->
+        <BaseDivider />
         
         <!-- Côté Mer -->
         <div>
@@ -50,7 +53,8 @@
           />
         </div>
         
-        <SeparatorComponent />
+        <!-- Séparateur -->
+        <BaseDivider />
         
         <!-- Côté Terre -->
       <div>
@@ -60,7 +64,8 @@
         />
       </div>
       
-      <SeparatorComponent />
+      <!-- Séparateur -->
+      <BaseDivider />
       
       <!-- Côté Flamme -->
       <div>
@@ -71,7 +76,8 @@
         />
       </div>
 
-      <SeparatorComponent />
+      <!-- Séparateur -->
+      <BaseDivider />
 
       <!-- Desserts -->
       <div>
@@ -87,8 +93,8 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import MenuCategory from './menuSections/MenuCategory.vue'
-import SeparatorComponent from './SeparatorComponent.vue'
+import MenuCategory from './MenuCategory.vue'
+import BaseDivider from '../layout/BaseDivider.vue'
 
 // Images mapping pour chaque section
 const starterImages = {

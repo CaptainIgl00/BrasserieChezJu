@@ -32,7 +32,7 @@
         <h1 class="title fade-in" style="--delay: 0.2s">Brasserie Chez Ju</h1>
         <div class="subtitle fade-in" style="--delay: 0.4s">MAÎTRE RESTAURATEUR</div>
         <div class="separator-wrapper fade-in" style="--delay: 0.6s">
-          <SeparatorComponent />
+          <BaseDivider />
         </div>
         <div class="category fade-in" style="--delay: 0.8s">
           BRASSERIE · BAR · TAPAS
@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-import SeparatorComponent from './SeparatorComponent.vue'
+import BaseDivider from '../layout/BaseDivider.vue'
 </script>
 
 <style scoped>

@@ -8,7 +8,7 @@
     </h2>
     
     <div class="separator-container w-96 md:w-[32rem] mb-12" :class="{ 'fade-in-3': isMounted }">
-      <SeparatorComponent />
+      <BaseDivider />
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 max-w-6xl mx-auto">
@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import SeparatorComponent from './SeparatorComponent.vue'
+import BaseDivider from '../layout/BaseDivider.vue'
 
 const isMounted = ref(false)
 const imagesLoaded = ref(new Set())

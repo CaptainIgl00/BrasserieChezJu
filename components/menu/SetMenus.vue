@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import MenuGourmand from './menuSections/MenuGourmand.vue'
+import MenuGourmand from './MenuGourmand.vue'
 
 const getFormulaId = (title) => {
   const mapping = {

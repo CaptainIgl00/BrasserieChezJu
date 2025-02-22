@@ -30,7 +30,7 @@
 
 <script>
 export default {
-  name: "ShowcaseComponent",
+  name: "ServicesShowcase",
   data() {
     return {
       showcaseItems: [
