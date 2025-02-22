@@ -8,14 +8,14 @@
     </h2>
     
     <div class="separator-container w-96 md:w-[32rem] mb-12" :class="{ 'fade-in-3': isMounted }">
-      <SeparatorComponent />
+      <BaseDivider />
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 max-w-6xl mx-auto">
       <div v-for="(post, index) in instagramPosts" 
            :key="post.id" 
-           class="instagram-post group"
-           :class="[{ 'fade-in': isMounted }, `fade-delay-${index + 1}`]"
+           class="instagram-post opacity-0"
+           :class="[`fade-delay-${index + 1}`]"
       >
         <div class="relative overflow-hidden rounded-xl shadow-lg">
           <a :href="post.postUrl" target="_blank" class="block">
@@ -27,6 +27,7 @@
               :alt="post.title" 
               class="w-full h-[300px] md:h-[400px] object-cover transition-transform duration-500 group-hover:scale-105"
               preset="showcase"
+              @load="onImageLoad(post.id)"
             />
           </a>
         </div>
@@ -54,9 +55,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import SeparatorComponent from './SeparatorComponent.vue'
+import BaseDivider from '../layout/BaseDivider.vue'
 
 const isMounted = ref(false)
+const imagesLoaded = ref(new Set())
 
 interface InstagramPost {
   id: string
@@ -90,8 +92,25 @@ const instagramPosts = ref<InstagramPost[]>([
   }
 ])
 
+const onImageLoad = (id: string) => {
+  imagesLoaded.value.add(id)
+}
+
 onMounted(() => {
   isMounted.value = true
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('fade-in-visible')
+      }
+    })
+  }, {
+    threshold: 0.1,
+    rootMargin: '50px'
+  })
+
+  document.querySelectorAll('.fade-in, .instagram-post').forEach(el => observer.observe(el))
 })
 </script>
 
@@ -151,5 +170,37 @@ onMounted(() => {
   .instagram-post {
     max-width: 100%;
   }
+}
+
+.instagram-post {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.instagram-post.fade-in-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-delay-1 {
+  transition-delay: 0.2s;
+}
+
+.fade-delay-2 {
+  transition-delay: 0.4s;
+}
+
+.fade-delay-3 {
+  transition-delay: 0.6s;
+}
+
+/* Améliorer l'animation au hover */
+.instagram-post:hover img {
+  transform: scale(1.08);
+}
+
+.instagram-post img {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 </style> 

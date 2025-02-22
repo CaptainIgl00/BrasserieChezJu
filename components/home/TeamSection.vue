@@ -5,9 +5,7 @@
       Une équipe passionnée, à votre service
     </h2>
     
-    <div class="separator-container fade-in" style="--delay: 0.4s">
-      <SeparatorComponent />
-    </div>
+    <BaseDivider />
 
     <div class="staff-grid">
       <div class="staff-member fade-in" style="--delay: 0.6s">
@@ -55,7 +53,7 @@
 
 <script setup>
 import { onMounted } from 'vue';
-import SeparatorComponent from './SeparatorComponent.vue';
+import BaseDivider from '../layout/BaseDivider.vue'
 
 onMounted(() => {
   const observer = new IntersectionObserver((entries) => {

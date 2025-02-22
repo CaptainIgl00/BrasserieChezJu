@@ -37,7 +37,7 @@
     </div>
     
     <div class="logo wgl-logotype-container default_logo">
-      <a href="/">
+      <a href="/" @click.prevent="scrollToTop">
         <img 
           src="/images/contact/logo.png" 
           alt="Logo Chez Ju" 
@@ -87,6 +87,18 @@
   </div>
 </template>
 
+<script setup>
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
+  
+  // Utiliser l'API History pour mettre à jour l'URL sans recharger la page
+  history.pushState({}, '', '/')
+}
+</script>
+
 <style scoped>
 .footer-content {
   @apply flex flex-col md:flex-row justify-between items-center 
@@ -108,7 +120,7 @@
 }
 
 .logo a {
-  @apply flex items-center justify-center;
+  @apply flex items-center justify-center cursor-pointer transition-transform duration-300 hover:scale-105;
   width: 100%;
   height: 100%;
 }
@@ -122,8 +134,7 @@
 }
 
 .logo:hover img {
-  @apply scale-105;
-  transition: transform 0.3s ease-in-out;
+  @apply scale-100;
 }
 
 .contact-info, .hours-info {

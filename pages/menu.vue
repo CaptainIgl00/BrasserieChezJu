@@ -73,17 +73,16 @@
 <script setup>
 import { ref, nextTick, watch, onMounted, defineAsyncComponent } from 'vue'
 import { useRoute } from '#app'
-import MenuSuggestion from '../components/MenuSuggestion.vue'
 
 // Lazy load heavy components avec des options de chargement plus robustes
 const RestaurantMenu = defineAsyncComponent({
-  loader: () => import('../components/RestaurantMenu.vue'),
+  loader: () => import('../components/menu/MenuGrid.vue'),
   delay: 0,
   timeout: 30000
 })
 
 const MenuComponent = defineAsyncComponent({
-  loader: () => import('../components/FormuleComponent.vue'),
+  loader: () => import('../components/menu/SetMenus.vue'),
   delay: 0,
   timeout: 30000
 })
