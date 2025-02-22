@@ -12,20 +12,10 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxt/image',
-    '@nuxt/content',
-    '@vueuse/nuxt',
     '@nuxtjs/sitemap',
+    '@vueuse/nuxt',
     '@vite-pwa/nuxt'
   ],
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-      'postcss-preset-env': {
-        stage: 1
-      }
-    }
-  },
   image: {
     provider: isProduction ? 'ipx' : 'none',
     dir: 'public',
@@ -158,6 +148,9 @@ export default defineNuxtConfig({
       },
       rollupOptions: {
         output: {
+          assetFileNames: '_nuxt/[name]-[hash][extname]',
+          chunkFileNames: '_nuxt/[name]-[hash].mjs',
+          entryFileNames: '_nuxt/[name]-[hash].mjs',
           manualChunks: {
             'vendor': ['@vueuse/core']
           }

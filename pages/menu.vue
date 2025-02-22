@@ -35,7 +35,7 @@
 
     <!-- Suggestion Component -->
     <div class="suggestion-section">
-      <MenuSuggestion 
+      <DailySpecials 
         :hideInFormulaTab="activeTab === 'formulas'"
         @select-formula="scrollToFormula" 
       />
