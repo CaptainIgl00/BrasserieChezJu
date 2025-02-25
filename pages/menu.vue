@@ -217,4 +217,35 @@ const scrollToFormula = async (formulaId) => {
 .highlighted {
   animation: highlight 2s ease-in-out;
 }
+
+/* Ajout d'un breakpoint spécifique pour les très petits écrans */
+@media (max-width: 320px) {
+  .hero-section {
+    @apply py-8;
+  }
+  
+  .hero-section h1 {
+    @apply text-3xl mb-2;
+  }
+  
+  .hero-section p {
+    @apply text-sm mb-2;
+  }
+  
+  .tabs-navigation {
+    @apply gap-4;
+  }
+  
+  .tab-button {
+    @apply px-3 py-2 text-sm;
+  }
+  
+  .suggestion-section {
+    @apply py-4 px-2;
+  }
+  
+  .menu-content {
+    @apply py-6;
+  }
+}
 </style> 

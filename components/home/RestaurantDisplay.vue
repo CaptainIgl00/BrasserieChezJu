@@ -211,6 +211,38 @@ import BaseDivider from '../layout/BaseDivider.vue'
   }
 }
 
+/* Ajout d'un breakpoint spécifique pour les très petits écrans */
+@media (max-width: 320px) {
+  .image-container {
+    height: 80px;
+  }
+
+  .image-container.tall {
+    height: 80px;
+  }
+
+  .content-wrapper {
+    @apply py-3 gap-3;
+  }
+  
+  .title {
+    @apply text-2xl mb-1;
+  }
+  
+  .subtitle {
+    @apply text-sm mb-1;
+  }
+  
+  .category {
+    @apply text-xs mb-2;
+  }
+  
+  .description {
+    @apply text-xs leading-relaxed;
+    max-width: 100%;
+  }
+}
+
 .side-images img {
   @apply w-full h-full object-cover transition-all duration-500;
   filter: grayscale(20%) brightness(90%);
@@ -302,6 +334,13 @@ import BaseDivider from '../layout/BaseDivider.vue'
 
   .side-images {
     @apply px-4;
+  }
+}
+
+/* Ajustement supplémentaire pour les très petits écrans */
+@media (max-width: 320px) {
+  .side-images {
+    @apply px-2;
   }
 }
 </style>

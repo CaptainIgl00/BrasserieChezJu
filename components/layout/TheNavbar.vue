@@ -158,4 +158,25 @@ onUnmounted(() => {
     @apply h-14;
   }
 }
+
+/* Ajout d'un breakpoint spécifique pour les très petits écrans */
+@media (max-width: 320px) {
+  .nav-container {
+    @apply px-2 py-4;
+  }
+  
+  .nav-side {
+    @apply w-[80px];
+  }
+
+  .nav-link {
+    width: 70px;
+    height: 32px;
+    @apply text-xs font-medium;
+  }
+
+  .logo-link img {
+    @apply h-12;
+  }
+}
 </style> 

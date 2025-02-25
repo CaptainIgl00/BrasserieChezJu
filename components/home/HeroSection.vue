@@ -235,4 +235,46 @@ export default {
     width: 50%;
   }
 }
+
+/* Ajout d'un breakpoint spécifique pour les très petits écrans */
+@media (max-width: 320px) {
+  .hero-section {
+    @apply pt-6 pb-6;
+  }
+  
+  .hero-container {
+    @apply gap-2;
+  }
+  
+  .plat-image-wrapper {
+    @apply w-[90%];
+    height: 160px;
+  }
+  
+  .restaurant-image-wrapper {
+    height: 100px;
+    width: 50%;
+    left: 5%;
+  }
+  
+  .text-column {
+    @apply px-1 space-y-3 mt-16;
+  }
+  
+  .hero-title {
+    @apply text-2xl;
+  }
+  
+  .hero-subtitle {
+    @apply text-sm;
+  }
+  
+  .hero-description {
+    @apply text-xs leading-relaxed;
+  }
+  
+  .hero-call-to-action {
+    @apply text-sm mt-2;
+  }
+}
 </style>

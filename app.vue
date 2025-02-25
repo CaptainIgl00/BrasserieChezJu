@@ -35,4 +35,35 @@ import TheNavbar from './components/layout/TheNavbar.vue'
   scrollbar-width: thin;
   scrollbar-color: rgb(249, 115, 22) rgba(0, 0, 0, 0.9);
 }
+
+/* Ajustements globaux pour les très petits écrans */
+@media (max-width: 320px) {
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+  
+  /* Réduire les marges et paddings par défaut */
+  .container {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  
+  /* Ajuster la taille des textes */
+  h1 {
+    font-size: 1.5rem !important;
+  }
+  
+  h2 {
+    font-size: 1.25rem !important;
+  }
+  
+  h3 {
+    font-size: 1rem !important;
+  }
+  
+  p {
+    font-size: 0.875rem !important;
+  }
+}
 </style>

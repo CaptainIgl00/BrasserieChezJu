@@ -200,11 +200,6 @@ const seafood = [
     name: "Seiches à la plancha",
     description: "En persillade (500g)",
     price: "20"
-  },
-  {
-    name: "Truite pochée au court bouillon",
-    description: "Et sa vinaigrette soja, agrumes",
-    price: "22"
   }
 ]
 
