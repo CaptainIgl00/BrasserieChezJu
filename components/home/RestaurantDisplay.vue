@@ -167,8 +167,8 @@ onUnmounted(() => {
 <style scoped>
 /* Base */
 .restaurant-display {
-  @apply relative overflow-hidden;
-  min-height: 100vh;
+  @apply relative w-full min-h-screen overflow-hidden flex items-center justify-center;
+  padding-bottom: 2rem;
   background-color: #000;
 }
 

@@ -1,58 +1,95 @@
 <template>
   <div class="hero-section">
     <div class="hero-container">
-      <!-- Colonne des images -->
-      <div class="image-column fade-in">
-        <!-- Image du plat -->
-        <div class="plat-image-wrapper">
+      <!-- Effet de particules subtil -->
+      <div class="hero-particles"></div>
+      
+      <!-- DESKTOP: Colonne des images (visible uniquement sur desktop) -->
+      <div class="desktop-column">
+        <div class="desktop-image-wrapper fade-in" style="--delay: 0.2s">
+          <div class="image-glow"></div>
           <nuxt-img 
             src="/images/hero/plat_principal.jpg" 
             alt="Plat principal" 
-            class="w-full h-full object-cover"
+            class="desktop-image"
             preset="showcase"
             placeholder
           />
+          <div class="image-overlay">
+            <span>Cuisine Authentique</span>
+          </div>
         </div>
-        <!-- Image du restaurant -->
-        <div class="restaurant-image-wrapper">
+        <div class="desktop-small-image-wrapper fade-in" style="--delay: 0.4s">
+          <div class="image-glow"></div>
           <nuxt-img 
             src="/images/hero/restaurant_interieur.png" 
             alt="Intérieur du restaurant" 
-            class="hero-image"
+            class="desktop-image"
             preset="showcase"
             placeholder
           />
+          <div class="image-overlay">
+            <span>Ambiance Chaleureuse</span>
+          </div>
         </div>
       </div>
-
+      
+      <!-- MOBILE: Image principale (visible uniquement sur mobile) -->
+      <div class="mobile-top-image fade-in" style="--delay: 0.2s">
+        <div class="image-glow"></div>
+        <nuxt-img 
+          src="/images/hero/plat_principal.jpg" 
+          alt="Plat principal" 
+          class="mobile-image"
+          preset="showcase"
+          placeholder
+        />
+        <div class="image-overlay">
+          <span>Cuisine Authentique</span>
+        </div>
+      </div>
+      
       <!-- Colonne du texte -->
       <div class="text-column">
-        <h2 
-          class="hero-title fade-in"
-          :style="{ fontFamily: 'Dancing Script, cursive' }"
-        >
+        <h2 class="hero-title fade-in" style="--delay: 0.3s; font-family: 'Dancing Script', cursive;">
           {{ brasserie.title }}
         </h2>
         
-        <h3 class="hero-subtitle fade-in">
+        <h3 class="hero-subtitle fade-in" style="--delay: 0.4s">
           {{ brasserie.subtitle }}
         </h3>
         
-        <BaseDivider :showLeftLine="false" class="fade-in" />
+        <BaseDivider :showLeftLine="false" class="fade-in" style="--delay: 0.5s" />
         
-        <p class="hero-description fade-in">
+        <p class="hero-description fade-in" style="--delay: 0.6s">
           {{ brasserie.description }}
         </p>
         
-        <p class="hero-call-to-action fade-in">
+        <p class="hero-call-to-action fade-in" style="--delay: 0.7s">
           {{ brasserie.callToAction }}
         </p>
+      </div>
+      
+      <!-- MOBILE: Image secondaire (visible uniquement sur mobile) -->
+      <div class="mobile-bottom-image fade-in" style="--delay: 0.8s">
+        <div class="image-glow"></div>
+        <nuxt-img 
+          src="/images/hero/restaurant_interieur.png" 
+          alt="Intérieur du restaurant" 
+          class="mobile-image"
+          preset="showcase"
+          placeholder
+        />
+        <div class="image-overlay">
+          <span>Ambiance Chaleureuse</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { onMounted, onUnmounted } from 'vue'
 import BaseDivider from '../layout/BaseDivider.vue'
 
 export default {
@@ -79,6 +116,7 @@ export default {
     };
   },
   mounted() {
+    // Observer pour les animations au scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -86,7 +124,8 @@ export default {
         }
       });
     }, {
-      threshold: 0.1
+      threshold: 0.1,
+      rootMargin: '0px 0px -10% 0px'
     });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
@@ -98,82 +137,241 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital@0;1&family=Cormorant+Garamond:ital@0;1&family=Lora:ital@0;1&display=swap');
 
 .hero-section {
-  @apply bg-black/90 p-4 md:p-8;
+  @apply bg-black/90 p-4 md:p-8 relative overflow-hidden;
+  padding-top: 2rem;
 }
 
 .hero-container {
-  @apply max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center;
+  @apply max-w-7xl mx-auto relative z-10;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
 }
 
-.image-column {
-  @apply relative w-full flex items-center justify-center 
-         order-1 md:order-none;
-  height: auto;
-  margin-bottom: 2rem;
+@media (min-width: 768px) {
+  .hero-container {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
 }
 
-.plat-image-wrapper {
-  @apply w-[80%] md:w-[90%] relative z-10 overflow-hidden rounded-lg shadow-lg;
+/* Effet de particules subtil */
+.hero-particles {
+  @apply absolute inset-0 z-0 opacity-30;
+  background-image: radial-gradient(circle at 30% 40%, rgba(234, 92, 11, 0.05) 0%, transparent 8%),
+                    radial-gradient(circle at 70% 60%, rgba(234, 92, 11, 0.03) 0%, transparent 10%);
+  background-size: 80px 80px, 120px 120px;
+  animation: float-particles 40s linear infinite;
+}
+
+@keyframes float-particles {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 80px 80px, 120px 120px; }
+}
+
+/* DESKTOP IMAGES */
+.desktop-column {
+  position: relative;
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .desktop-column {
+    display: block;
+  }
+}
+
+.desktop-image-wrapper {
+  width: 90%;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(234, 92, 11, 0.1);
+  position: relative;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.desktop-small-image-wrapper {
+  position: absolute;
+  width: 45%;
   height: 250px;
-  @apply md:h-[400px];
+  left: -15%;
+  bottom: -20%;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(234, 92, 11, 0.2);
+  z-index: 10;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.restaurant-image-wrapper {
-  @apply absolute z-20 transform w-[40%] md:w-[45%] overflow-hidden rounded-lg shadow-lg;
-  height: 180px;
-  @apply md:h-[250px];
-  left: 10%;
+.desktop-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: brightness(0.9) contrast(1.1);
+}
+
+.desktop-image-wrapper:hover .desktop-image,
+.desktop-small-image-wrapper:hover .desktop-image {
+  transform: scale(1.05);
+  filter: brightness(1) contrast(1.15);
+}
+
+.desktop-image-wrapper:hover,
+.desktop-small-image-wrapper:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(234, 92, 11, 0.3);
+}
+
+/* Effet de lueur sur les images */
+.image-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   bottom: 0;
-  transform: translate(-50%, 50%);
+  background: radial-gradient(circle at center, rgba(234, 92, 11, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 1;
+  pointer-events: none;
 }
 
-.plat-image-wrapper img, .restaurant-image-wrapper img {
-  @apply w-full h-full object-cover transition-transform duration-300 ease-in-out;
+.desktop-image-wrapper:hover .image-glow,
+.desktop-small-image-wrapper:hover .image-glow,
+.mobile-top-image:hover .image-glow,
+.mobile-bottom-image:hover .image-glow {
+  opacity: 1;
+  animation: pulse-glow 2s ease-in-out infinite;
 }
 
-.plat-image-wrapper:hover img, .restaurant-image-wrapper:hover img {
-  @apply transform scale-105;
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
 }
 
-.hero-image {
-  @apply w-full h-full object-cover;
+/* MOBILE IMAGES */
+.mobile-top-image {
+  width: 90%;
+  height: 220px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(234, 92, 11, 0.1);
+  order: 1;
+  position: relative;
 }
 
-.hero-image:hover {
-  @apply transform scale-105;
+.mobile-bottom-image {
+  width: 90%;
+  height: 180px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(234, 92, 11, 0.1);
+  order: 3;
+  position: relative;
 }
 
+@media (min-width: 768px) {
+  .mobile-top-image,
+  .mobile-bottom-image {
+    display: none;
+  }
+}
+
+.mobile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: brightness(0.9) contrast(1.1);
+}
+
+.mobile-top-image:hover .mobile-image,
+.mobile-bottom-image:hover .mobile-image {
+  transform: scale(1.05);
+  filter: brightness(1) contrast(1.15);
+}
+
+.mobile-top-image:hover,
+.mobile-bottom-image:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(234, 92, 11, 0.2);
+}
+
+/* Overlay des images */
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+
+.image-overlay span {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  transform: translateY(10px);
+  transition: transform 0.3s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.desktop-image-wrapper:hover .image-overlay,
+.desktop-small-image-wrapper:hover .image-overlay,
+.mobile-top-image:hover .image-overlay,
+.mobile-bottom-image:hover .image-overlay {
+  opacity: 1;
+}
+
+.desktop-image-wrapper:hover .image-overlay span,
+.desktop-small-image-wrapper:hover .image-overlay span,
+.mobile-top-image:hover .image-overlay span,
+.mobile-bottom-image:hover .image-overlay span {
+  transform: translateY(0);
+}
+
+/* TEXT CONTENT */
 .text-column {
-  @apply space-y-4 md:space-y-6 px-4 md:px-8 order-2 md:order-none;
+  @apply space-y-4 md:space-y-6 px-4 md:px-8;
+  order: 2;
 }
 
 .hero-title {
   @apply text-orange-500 text-3xl md:text-4xl lg:text-5xl text-center md:text-left;
-  font-family: 'Dancing Script', cursive;
+  text-shadow: 0 2px 10px rgba(234, 92, 11, 0.3);
 }
 
 .hero-subtitle {
   @apply text-lg md:text-2xl lg:text-3xl text-white leading-tight text-center md:text-left;
   font-family: 'Lora', serif;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .hero-description {
   @apply text-gray-300 text-sm md:text-lg leading-relaxed max-w-2xl mx-auto md:mx-0;
   font-family: 'Montserrat', sans-serif;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .hero-call-to-action {
   @apply text-gray-300 mt-4 md:mt-8 text-lg md:text-2xl text-center md:text-left;
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Animation de fade-in au scroll */
+/* ANIMATIONS */
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  will-change: opacity, transform;
+  transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  transition-delay: var(--delay, 0s);
 }
 
 .fade-in-visible {
@@ -181,84 +379,60 @@ export default {
   transform: translateY(0);
 }
 
-/* Version mobile spécifique */
-@media (max-width: 768px) {
-  .hero-section {
-    @apply pt-8 pb-8;
-    min-height: auto;
+/* RESPONSIVE ADJUSTMENTS */
+@media (max-width: 480px) {
+  .mobile-top-image {
+    height: 200px;
+    width: 95%;
   }
-
-  .hero-container {
-    @apply gap-4;
+  
+  .mobile-bottom-image {
+    height: 160px;
+    width: 95%;
   }
-
-  .plat-image-wrapper {
-    @apply w-[85%];
-    height: 220px;
-  }
-
-  .restaurant-image-wrapper {
-    height: 150px;
-    width: 45%;
-    left: 7.5%;
-  }
-
-  .text-column {
-    @apply px-2 space-y-4 mt-20;
-  }
-
+  
   .hero-title {
     @apply text-3xl;
   }
-
+  
   .hero-subtitle {
     @apply text-lg;
   }
-
+  
   .hero-description {
     @apply text-sm leading-relaxed;
   }
-
+  
   .hero-call-to-action {
     @apply text-base mt-4;
   }
-}
-
-/* Petits écrans */
-@media (max-width: 360px) {
-  .plat-image-wrapper {
-    height: 180px;
-  }
-
-  .restaurant-image-wrapper {
-    height: 120px;
-    width: 50%;
+  
+  .image-overlay span {
+    font-size: 1rem;
   }
 }
 
-/* Ajout d'un breakpoint spécifique pour les très petits écrans */
 @media (max-width: 320px) {
   .hero-section {
     @apply pt-6 pb-6;
   }
   
   .hero-container {
-    @apply gap-2;
+    gap: 1rem;
   }
   
-  .plat-image-wrapper {
-    @apply w-[90%];
+  .mobile-top-image {
     height: 160px;
+    width: 100%;
   }
   
-  .restaurant-image-wrapper {
-    height: 100px;
-    width: 50%;
-    left: 5%;
+  .mobile-bottom-image {
+    height: 120px;
+    width: 100%;
   }
   
   .text-column {
-    @apply px-1 space-y-3 mt-16;
+    @apply px-2 space-y-3;
   }
   
   .hero-title {
@@ -275,6 +449,10 @@ export default {
   
   .hero-call-to-action {
     @apply text-sm mt-2;
+  }
+  
+  .image-overlay span {
+    font-size: 0.875rem;
   }
 }
 </style>
