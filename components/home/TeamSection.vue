@@ -25,7 +25,7 @@
           </div>
           <div class="staff-text">
             <h3 class="staff-name">Frédéric Becq</h3>
-            <p class="staff-role">Chef</p>
+            <p class="staff-role">Chef & Gérant</p>
             <p class="staff-description fade-in" style="--delay: 0.5s">Passionné par la cuisine traditionnelle française, Fred apporte son expertise et sa créativité à chaque plat.</p>
           </div>
         </div>
