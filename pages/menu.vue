@@ -9,12 +9,6 @@
     <!-- Hero Section avec Tabs -->
     <div class="hero-section">
       <div class="hero-content">
-        <h1 class="menu-title">
-          Notre Carte
-        </h1>
-        <p class="menu-subtitle">
-          Une cuisine authentique et raffinée
-        </p>
 
         <!-- Tabs Navigation -->
         <div class="tabs-navigation">
@@ -197,7 +191,7 @@ const scrollToFormula = async (formulaId) => {
 }
 
 .hero-section {
-  @apply py-16 px-4 bg-black/90 backdrop-blur-sm border-b border-orange-500/20 relative overflow-hidden;
+  @apply pt-16 pb-6 px-4 bg-black/90 backdrop-blur-sm border-b border-orange-500/20 relative overflow-hidden;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 

@@ -6,20 +6,22 @@
     </div>
 
     <!-- Version Desktop -->
-    <div class="relative hidden lg:block" v-if="dishImages">
+    <div class="relative hidden lg:block" v-if="hasDishWithImage">
       <div class="flex flex-col lg:flex-row gap-8">
         <!-- Left Side Cards -->
         <div class="flex flex-wrap lg:flex-col gap-4 lg:w-[40%]">
           <div v-for="dish in leftSideCards" :key="dish.name" 
-               @click="setActiveImage(dish.name)"
+               @click="setActiveImage(dish)"
                class="flex-1 lg:flex-none p-4 rounded-lg transition-all duration-300 relative backdrop-blur-sm hover:-translate-y-0.5 group min-w-[280px] lg:min-w-0 cursor-pointer"
                :class="{ 'active-card': activeCard === dish.name }"
                :style="{ background: 'rgba(0, 0, 0, 0.9)' }">
             <div class="space-y-2">
               <div class="flex justify-between items-start gap-4">
                 <div class="flex items-center gap-2 flex-1">
-                  <h4 class="dish-title">{{ dish.name }}</h4>
-                  <span v-if="dishImages && dishImages[dish.name]" class="text-orange-500">
+                  <div class="dish-title-container">
+                    <h4 class="dish-title">{{ dish.name }}</h4>
+                  </div>
+                  <span v-if="dish.image" class="text-orange-500">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
@@ -34,7 +36,7 @@
         </div>
 
         <!-- Right Side Image -->
-        <div class="lg:w-[60%] relative rounded-lg overflow-hidden h-[400px] bg-black/80 backdrop-blur-sm">
+        <div class="lg:w-[60%] relative rounded-lg overflow-hidden aspect-[4/3] bg-black/80 backdrop-blur-sm">
           <div v-if="isLoading" class="absolute inset-0 flex items-center justify-center z-10">
             <div class="loading-spinner"></div>
           </div>
@@ -52,6 +54,9 @@
             format="webp"
             quality="90"
             placeholder
+            :imgAttrs="{
+              style: 'aspect-ratio: 4/3; object-position: center;'
+            }"
           />
           <div v-else class="absolute inset-0 flex items-center justify-center bg-black/80 text-gray-500">
             Aucune image disponible
@@ -62,7 +67,7 @@
       <!-- Bottom Cards -->
       <div v-if="bottomCards.length > 0" class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div v-for="(dish, index) in bottomCards" :key="dish.name" 
-             @click="setActiveImage(dish.name)"
+             @click="setActiveImage(dish)"
              class="p-4 rounded-lg transition-all duration-300 relative backdrop-blur-sm hover:-translate-y-0.5 group cursor-pointer bottom-card"
              :class="{ 'active-card': activeCard === dish.name }"
              :style="{ background: 'rgba(0, 0, 0, 0.9)', '--index': index }"
@@ -70,8 +75,10 @@
           <div class="space-y-2">
             <div class="flex justify-between items-start gap-4">
               <div class="flex items-center gap-2 flex-1">
-                <h4 class="dish-title">{{ dish.name }}</h4>
-                <span v-if="dishImages && dishImages[dish.name]" class="text-orange-500">
+                <div class="dish-title-container">
+                  <h4 class="dish-title">{{ dish.name }}</h4>
+                </div>
+                <span v-if="dish.image" class="text-orange-500">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
@@ -88,49 +95,64 @@
 
     <!-- Version Mobile -->
     <div class="block lg:hidden">
-      <!-- Image mobile si disponible -->
-      <div v-if="dishImages && currentImage" class="mb-6 rounded-lg overflow-hidden h-[200px] bg-black/80 backdrop-blur-sm relative mx-auto max-w-full">
-        <div v-if="isLoading" class="absolute inset-0 flex items-center justify-center z-10">
-          <div class="loading-spinner"></div>
-        </div>
-        <div v-else-if="loadError" class="absolute inset-0 flex flex-col items-center justify-center z-10 bg-black/90 p-6 text-center">
-          <p class="text-gray-400 mb-4">Impossible de charger l'image</p>
-          <button @click="retryLoading" class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">
-            Réessayer
-          </button>
-        </div>
-        <nuxt-img 
-          v-else
-          :src="currentImage" 
-          class="w-full h-full object-cover transition-opacity duration-300"
-          loading="lazy"
-          format="webp"
-          quality="90"
-          placeholder
-        />
-      </div>
-
-      <!-- Cartes mobiles -->
+      <!-- Cards mobiles avec images déroulantes -->
       <div class="dishes-grid fade-in px-2 sm:px-4">
         <div v-for="(dish, index) in dishes" :key="dish.name" 
-             @click="dishImages && dishImages[dish.name] ? setActiveImage(dish.name) : null"
-             class="p-3 sm:p-4 rounded-lg transition-all duration-300 relative backdrop-blur-sm hover:-translate-y-0.5 group bottom-card w-full"
-             :class="{ 'active-card': activeCard === dish.name, 'cursor-pointer': dishImages && dishImages[dish.name] }"
+             class="p-3 sm:p-4 rounded-lg transition-all duration-300 relative backdrop-blur-sm group bottom-card w-full overflow-hidden"
              :style="{ background: 'rgba(0, 0, 0, 0.9)', '--index': index }">
-          <div class="space-y-2">
-            <div class="flex justify-between items-start gap-2 sm:gap-4">
+          <!-- En-tête de la carte (toujours visible) -->
+          <div @click="toggleMobileCard(dish)"
+               class="cursor-pointer">
+            <div class="flex justify-between items-start gap-4">
               <div class="flex items-center gap-2 flex-1">
-                <h4 class="dish-title text-base sm:text-lg">{{ dish.name }}</h4>
-                <span v-if="dishImages && dishImages[dish.name]" class="text-orange-500 flex-shrink-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <div class="dish-title-container">
+                  <h4 class="dish-title">{{ dish.name }}</h4>
+                </div>
+                <span v-if="dish.image" class="text-orange-500 transition-transform duration-300"
+                      :class="{ 'rotate-180': activeCard === dish.name }">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                   </svg>
                 </span>
               </div>
-              <span class="text-orange-500 font-semibold whitespace-nowrap text-sm sm:text-base">{{ dish.price }} €</span>
+              <span class="text-orange-500 font-semibold whitespace-nowrap">{{ dish.price }} €</span>
             </div>
-            <p v-if="dish.description" class="text-xs sm:text-sm text-gray-500 italic leading-relaxed">{{ dish.description }}</p>
-            <p v-if="dish.portion" class="text-xs text-gray-600 italic">{{ dish.portion }}</p>
+            <p v-if="dish.description" class="text-sm text-gray-500 italic leading-relaxed mt-2">{{ dish.description }}</p>
+            <p v-if="dish.portion" class="text-xs text-gray-600 italic mt-1">{{ dish.portion }}</p>
+          </div>
+
+          <!-- Contenu déroulant (image) -->
+          <div v-if="dish.image" 
+               class="transition-all duration-500 ease-in-out overflow-hidden mt-4"
+               :class="{ 'h-0': activeCard !== dish.name, 'aspect-[4/3]': activeCard === dish.name }">
+            <div class="relative aspect-[4/3] bg-black/80 backdrop-blur-sm rounded-lg overflow-hidden">
+              <div v-if="loadingStates.get(dish.name)" 
+                   class="absolute inset-0 flex items-center justify-center z-10">
+                <div class="loading-spinner"></div>
+              </div>
+              <div v-else-if="errorStates.get(dish.name)"
+                   class="absolute inset-0 flex flex-col items-center justify-center z-10 bg-black/90 p-6 text-center">
+                <p class="text-gray-400 mb-4">Impossible de charger l'image</p>
+                <button @click="retryLoadImage(dish.name)" 
+                        class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">
+                  Réessayer
+                </button>
+              </div>
+              <nuxt-img 
+                v-else-if="activeCard === dish.name"
+                :src="dish.image" 
+                class="w-full h-full object-cover transition-opacity duration-300"
+                loading="lazy"
+                format="webp"
+                quality="90"
+                placeholder
+                :imgAttrs="{
+                  style: 'aspect-ratio: 4/3; object-position: center;'
+                }"
+                @load="() => onImageLoaded(dish.name)"
+                @error="() => onImageError(dish.name)"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -154,10 +176,6 @@ const props = defineProps({
     type: Array,
     required: true,
     default: () => []
-  },
-  dishImages: {
-    type: Object,
-    default: null
   }
 })
 
@@ -173,182 +191,191 @@ const loadTimeout = ref(null)
 const imageKey = ref(0) // Pour forcer le rechargement de l'image
 const loadError = ref(false)
 
+// Computed property pour vérifier si au moins un plat a une image
+const hasDishWithImage = computed(() => {
+  return props.dishes.some(dish => dish.image);
+});
+
+// Fixed distribution: 4 cards on the left, rest at the bottom
+const leftSideCards = computed(() => {
+  return props.dishes.slice(0, 4);
+});
+
+const bottomCards = computed(() => {
+  return props.dishes.slice(4);
+});
+
+const setActiveImage = async (dish) => {
+  if (dish.image) {
+    // Ne pas recharger si l'image est déjà active
+    if (activeCard.value === dish.name) return;
+    
+    isLoading.value = true;
+    loadError.value = false;
+    loadingStates.value.set(dish.name, true);
+    const newImage = dish.image;
+    
+    // Mettre un timeout de sécurité
+    if (loadTimeout.value) clearTimeout(loadTimeout.value);
+    loadTimeout.value = setTimeout(() => {
+      isLoading.value = false;
+      loadingStates.value.set(dish.name, false);
+      loadError.value = true;
+    }, 10000);
+    
+    try {
+      await preloadImage(newImage);
+      
+      currentImage.value = newImage;
+      activeCard.value = dish.name;
+      isLoading.value = false;
+      loadingStates.value.set(dish.name, false);
+      
+      if (loadTimeout.value) {
+        clearTimeout(loadTimeout.value);
+        loadTimeout.value = null;
+      }
+    } catch (error) {
+      console.error(error);
+      isLoading.value = false;
+      loadingStates.value.set(dish.name, false);
+      loadError.value = true;
+      
+      if (loadTimeout.value) {
+        clearTimeout(loadTimeout.value);
+        loadTimeout.value = null;
+      }
+    }
+  }
+};
+
 // Fonction pour réessayer de charger l'image actuelle
 const retryLoading = () => {
-  if (activeCard.value && props.dishImages && props.dishImages[activeCard.value]) {
-    loadError.value = false
-    isLoading.value = true
-    imageKey.value++ // Forcer le rechargement de l'image
-    
-    const img = new Image()
-    img.onload = () => {
-      isLoading.value = false
-      currentImage.value = props.dishImages[activeCard.value]
+  if (activeCard.value) {
+    const activeDish = props.dishes.find(dish => dish.name === activeCard.value);
+    if (activeDish && activeDish.image) {
+      loadError.value = false;
+      isLoading.value = true;
+      imageKey.value++; // Forcer le rechargement de l'image
+      
+      const img = new Image();
+      img.onload = () => {
+        isLoading.value = false;
+        currentImage.value = activeDish.image;
+      };
+      
+      img.onerror = () => {
+        isLoading.value = false;
+        loadError.value = true;
+      };
+      
+      img.src = activeDish.image;
     }
-    
-    img.onerror = () => {
-      isLoading.value = false
-      loadError.value = true
-    }
-    
-    img.src = props.dishImages[activeCard.value]
   }
-}
+};
 
 // Simplifier la fonction de préchargement
 const preloadImage = (src) => {
   if (process.server || !src) {
-    return Promise.resolve()
+    return Promise.resolve();
   }
 
   return new Promise((resolve, reject) => {
-    const img = new Image()
+    const img = new Image();
     const timeout = setTimeout(() => {
-      img.src = ''
-      reject(new Error('Image loading timeout'))
-    }, 10000)
+      img.src = '';
+      reject(new Error('Image loading timeout'));
+    }, 10000);
 
     img.onload = () => {
-      clearTimeout(timeout)
-      resolve()
-    }
+      clearTimeout(timeout);
+      resolve();
+    };
 
     img.onerror = () => {
-      clearTimeout(timeout)
-      reject(new Error(`Failed to load image: ${src}`))
-    }
+      clearTimeout(timeout);
+      reject(new Error(`Failed to load image: ${src}`));
+    };
 
-    img.src = src
-  })
-}
+    img.src = src;
+  });
+};
 
 // Simplifier la fonction toggleMobileCard
-const toggleMobileCard = async (dishName) => {
+const toggleMobileCard = async (dish) => {
   // Si on ferme la carte
-  if (activeCard.value === dishName) {
-    activeCard.value = null
-    loadingStates.value.set(dishName, false)
-    errorStates.value.set(dishName, false)
-    return
+  if (activeCard.value === dish.name) {
+    activeCard.value = null;
+    loadingStates.value.set(dish.name, false);
+    errorStates.value.set(dish.name, false);
+    return;
   }
 
   // Si on ouvre une nouvelle carte
-  if (props.dishImages && props.dishImages[dishName]) {
-    loadingStates.value.set(dishName, true)
-    errorStates.value.set(dishName, false)
-    activeCard.value = dishName
+  if (dish.image) {
+    loadingStates.value.set(dish.name, true);
+    errorStates.value.set(dish.name, false);
+    activeCard.value = dish.name;
 
     try {
-      await preloadImage(props.dishImages[dishName])
-      onImageLoaded(dishName)
+      await preloadImage(dish.image);
+      onImageLoaded(dish.name);
+      currentImage.value = dish.image;
     } catch (error) {
-      console.error('Error loading image:', error)
-      onImageError(dishName)
+      console.error('Error loading image:', error);
+      onImageError(dish.name);
     }
   }
-}
+};
 
 // Simplifier la gestion du chargement
 const onImageLoaded = (dishName) => {
-  loadingStates.value.set(dishName, false)
-  errorStates.value.set(dishName, false)
-}
+  loadingStates.value.set(dishName, false);
+  errorStates.value.set(dishName, false);
+};
 
 const onImageError = (dishName) => {
-  loadingStates.value.set(dishName, false)
-  errorStates.value.set(dishName, true)
-  console.error(`Failed to load image for ${dishName}`)
-}
+  loadingStates.value.set(dishName, false);
+  errorStates.value.set(dishName, true);
+  console.error(`Failed to load image for ${dishName}`);
+};
 
 // Fonction pour réessayer de charger une image
 const retryLoadImage = async (dishName) => {
-  if (!props.dishImages || !props.dishImages[dishName]) return
+  const dish = props.dishes.find(d => d.name === dishName);
+  if (!dish || !dish.image) return;
   
-  errorStates.value.set(dishName, false)
-  loadingStates.value.set(dishName, true)
-  imageKey.value++ // Forcer le rechargement de l'image
+  errorStates.value.set(dishName, false);
+  loadingStates.value.set(dishName, true);
+  imageKey.value++; // Forcer le rechargement de l'image
   
   try {
-    await preloadImage(props.dishImages[dishName])
-    onImageLoaded(dishName)
+    await preloadImage(dish.image);
+    onImageLoaded(dishName);
+    currentImage.value = dish.image;
   } catch (error) {
-    onImageError(dishName)
+    onImageError(dishName);
   }
-}
-
-// Fixed distribution: 4 cards on the left, rest at the bottom
-const leftSideCards = computed(() => {
-  return props.dishes.slice(0, 4)
-})
-
-const bottomCards = computed(() => {
-  return props.dishes.slice(4)
-})
-
-const setActiveImage = async (dishName) => {
-  if (props.dishImages && props.dishImages[dishName]) {
-    // Ne pas recharger si l'image est déjà active
-    if (activeCard.value === dishName) return
-    
-    isLoading.value = true
-    loadError.value = false
-    loadingStates.value.set(dishName, true)
-    const newImage = props.dishImages[dishName]
-    
-    // Mettre un timeout de sécurité
-    if (loadTimeout.value) clearTimeout(loadTimeout.value)
-    loadTimeout.value = setTimeout(() => {
-      isLoading.value = false
-      loadingStates.value.set(dishName, false)
-      loadError.value = true
-    }, 10000)
-    
-    try {
-      if (!preloadedImages.value.has(newImage)) {
-        await preloadImage(newImage)
-        preloadedImages.value.add(newImage)
-      }
-      
-      currentImage.value = newImage
-      activeCard.value = dishName
-      isLoading.value = false
-      loadingStates.value.set(dishName, false)
-      
-      if (loadTimeout.value) {
-        clearTimeout(loadTimeout.value)
-        loadTimeout.value = null
-      }
-    } catch (error) {
-      console.error(error)
-      isLoading.value = false
-      loadingStates.value.set(dishName, false)
-      loadError.value = true
-      
-      if (loadTimeout.value) {
-        clearTimeout(loadTimeout.value)
-        loadTimeout.value = null
-      }
-    }
-  }
-}
+};
 
 // Nettoyer les timeouts au démontage du composant
 onUnmounted(() => {
   if (loadTimeout.value) {
-    clearTimeout(loadTimeout.value)
-    loadTimeout.value = null
+    clearTimeout(loadTimeout.value);
+    loadTimeout.value = null;
   }
-})
+});
 
 // Initialiser l'état au montage du composant
 onMounted(() => {
-  if (props.dishes.length > 0 && props.dishImages) {
-    const firstDishWithImage = props.dishes.find(dish => props.dishImages[dish.name])
+  if (props.dishes.length > 0) {
+    const firstDishWithImage = props.dishes.find(dish => dish.image);
     if (firstDishWithImage) {
-      currentImage.value = props.dishImages[firstDishWithImage.name]
+      currentImage.value = firstDishWithImage.image;
+      activeCard.value = firstDishWithImage.name;
     }
   }
-})
+});
 </script>
 
 <style scoped>
@@ -384,48 +411,66 @@ onMounted(() => {
   transform: translateX(2px);
 }
 
-.active-card .dish-title {
-  color: #f97316;
+/* Style des cartes et des titres avec des bordures distinctes */
+/* Conteneur de carte avec bordure très subtile */
+[class*="flex-1"], .bottom-card {
+  border: none !important; /* Suppression de la bordure existante */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.005); /* Bordure interne très subtile */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Ajout d'une bordure subtile sous le titre au survol */
-.dish-title::after {
+/* Style spécifique pour le titre avec bordure plus visible */
+.dish-title-container {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 4px;
+}
+
+.dish-title-container::after {
   content: '';
   position: absolute;
-  bottom: -4px;
+  bottom: 0;
   left: 0;
-  width: 0;
+  right: 0;
   height: 1px;
-  background: linear-gradient(90deg, #f97316, transparent);
-  transition: width 0.3s ease;
-  opacity: 0;
-}
-
-.group:hover .dish-title::after {
-  width: 100%;
-  opacity: 0.7;
-}
-
-.active-card .dish-title::after {
-  width: 100%;
-  opacity: 0.7;
-}
-
-/* Style des cartes sans bordure orange */
-[class*="flex-1"], .bottom-card {
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  background-color: rgba(255, 255, 255, 0.05); /* Opacité plus élevée: 0.05 */
+  transition: background-color 0.3s ease;
 }
 
 [class*="flex-1"]:hover, .bottom-card:hover {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.01); /* Bordure interne légèrement plus visible au survol */
   transform: translateY(-2px);
 }
 
 .active-card {
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(249, 115, 22, 0.3) !important; /* Bordure orange pour la carte active */
   background: rgba(10, 10, 10, 0.95) !important;
+}
+
+/* Bordure orange pour le titre */
+.dish-title::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; /* Aligné avec la bordure du conteneur */
+  left: 0;
+  width: 0;
+  height: 2px; /* Bordure plus épaisse */
+  background: #f97316; /* Orange plein */
+  transition: width 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  z-index: 2; /* S'assurer qu'il est au-dessus de la bordure du conteneur */
+}
+
+.group:hover .dish-title::after,
+[class*="flex-1"]:hover .dish-title::after, 
+.bottom-card:hover .dish-title::after {
+  width: 100%;
+  opacity: 1; /* Plus visible */
+}
+
+.active-card .dish-title::after {
+  width: 100%;
+  opacity: 1;
 }
 
 /* Bottom cards animation */
@@ -550,5 +595,21 @@ button:active {
     width: 100%;
     min-width: 0;
   }
+}
+
+/* Ajout d'un style pour le titre actif */
+.active-card .dish-title {
+  color: #f97316;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Style de survol pour le conteneur de titre */
+[class*="flex-1"]:hover .dish-title-container::after,
+.bottom-card:hover .dish-title-container::after {
+  background-color: rgba(255, 255, 255, 0.08); /* Légèrement plus visible au survol */
+}
+
+.active-card .dish-title-container::after {
+  background-color: rgba(249, 115, 22, 0.15); /* Teinte orange pour le titre actif */
 }
 </style>

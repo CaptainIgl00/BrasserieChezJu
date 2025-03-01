@@ -14,7 +14,6 @@
         <MenuCategory 
           title="Toc toc toc... entrées"
           :dishes="starters"
-          :dish-images="starterImages"
         />
       </div>
       
@@ -37,26 +36,24 @@
         <MenuCategory 
         title="T'as faim de tradition ?"
         :dishes="traditional"
-        :dish-images="traditionalImages"
-          />
-        </div>
-        
-        <!-- Séparateur -->
-        <BaseDivider />
-        
-        <!-- Côté Mer -->
-        <div>
-          <MenuCategory 
-          title="Côté Mer"
-          :dishes="seafood"
-          :dish-images="seafoodImages"
-          />
-        </div>
-        
-        <!-- Séparateur -->
-        <BaseDivider />
-        
-        <!-- Côté Terre -->
+        />
+      </div>
+      
+      <!-- Séparateur -->
+      <BaseDivider />
+      
+      <!-- Côté Mer -->
+      <div>
+        <MenuCategory 
+        title="Côté Mer"
+        :dishes="seafood"
+        />
+      </div>
+      
+      <!-- Séparateur -->
+      <BaseDivider />
+      
+      <!-- Côté Terre -->
       <div>
         <MenuCategory 
         title="Côté Terre"
@@ -72,7 +69,6 @@
         <MenuCategory 
         title="Côté Flamme"
         :dishes="grill"
-        :dish-images="meatImages"
         />
       </div>
 
@@ -84,7 +80,6 @@
         <MenuCategory 
         title="Finir en douceur"
         :dishes="desserts"
-        :dish-images="dessertImages"
         />
       </div>
     </div>
@@ -96,37 +91,12 @@ import { onMounted } from 'vue'
 import MenuCategory from './MenuCategory.vue'
 import BaseDivider from '../layout/BaseDivider.vue'
 
-// Images mapping pour chaque section
-const starterImages = {
-  'Planche de jambon Serrano et jambon blanc truffé': '/images/menu/planche_charcuterie.jpg',
-  'Planche de foie gras mi-cuit du Périgord': '/images/menu/foie_gras.jpg'
-}
-
-const traditionalImages = {
-  'Cassoulet du chef Becq': '/images/menu/cassoulet.jpg',
-  'Le fameux Welsh de Fred au Maroilles': '/images/menu/welch.jpg'
-}
-
-const seafoodImages = {
-  'Filets de bar à la plancha': '/images/menu/filet_de_bar.jpg',
-}
-
-const meatImages = {
-  'Magret de canard du Périgord': '/images/menu/magret.jpg'
-}
-
-const dessertImages = {
-  'Profiterole XL': '/images/menu/profiteroles.jpg',
-  'Café ou thé gourmand': '/images/menu/cafe_gourmand.jpg',
-  'Crème brûlée': '/images/menu/creme_brulee.jpg',
-  'Pavlova aux fruits rouges': '/images/menu/pavlova.jpg'
-}
-
 // Données du menu (à déplacer dans un store ou une API plus tard)
 const starters = [
   {
     name: "Planche de jambon Serrano et jambon blanc truffé",
-    price: "17"
+    price: "17",
+    image: '/images/menu/planche_charcuterie.jpg'
   },
   {
     name: "Camembert entier rôti au piment d'Espelette",
@@ -135,12 +105,14 @@ const starters = [
   },
   {
     name: "Tapenade maison et ses toasts grillés",
-    price: "8"
+    price: "8",
+    image: '/images/menu/tapenade.png'
   },
   {
     name: "Planche de foie gras mi-cuit du Périgord",
     portion: "1 tranche 15€ ou 2 tranches 24€",
-    price: "15"
+    price: "15",
+    image: '/images/menu/foie_gras.jpg'
   },
   {
     name: "Filets de sardines fraîches",
@@ -173,7 +145,8 @@ const salads = [
   {
     name: "Escalopes de saumon mariné à l'aneth",
     description: "Frites maison et salade",
-    price: "21"
+    price: "21",
+    image: '/images/menu/saumon.png'
   }
 ]
 
@@ -181,12 +154,14 @@ const traditional = [
   {
     name: "Cassoulet du chef Becq",
     description: "Élaboré dans le respect de la tradition, servi avec sa salade",
-    price: "24"
+    price: "24",
+    image: '/images/menu/cassoulet.jpg'
   },
   {
     name: "Le fameux Welsh de Fred au Maroilles",
     description: "Œuf poché, frites maison et salade",
-    price: "16"
+    price: "16",
+    image: '/images/menu/welch.jpg'
   }
 ]
 
@@ -194,7 +169,8 @@ const seafood = [
   {
     name: "Filets de bar à la plancha",
     description: "Toast de tapenade, sauce vierge à la ricotta et roquette",
-    price: "24"
+    price: "24",
+    image: '/images/menu/filet_de_bar.jpg'
   },
   {
     name: "Seiches à la plancha",
@@ -207,7 +183,8 @@ const meat = [
   {
     name: "Le Burger de Ju",
     description: "Steak haché de 180g, oignons confits grenadine, sauce cheddar, tomate, cornichon et servi avec ses frites maison",
-    price: "21"
+    price: "21",
+    image: '/images/menu/burger.png'
   },
   {
     name: "Tartare de bœuf",
@@ -235,17 +212,20 @@ const grill = [
   {
     name: "Entrecôte grillée",
     description: "Beurre maître d'hôtel (350 g)",
-    price: "28"
+    price: "28",
+    image: '/images/menu/entrecote.png'
   },
   {
     name: "Magret de canard du Périgord",
     description: "Grillé fleur de sel de Guérande",
-    price: "26"
+    price: "26",
+    image: '/images/menu/magret.jpg'
   },
   {
     name: "Côte de porc noir de Bigorre",
     description: "En deux cuissons (500 g)",
-    price: "35"
+    price: "35",
+    image: '/images/menu/cote_porc.png'
   },
   {
     name: "Le demi lapin du Lauragais",
@@ -268,22 +248,26 @@ const desserts = [
   {
     name: "Moelleux au chocolat",
     description: "Crème anglaise",
-    price: "7"
+    price: "7",
+    image: '/images/menu/moelleux.png'
   },
   {
     name: "Crème brûlée",
     description: "Au caramel beurre salé",
-    price: "7"
+    price: "7",
+    image: '/images/menu/creme_brulee.jpg'
   },
   {
     name: "Pavlova aux fruits rouges",
     description: "Et sa chantilly au pamplemousse",
-    price: "9"
+    price: "9",
+    image: '/images/menu/pavlova.jpg'
   },
   {
     name: "Profiterole XL",
     description: "Chocolat chaud",
-    price: "9"
+    price: "9",
+    image: '/images/menu/profiteroles.jpg'
   },
   {
     name: "Café ou chocolat liégeois",
@@ -291,12 +275,14 @@ const desserts = [
   },
   {
     name: "Café ou thé gourmand",
-    price: "10"
+    price: "10",
+    image: '/images/menu/cafe_gourmand.jpg'
   },
   {
     name: "Glaces",
     portion: "1 boule 3,50€, 2 boules 6€, 3 boules 8€, Supplément chantilly 1,50€",
-    price: "3.50"
+    price: "3.50",
+    image: '/images/menu/glace.png'
   },
   {
     name: "Irish coffee ou Colonel",
