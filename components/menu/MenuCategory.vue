@@ -95,8 +95,8 @@
 
     <!-- Version Mobile -->
     <div class="block lg:hidden">
-      <!-- Cards mobiles avec images déroulantes -->
-      <div class="dishes-grid fade-in px-2 sm:px-4">
+      <!-- Mobile cards -->
+      <div class="grid grid-cols-1 gap-4 w-full">
         <div v-for="(dish, index) in dishes" :key="dish.name" 
              class="p-3 sm:p-4 rounded-lg transition-all duration-300 relative backdrop-blur-sm group bottom-card w-full overflow-hidden"
              :style="{ background: 'rgba(0, 0, 0, 0.9)', '--index': index }">
@@ -133,13 +133,13 @@
               <div v-else-if="errorStates.get(dish.name)"
                    class="absolute inset-0 flex flex-col items-center justify-center z-10 bg-black/90 p-6 text-center">
                 <p class="text-gray-400 mb-4">Impossible de charger l'image</p>
-                <button @click="retryLoadImage(dish.name)" 
+                <button @click="retryLoadImage(dish)" 
                         class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">
                   Réessayer
                 </button>
               </div>
               <nuxt-img 
-                v-else-if="activeCard === dish.name"
+                v-else
                 :src="dish.image" 
                 class="w-full h-full object-cover transition-opacity duration-300"
                 loading="lazy"
@@ -302,28 +302,35 @@ const preloadImage = (src) => {
 };
 
 // Simplifier la fonction toggleMobileCard
-const toggleMobileCard = async (dish) => {
+const toggleMobileCard = (dish) => {
   // Si on ferme la carte
   if (activeCard.value === dish.name) {
     activeCard.value = null;
-    loadingStates.value.set(dish.name, false);
-    errorStates.value.set(dish.name, false);
     return;
   }
 
   // Si on ouvre une nouvelle carte
+  activeCard.value = dish.name;
+  
+  // Si le plat a une image, vérifier son état de chargement
   if (dish.image) {
-    loadingStates.value.set(dish.name, true);
-    errorStates.value.set(dish.name, false);
-    activeCard.value = dish.name;
-
-    try {
-      await preloadImage(dish.image);
-      onImageLoaded(dish.name);
-      currentImage.value = dish.image;
-    } catch (error) {
-      console.error('Error loading image:', error);
-      onImageError(dish.name);
+    // Si l'image n'a pas encore été chargée ou a échoué, essayer de la charger
+    if (!loadingStates.value.has(dish.name) || errorStates.value.get(dish.name)) {
+      loadingStates.value.set(dish.name, true);
+      errorStates.value.set(dish.name, false);
+      
+      const img = new Image();
+      img.onload = () => {
+        loadingStates.value.set(dish.name, false);
+        errorStates.value.set(dish.name, false);
+      };
+      
+      img.onerror = () => {
+        loadingStates.value.set(dish.name, false);
+        errorStates.value.set(dish.name, true);
+      };
+      
+      img.src = dish.image;
     }
   }
 };
@@ -341,21 +348,25 @@ const onImageError = (dishName) => {
 };
 
 // Fonction pour réessayer de charger une image
-const retryLoadImage = async (dishName) => {
-  const dish = props.dishes.find(d => d.name === dishName);
+const retryLoadImage = (dish) => {
   if (!dish || !dish.image) return;
   
+  const dishName = dish.name;
   errorStates.value.set(dishName, false);
   loadingStates.value.set(dishName, true);
-  imageKey.value++; // Forcer le rechargement de l'image
   
-  try {
-    await preloadImage(dish.image);
-    onImageLoaded(dishName);
-    currentImage.value = dish.image;
-  } catch (error) {
-    onImageError(dishName);
-  }
+  const img = new Image();
+  img.onload = () => {
+    loadingStates.value.set(dishName, false);
+    errorStates.value.set(dishName, false);
+  };
+  
+  img.onerror = () => {
+    loadingStates.value.set(dishName, false);
+    errorStates.value.set(dishName, true);
+  };
+  
+  img.src = dish.image;
 };
 
 // Nettoyer les timeouts au démontage du composant
