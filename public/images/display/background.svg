@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg id="patternId" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
   <defs>
+    <!-- Filtre pour ombre subtile -->
+    <filter id="subtle-shadow">
+      <feDropShadow dx="1" dy="1" stdDeviation="1" flood-color="#EA5C0B" flood-opacity="0.2"/>
+    </filter>
+    
     <pattern 
       id="a" 
       patternUnits="userSpaceOnUse" 
@@ -8,36 +13,118 @@
       height="60" 
       patternTransform="scale(2) rotate(45)"
     >
-      <rect x="0" y="0" width="100%" height="100%" fill="#111111"/>
-      <!-- Motif principal - éléments culinaires stylisés -->
+      <rect x="0" y="0" width="100%" height="100%" fill="#0a0a0a"/>
+      
+      <!-- Motif de nappe élégant -->
       <path 
-        d="M30 5a25 25 0 1 0 0 50 25 25 0 0 0 0-50zm0 8a17 17 0 1 1 0 34 17 17 0 0 1 0-34z"
-        stroke-width="0.5"
-        stroke="#EA5C0B"
-        fill="none"
-        opacity="0.15"
-      />
-      <!-- Éléments décoratifs évoquant des couverts -->
-      <path 
-        d="M55 30a5 5 0 1 1-10 0 5 5 0 0 1 10 0zm-40 0a5 5 0 1 1-10 0 5 5 0 0 1 10 0zm20-25a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 40a5 5 0 1 1 0 10 5 5 0 0 1 0-10z"
+        d="M0,0 L60,60 M60,0 L0,60"
+        stroke="#151515"
         stroke-width="0.3"
-        stroke="#EA5C0B"
-        fill="none"
-        opacity="0.1"
+        opacity="0.4"
       />
-      <!-- Lignes fines évoquant des couverts -->
+      
       <path 
-        d="M30 0v60M0 30h60"
+        d="M30,0 L30,60 M0,30 L60,30"
+        stroke="#151515"
         stroke-width="0.2"
-        stroke="#EA5C0B"
-        opacity="0.05"
+        opacity="0.3"
       />
+      
+      <!-- Motif floral stylisé aux intersections -->
+      <g transform="translate(30,30)">
+        <path 
+          d="M0,0 m-8,0 a8,8 0 1,0 16,0 a8,8 0 1,0 -16,0 M0,0 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0"
+          fill="none"
+          stroke="#222222"
+          stroke-width="0.3"
+          opacity="0.5"
+        />
+        
+        <!-- Accents floraux -->
+        <path 
+          d="M0,-8 C2,-6 2,-2 0,0 C-2,-2 -2,-6 0,-8 M0,8 C2,6 2,2 0,0 C-2,2 -2,6 0,8 M-8,0 C-6,2 -2,2 0,0 C-2,-2 -6,-2 -8,0 M8,0 C6,2 2,2 0,0 C2,-2 6,-2 8,0"
+          fill="none"
+          stroke="#EA5C0B"
+          stroke-width="0.2"
+          opacity="0.15"
+          filter="url(#subtle-shadow)"
+        >
+          <animate 
+            attributeName="opacity" 
+            values="0.15;0.25;0.15" 
+            dur="10s" 
+            repeatCount="indefinite" 
+          />
+        </path>
+      </g>
+      
+      <!-- Répétition du motif floral aux coins -->
+      <g transform="translate(0,0)">
+        <path 
+          d="M0,0 m0,0 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0"
+          fill="none"
+          stroke="#222222"
+          stroke-width="0.2"
+          opacity="0.3"
+        />
+      </g>
+      
+      <g transform="translate(60,0)">
+        <path 
+          d="M0,0 m-3,0 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0"
+          fill="none"
+          stroke="#222222"
+          stroke-width="0.2"
+          opacity="0.3"
+        />
+      </g>
+      
+      <g transform="translate(0,60)">
+        <path 
+          d="M0,0 m0,-3 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0"
+          fill="none"
+          stroke="#222222"
+          stroke-width="0.2"
+          opacity="0.3"
+        />
+      </g>
+      
+      <g transform="translate(60,60)">
+        <path 
+          d="M0,0 m-3,-3 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0"
+          fill="none"
+          stroke="#222222"
+          stroke-width="0.2"
+          opacity="0.3"
+        />
+      </g>
+      
       <!-- Points décoratifs -->
-      <circle cx="10" cy="10" r="1" fill="#EA5C0B" opacity="0.2" />
-      <circle cx="50" cy="10" r="1" fill="#EA5C0B" opacity="0.2" />
-      <circle cx="10" cy="50" r="1" fill="#EA5C0B" opacity="0.2" />
-      <circle cx="50" cy="50" r="1" fill="#EA5C0B" opacity="0.2" />
+      <circle cx="15" cy="15" r="0.7" fill="#EA5C0B" opacity="0.2">
+        <animate attributeName="opacity" values="0.2;0.3;0.2" dur="7s" repeatCount="indefinite" />
+      </circle>
+      
+      <circle cx="45" cy="15" r="0.7" fill="#EA5C0B" opacity="0.2">
+        <animate attributeName="opacity" values="0.2;0.3;0.2" dur="8s" repeatCount="indefinite" />
+      </circle>
+      
+      <circle cx="15" cy="45" r="0.7" fill="#EA5C0B" opacity="0.2">
+        <animate attributeName="opacity" values="0.2;0.3;0.2" dur="9s" repeatCount="indefinite" />
+      </circle>
+      
+      <circle cx="45" cy="45" r="0.7" fill="#EA5C0B" opacity="0.2">
+        <animate attributeName="opacity" values="0.2;0.3;0.2" dur="10s" repeatCount="indefinite" />
+      </circle>
     </pattern>
   </defs>
-  <rect width="800%" height="800%" transform="translate(0,0)" fill="url(#a)"/>
+  
+  <!-- Application du pattern avec animation subtile -->
+  <rect width="800%" height="800%" transform="translate(0,0)" fill="url(#a)">
+    <animate 
+      attributeName="opacity" 
+      values="0.95;1;0.95" 
+      dur="20s" 
+      repeatCount="indefinite" 
+    />
+  </rect>
 </svg>

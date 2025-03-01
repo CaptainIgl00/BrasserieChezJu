@@ -114,7 +114,7 @@ onMounted(() => {
 
 .section-hero {
   @apply relative z-10;
-  margin-top: -2rem;
+  margin-top: 0;
 }
 
 .section-services,
@@ -151,7 +151,7 @@ onMounted(() => {
 /* Responsive */
 @media (max-width: 768px) {
   .section-hero {
-    margin-top: -1rem;
+    margin-top: 0;
   }
 }
 

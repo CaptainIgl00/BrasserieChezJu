@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="main-container">
+    <div class="background-pattern"></div>
     <TheNavbar />
     <NuxtLayout>
       <NuxtPage />
@@ -12,6 +13,19 @@ import TheNavbar from './components/layout/TheNavbar.vue'
 </script>
 
 <style>
+.main-container {
+  @apply relative min-h-screen bg-black;
+}
+
+.background-pattern {
+  @apply fixed inset-0 z-0;
+  background-image: url('/images/pattern.svg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: repeat;
+  opacity: 0.15;
+}
+
 /* Scrollbar personnalisée pour les navigateurs Webkit (Chrome, Safari, etc.) */
 ::-webkit-scrollbar {
   width: 10px;

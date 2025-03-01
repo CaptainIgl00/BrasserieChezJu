@@ -5,73 +5,76 @@
     <Meta property="og:title" content="Menu - Brasserie Chez Ju" />
     <Meta property="og:description" content="Découvrez notre carte de brasserie traditionnelle, nos formules du jour et nos suggestions." />
     <Meta property="og:image" content="https://brasseriechezju.com/images/display/plat-principal.jpg" />
+    
     <!-- Hero Section avec Tabs -->
     <div class="hero-section">
-      <h1 class="text-4xl md:text-5xl font-playfair text-orange-500 text-center font-bold mb-4 mt-10">
-        Notre Carte
-      </h1>
-      <p class="text-gray-300 text-center text-lg italic mb-4">
-        Une cuisine authentique et raffinée
-      </p>
-
-      <!-- Tabs Navigation -->
-      <div class="tabs-navigation">
-        <NuxtLink 
-          to="/menu#menu"
-          class="tab-button"
-          :class="{ 'active': activeTab === 'menu' }"
-        >
-          La Carte
-        </NuxtLink>
-        <NuxtLink 
-          to="/menu#formules"
-          class="tab-button"
-          :class="{ 'active': activeTab === 'formulas' }"
-        >
-          Nos Formules
-        </NuxtLink>
+      <div class="hero-content">
+        <div class="flex justify-center mb-8">
+          <div class="tabs-container">
+            <button 
+              v-for="tab in tabs" 
+              :key="tab.id" 
+              @click="activeTab = tab.id"
+              class="tab-button"
+              :class="{ 'active': activeTab === tab.id }"
+            >
+              {{ tab.label }}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Suggestion Component -->
     <div class="suggestion-section">
       <DailySpecials 
-        :hideInFormulaTab="activeTab === 'formulas'"
+        :hideInFormulaTab="activeTab === 'formules' || activeTab === 'vins'"
         @select-formula="scrollToFormula" 
       />
     </div>
 
     <!-- Menu Content -->
     <div class="menu-content">
-      <!-- La Carte -->
-      <div v-show="activeTab === 'menu'" class="tab-content">
-        <Suspense>
-          <RestaurantMenu />
-          <template #fallback>
-            <div class="loading-placeholder">
-              <p class="text-orange-500 text-center">Chargement de la carte...</p>
-            </div>
-          </template>
-        </Suspense>
-      </div>
+      <Transition name="fade" mode="out-in">
+        <div v-if="activeTab === 'menu'" class="tab-content">
+          <Suspense>
+            <RestaurantMenu />
+            <template #fallback>
+              <div class="loading-container">
+                <div class="loading-spinner"></div>
+              </div>
+            </template>
+          </Suspense>
+        </div>
 
-      <!-- Formules -->
-      <div v-show="activeTab === 'formulas'" class="tab-content">
-        <Suspense>
-          <MenuComponent />
-          <template #fallback>
-            <div class="loading-placeholder">
-              <p class="text-orange-500 text-center">Chargement des formules...</p>
-            </div>
-          </template>
-        </Suspense>
-      </div>
+        <div v-else-if="activeTab === 'formules'" class="tab-content">
+          <Suspense>
+            <MenuComponent />
+            <template #fallback>
+              <div class="loading-container">
+                <div class="loading-spinner"></div>
+              </div>
+            </template>
+          </Suspense>
+        </div>
+
+        <div v-else-if="activeTab === 'vins'" class="tab-content">
+          <Suspense>
+            <WineList />
+            <template #fallback>
+              <div class="loading-container">
+                <div class="loading-spinner"></div>
+              </div>
+            </template>
+          </Suspense>
+        </div>
+      </Transition>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, nextTick, watch, onMounted, defineAsyncComponent } from 'vue'
+import { ref, nextTick, watch, onMounted, defineAsyncComponent, onUnmounted } from 'vue'
 import { useRoute } from '#app'
 
 // Lazy load heavy components avec des options de chargement plus robustes
@@ -87,40 +90,50 @@ const MenuComponent = defineAsyncComponent({
   timeout: 30000
 })
 
+const WineList = defineAsyncComponent({
+  loader: () => import('../components/menu/WineList.vue'),
+  delay: 0,
+  timeout: 30000
+})
+
 const route = useRoute()
 const activeTab = ref('menu')
 const isLoading = ref(true)
 
+const tabs = [
+  { id: 'menu', label: 'La Carte' },
+  { id: 'formules', label: 'Nos Formules' },
+  { id: 'vins', label: 'Carte des Vins' }
+]
+
 // Gérer les changements de hash
-const handleHash = async () => {
-  isLoading.value = true
-  
-  if (route.hash === '#formules') {
-    activeTab.value = 'formulas'
-  } else if (route.hash === '#menu') {
-    activeTab.value = 'menu'
-  } else {
-    activeTab.value = 'menu'
+onMounted(() => {
+  const hash = window.location.hash.substring(1);
+  if (hash && ['menu', 'formules', 'vins'].includes(hash)) {
+    activeTab.value = hash;
   }
   
-  // Attendre le prochain tick pour s'assurer que le composant est monté
-  await nextTick()
-  isLoading.value = false
-}
+  // Écouter les changements de hash
+  window.addEventListener('hashchange', () => {
+    const newHash = window.location.hash.substring(1);
+    if (newHash && ['menu', 'formules', 'vins'].includes(newHash)) {
+      activeTab.value = newHash;
+    }
+  });
+  
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 500);
+});
 
-// Surveiller les changements de route complets
-watch(() => route.fullPath, async () => {
-  await handleHash()
-}, { immediate: true })
-
-// Initialiser l'onglet en fonction du hash au chargement
-onMounted(async () => {
-  await handleHash()
-})
+// Mettre à jour le hash quand l'onglet actif change
+watch(activeTab, (newTab) => {
+  window.location.hash = newTab;
+});
 
 const scrollToFormula = async (formulaId) => {
   // D'abord on change l'onglet
-  activeTab.value = 'formulas'
+  activeTab.value = 'formules'
   
   // Mettre à jour le hashtag de l'URL
   window.location.hash = '#formules'
@@ -160,24 +173,43 @@ const scrollToFormula = async (formulaId) => {
 
 <style scoped>
 .menu-page {
-  @apply min-h-screen bg-black/95;
+  @apply min-h-screen bg-black;
 }
 
 .hero-section {
-  @apply py-16 px-4 bg-black/80 border-b border-orange-500/20;
+  @apply pt-16 pb-6 px-4 bg-black/90 backdrop-blur-sm border-b border-orange-500/20 relative overflow-hidden;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+  @apply max-w-4xl mx-auto relative z-10;
+}
+
+.menu-title {
+  @apply text-4xl md:text-5xl font-playfair text-orange-500 text-center font-bold mb-4 mt-10;
+  text-shadow: 0 2px 10px rgba(234, 92, 11, 0.3);
+  font-family: 'Dancing Script', cursive;
+}
+
+.menu-subtitle {
+  @apply text-gray-500 text-center text-lg italic mb-6;
+  font-family: 'Cormorant Garamond', serif;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .suggestion-section {
-  @apply max-w-4xl mx-auto py-8 px-4;
+  @apply max-w-4xl mx-auto py-10 px-4;
 }
 
-.tabs-navigation {
-  @apply flex justify-center gap-8;
+.tabs-container {
+  @apply flex justify-center gap-6 mt-8 flex-wrap;
 }
 
 .tab-button {
-  @apply px-6 py-3 text-lg font-medium text-gray-400 transition-all duration-300
+  @apply px-5 py-3 text-lg font-medium text-gray-500 transition-all duration-300
          hover:text-orange-500 relative;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .tab-button::after {
@@ -199,23 +231,65 @@ const scrollToFormula = async (formulaId) => {
 }
 
 .menu-content {
-  @apply py-12;
+  @apply py-12 max-w-7xl mx-auto bg-black;
 }
 
 .tab-content {
-  @apply transition-opacity duration-300;
+  @apply w-full max-w-7xl mx-auto py-8 px-4;
 }
 
-/* Animation pour la mise en évidence des formules */
-@keyframes highlight {
-  0% { background-color: transparent; }
-  20% { background-color: rgba(249, 115, 22, 0.15); }
-  80% { background-color: rgba(249, 115, 22, 0.15); }
-  100% { background-color: transparent; }
+.loading-container {
+  @apply flex flex-col items-center justify-center py-20 bg-black/90 backdrop-blur-sm rounded-xl;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 
+.loading-spinner {
+  @apply w-12 h-12 border-4 border-orange-500/30 border-t-orange-500 rounded-full;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  @apply mt-4 text-orange-500 text-lg italic;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* Animations de transition entre les tabs */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Style pour mettre en évidence une formule */
 .highlighted {
-  animation: highlight 2s ease-in-out;
+  animation: highlight 2s ease;
+}
+
+@keyframes highlight {
+  0%, 100% {
+    background-color: transparent;
+    box-shadow: none;
+  }
+  50% {
+    background-color: rgba(249, 115, 22, 0.15);
+    box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Ajout d'un breakpoint spécifique pour les très petits écrans */
@@ -224,16 +298,16 @@ const scrollToFormula = async (formulaId) => {
     @apply py-8;
   }
   
-  .hero-section h1 {
+  .menu-title {
     @apply text-3xl mb-2;
   }
   
-  .hero-section p {
+  .menu-subtitle {
     @apply text-sm mb-2;
   }
   
-  .tabs-navigation {
-    @apply gap-4;
+  .tabs-container {
+    @apply gap-3;
   }
   
   .tab-button {
@@ -246,6 +320,17 @@ const scrollToFormula = async (formulaId) => {
   
   .menu-content {
     @apply py-6;
+  }
+}
+
+/* Ajout d'un breakpoint pour les écrans moyens */
+@media (max-width: 640px) {
+  .tabs-container {
+    @apply gap-4;
+  }
+  
+  .tab-button {
+    @apply px-3 py-2 text-base;
   }
 }
 </style> 
