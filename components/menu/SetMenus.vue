@@ -111,34 +111,51 @@ const menus = [
 </script>
 
 <style scoped>
+.formules-section {
+  @apply bg-black/90 backdrop-blur-sm rounded-xl p-6 md:p-8;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(234, 92, 11, 0.2);
+  animation: fadeIn 0.6s ease-out;
+}
+
 .formula-card {
-  @apply p-6 bg-black/60 border border-orange-500/50 rounded-xl relative overflow-hidden;
-  font-family: 'Playfair Display', serif;
+  @apply p-6 bg-black/90 backdrop-blur-sm border border-orange-500/30 rounded-xl relative overflow-hidden transition-all duration-300;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.formula-card:hover {
+  @apply border-orange-500/50 bg-black/90;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25), 0 0 15px rgba(234, 92, 11, 0.1);
+  transform: translateY(-3px);
 }
 
 .formula-title {
-  @apply text-xl text-orange-500 font-medium text-center mb-4;
-  letter-spacing: 0.02em;
+  @apply text-2xl text-orange-500 text-center mb-4 transition-colors duration-300;
+  font-family: 'Dancing Script', cursive;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.formula-card:hover .formula-title {
+  @apply text-orange-400;
 }
 
 .formula-content {
-  @apply text-gray-200 text-center mb-3 space-y-1;
+  @apply space-y-2 text-gray-400;
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.05rem;
 }
 
 .formula-item {
-  @apply leading-relaxed transition-colors duration-300;
+  @apply transition-colors duration-300;
+  font-size: 1.05rem;
 }
 
 .formula-card:hover .formula-item {
-  @apply text-orange-500/90;
+  @apply text-gray-300;
 }
 
 .formula-subtitle {
-  @apply text-gray-400 text-sm italic text-center mb-4 transition-colors duration-300;
+  @apply text-gray-500 text-sm italic text-center mt-4 transition-colors duration-300;
   font-family: 'Cormorant Garamond', serif;
-  letter-spacing: 0.02em;
 }
 
 .formula-card:hover .formula-subtitle {
@@ -146,7 +163,12 @@ const menus = [
 }
 
 .formula-price {
-  @apply text-orange-500 font-semibold text-lg text-center mt-4 transition-all duration-300;
+  @apply text-2xl text-orange-500 text-center mt-4 font-bold transition-colors duration-300;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.formula-card:hover .formula-price {
+  @apply text-orange-400;
 }
 
 /* Prix avec divider pour toutes les formules sauf déjeuner */
@@ -159,7 +181,7 @@ const menus = [
 }
 
 .formula-note {
-  @apply text-gray-400 text-sm italic text-center transition-colors duration-300;
+  @apply text-gray-500 text-sm italic text-center transition-colors duration-300;
   font-family: 'Cormorant Garamond', serif;
 }
 
@@ -183,11 +205,17 @@ const menus = [
 }
 
 .lunch-formula {
-  @apply p-6 bg-black/60 border border-orange-500/50 rounded-xl relative overflow-hidden;
+  @apply p-6 bg-black/90 backdrop-blur-sm border border-orange-500/50 rounded-xl relative overflow-hidden transition-all duration-300;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.lunch-formula:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25), 0 0 15px rgba(234, 92, 11, 0.1);
+  transform: translateY(-3px);
 }
 
 .lunch-options {
-  @apply space-y-2 text-gray-200 mb-4;
+  @apply space-y-2 text-gray-400 mb-4;
   font-family: 'Cormorant Garamond', serif;
 }
 
@@ -202,10 +230,11 @@ const menus = [
 
 .lunch-price {
   @apply font-medium text-orange-500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .lunch-note {
-  @apply text-gray-400 text-sm italic text-center mt-2 transition-colors duration-300;
+  @apply text-gray-500 text-sm italic text-center mt-2 transition-colors duration-300;
   font-family: 'Cormorant Garamond', serif;
 }
 
@@ -222,7 +251,7 @@ const menus = [
 }
 
 .lunch-note {
-  @apply text-gray-400 text-sm italic text-center transition-colors duration-300;
+  @apply text-gray-500 text-sm italic text-center transition-colors duration-300;
   font-family: 'Cormorant Garamond', serif;
 }
 
@@ -232,5 +261,6 @@ const menus = [
 
 .lunch-price {
   @apply text-orange-500 font-semibold whitespace-nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 </style>

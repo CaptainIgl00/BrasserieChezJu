@@ -5,38 +5,48 @@
     <Meta property="og:title" content="Menu - Brasserie Chez Ju" />
     <Meta property="og:description" content="Découvrez notre carte de brasserie traditionnelle, nos formules du jour et nos suggestions." />
     <Meta property="og:image" content="https://brasseriechezju.com/images/display/plat-principal.jpg" />
+    
     <!-- Hero Section avec Tabs -->
     <div class="hero-section">
-      <h1 class="text-4xl md:text-5xl font-playfair text-orange-500 text-center font-bold mb-4 mt-10">
-        Notre Carte
-      </h1>
-      <p class="text-gray-300 text-center text-lg italic mb-4">
-        Une cuisine authentique et raffinée
-      </p>
+      <div class="hero-content">
+        <h1 class="menu-title">
+          Notre Carte
+        </h1>
+        <p class="menu-subtitle">
+          Une cuisine authentique et raffinée
+        </p>
 
-      <!-- Tabs Navigation -->
-      <div class="tabs-navigation">
-        <NuxtLink 
-          to="/menu#menu"
-          class="tab-button"
-          :class="{ 'active': activeTab === 'menu' }"
-        >
-          La Carte
-        </NuxtLink>
-        <NuxtLink 
-          to="/menu#formules"
-          class="tab-button"
-          :class="{ 'active': activeTab === 'formulas' }"
-        >
-          Nos Formules
-        </NuxtLink>
+        <!-- Tabs Navigation -->
+        <div class="tabs-navigation">
+          <NuxtLink 
+            to="/menu#menu"
+            class="tab-button"
+            :class="{ 'active': activeTab === 'menu' }"
+          >
+            La Carte
+          </NuxtLink>
+          <NuxtLink 
+            to="/menu#formules"
+            class="tab-button"
+            :class="{ 'active': activeTab === 'formulas' }"
+          >
+            Nos Formules
+          </NuxtLink>
+          <NuxtLink 
+            to="/menu#vins"
+            class="tab-button"
+            :class="{ 'active': activeTab === 'wines' }"
+          >
+            Carte des Vins
+          </NuxtLink>
+        </div>
       </div>
     </div>
 
     <!-- Suggestion Component -->
     <div class="suggestion-section">
       <DailySpecials 
-        :hideInFormulaTab="activeTab === 'formulas'"
+        :hideInFormulaTab="activeTab === 'formulas' || activeTab === 'wines'"
         @select-formula="scrollToFormula" 
       />
     </div>
@@ -48,20 +58,35 @@
         <Suspense>
           <RestaurantMenu />
           <template #fallback>
-            <div class="loading-placeholder">
-              <p class="text-orange-500 text-center">Chargement de la carte...</p>
+            <div class="loading-container">
+              <div class="loading-spinner"></div>
+              <p class="loading-text">Chargement de notre carte...</p>
             </div>
           </template>
         </Suspense>
       </div>
 
-      <!-- Formules -->
+      <!-- Nos Formules -->
       <div v-show="activeTab === 'formulas'" class="tab-content">
         <Suspense>
           <MenuComponent />
           <template #fallback>
-            <div class="loading-placeholder">
-              <p class="text-orange-500 text-center">Chargement des formules...</p>
+            <div class="loading-container">
+              <div class="loading-spinner"></div>
+              <p class="loading-text">Chargement de nos formules...</p>
+            </div>
+          </template>
+        </Suspense>
+      </div>
+
+      <!-- Carte des Vins -->
+      <div v-show="activeTab === 'wines'" class="tab-content">
+        <Suspense>
+          <WineList />
+          <template #fallback>
+            <div class="loading-container">
+              <div class="loading-spinner"></div>
+              <p class="loading-text">Chargement de notre carte des vins...</p>
             </div>
           </template>
         </Suspense>
@@ -87,6 +112,12 @@ const MenuComponent = defineAsyncComponent({
   timeout: 30000
 })
 
+const WineList = defineAsyncComponent({
+  loader: () => import('../components/menu/WineList.vue'),
+  delay: 0,
+  timeout: 30000
+})
+
 const route = useRoute()
 const activeTab = ref('menu')
 const isLoading = ref(true)
@@ -97,6 +128,8 @@ const handleHash = async () => {
   
   if (route.hash === '#formules') {
     activeTab.value = 'formulas'
+  } else if (route.hash === '#vins') {
+    activeTab.value = 'wines'
   } else if (route.hash === '#menu') {
     activeTab.value = 'menu'
   } else {
@@ -160,24 +193,43 @@ const scrollToFormula = async (formulaId) => {
 
 <style scoped>
 .menu-page {
-  @apply min-h-screen bg-black/95;
+  @apply min-h-screen bg-black;
 }
 
 .hero-section {
-  @apply py-16 px-4 bg-black/80 border-b border-orange-500/20;
+  @apply py-16 px-4 bg-black/90 backdrop-blur-sm border-b border-orange-500/20 relative overflow-hidden;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+  @apply max-w-4xl mx-auto relative z-10;
+}
+
+.menu-title {
+  @apply text-4xl md:text-5xl font-playfair text-orange-500 text-center font-bold mb-4 mt-10;
+  text-shadow: 0 2px 10px rgba(234, 92, 11, 0.3);
+  font-family: 'Dancing Script', cursive;
+}
+
+.menu-subtitle {
+  @apply text-gray-500 text-center text-lg italic mb-6;
+  font-family: 'Cormorant Garamond', serif;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .suggestion-section {
-  @apply max-w-4xl mx-auto py-8 px-4;
+  @apply max-w-4xl mx-auto py-10 px-4;
 }
 
 .tabs-navigation {
-  @apply flex justify-center gap-8;
+  @apply flex justify-center gap-6 mt-8 flex-wrap;
 }
 
 .tab-button {
-  @apply px-6 py-3 text-lg font-medium text-gray-400 transition-all duration-300
+  @apply px-5 py-3 text-lg font-medium text-gray-500 transition-all duration-300
          hover:text-orange-500 relative;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .tab-button::after {
@@ -199,11 +251,26 @@ const scrollToFormula = async (formulaId) => {
 }
 
 .menu-content {
-  @apply py-12;
+  @apply py-12 max-w-7xl mx-auto bg-black;
 }
 
 .tab-content {
   @apply transition-opacity duration-300;
+}
+
+.loading-container {
+  @apply flex flex-col items-center justify-center py-20 bg-black/90 backdrop-blur-sm rounded-xl;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.loading-spinner {
+  @apply w-12 h-12 border-4 border-orange-500/30 border-t-orange-500 rounded-full;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  @apply mt-4 text-orange-500 text-lg italic;
+  font-family: 'Cormorant Garamond', serif;
 }
 
 /* Animation pour la mise en évidence des formules */
@@ -218,22 +285,27 @@ const scrollToFormula = async (formulaId) => {
   animation: highlight 2s ease-in-out;
 }
 
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /* Ajout d'un breakpoint spécifique pour les très petits écrans */
 @media (max-width: 320px) {
   .hero-section {
     @apply py-8;
   }
   
-  .hero-section h1 {
+  .menu-title {
     @apply text-3xl mb-2;
   }
   
-  .hero-section p {
+  .menu-subtitle {
     @apply text-sm mb-2;
   }
   
   .tabs-navigation {
-    @apply gap-4;
+    @apply gap-3;
   }
   
   .tab-button {
@@ -246,6 +318,17 @@ const scrollToFormula = async (formulaId) => {
   
   .menu-content {
     @apply py-6;
+  }
+}
+
+/* Ajout d'un breakpoint pour les écrans moyens */
+@media (max-width: 640px) {
+  .tabs-navigation {
+    @apply gap-4;
+  }
+  
+  .tab-button {
+    @apply px-3 py-2 text-base;
   }
 }
 </style> 

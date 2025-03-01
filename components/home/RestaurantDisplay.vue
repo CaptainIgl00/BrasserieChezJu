@@ -38,26 +38,10 @@
         <div class="image-gallery">
           <!-- Image principale -->
           <div class="gallery-main reveal-item" style="--delay: 0.3s">
-            <nuxt-img 
-              src="/images/display/plat_principal.jpg" 
-              alt="Plat principal" 
-              class="gallery-image"
-              loading="eager"
-              preset="showcase"
-              fetchpriority="high"
-              placeholder
-            />
-            <div class="image-overlay">
-              <span>Cuisine Authentique</span>
-            </div>
-          </div>
-          
-          <!-- Images secondaires -->
-          <div class="gallery-secondary">
-            <div class="gallery-item reveal-item" style="--delay: 0.5s">
+            <NuxtLink to="/menu" class="gallery-link">
               <nuxt-img 
-                src="/images/display/vin.jpg" 
-                alt="Vin"   
+                src="/images/display/plat_principal.jpg" 
+                alt="Plat principal" 
                 class="gallery-image"
                 loading="eager"
                 preset="showcase"
@@ -65,8 +49,28 @@
                 placeholder
               />
               <div class="image-overlay">
-                <span>Carte des Vins</span>
+                <span>Cuisine Authentique</span>
               </div>
+            </NuxtLink>
+          </div>
+          
+          <!-- Images secondaires -->
+          <div class="gallery-secondary">
+            <div class="gallery-item reveal-item" style="--delay: 0.5s">
+              <NuxtLink to="/menu#vins" class="gallery-link">
+                <nuxt-img 
+                  src="/images/display/vin.jpg" 
+                  alt="Vin"   
+                  class="gallery-image"
+                  loading="eager"
+                  preset="showcase"
+                  fetchpriority="high"
+                  placeholder
+                />
+                <div class="image-overlay">
+                  <span>Carte des Vins</span>
+                </div>
+              </NuxtLink>
             </div>
             
             <div class="gallery-item reveal-item" style="--delay: 0.7s">
@@ -85,18 +89,20 @@
             </div>
             
             <div class="gallery-item reveal-item" style="--delay: 0.9s">
-              <nuxt-img 
-                src="/images/display/entrecote.jpg" 
-                alt="Entrecôte" 
-                class="gallery-image"
-                loading="eager"
-                fetchpriority="high"
-                preset="showcase"
-                placeholder
-              />
-              <div class="image-overlay">
-                <span>Spécialités</span>
-              </div>
+              <NuxtLink to="/menu#menu" class="gallery-link">
+                <nuxt-img 
+                  src="/images/display/entrecote.jpg" 
+                  alt="Entrecôte" 
+                  class="gallery-image"
+                  loading="eager"
+                  fetchpriority="high"
+                  preset="showcase"
+                  placeholder
+                />
+                <div class="image-overlay">
+                  <span>Spécialités</span>
+                </div>
+              </NuxtLink>
             </div>
           </div>
         </div>
@@ -275,6 +281,7 @@ onUnmounted(() => {
 
 .image-overlay {
   @apply absolute inset-0 bg-black/40 opacity-0 flex items-center justify-center transition-opacity duration-300;
+  z-index: 1;
 }
 
 .image-overlay span {

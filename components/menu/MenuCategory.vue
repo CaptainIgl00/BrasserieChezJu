@@ -1,8 +1,8 @@
 <template>
   <section class="w-full max-w-7xl mx-auto mb-16">
     <div class="text-center mb-12">
-      <h3 class="text-2xl md:text-3xl font-playfair text-orange-500 italic" style="font-family: 'Playfair Display', serif;">{{ title }}</h3>
-      <p v-if="subtitle" class="text-gray-400 italic mt-2">{{ subtitle }}</p>
+      <h3 class="text-2xl md:text-3xl font-playfair text-orange-500 italic" style="font-family: 'Dancing Script', cursive; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">{{ title }}</h3>
+      <p v-if="subtitle" class="text-gray-500 italic mt-2">{{ subtitle }}</p>
     </div>
 
     <!-- Version Desktop -->
@@ -14,11 +14,11 @@
                @click="setActiveImage(dish.name)"
                class="flex-1 lg:flex-none p-4 rounded-lg transition-all duration-300 relative backdrop-blur-sm hover:-translate-y-0.5 group min-w-[280px] lg:min-w-0 cursor-pointer"
                :class="{ 'active-card': activeCard === dish.name }"
-               :style="{ background: 'rgba(0, 0, 0, 0.4)' }">
+               :style="{ background: 'rgba(0, 0, 0, 0.9)' }">
             <div class="space-y-2">
               <div class="flex justify-between items-start gap-4">
                 <div class="flex items-center gap-2 flex-1">
-                  <h4 class="text-lg text-gray-200 font-medium transition-colors duration-300 group-hover:text-orange-500">{{ dish.name }}</h4>
+                  <h4 class="text-lg text-gray-400 font-medium transition-colors duration-300 group-hover:text-orange-500">{{ dish.name }}</h4>
                   <span v-if="dishImages && dishImages[dish.name]" class="text-orange-500">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -27,130 +27,51 @@
                 </div>
                 <span class="text-orange-500 font-semibold whitespace-nowrap">{{ dish.price }} €</span>
               </div>
-              <p v-if="dish.description" class="text-sm text-gray-400 italic leading-relaxed">{{ dish.description }}</p>
-              <p v-if="dish.portion" class="text-sm text-orange-500/80 italic mt-1">{{ dish.portion }}</p>
+              <p v-if="dish.description" class="text-sm text-gray-500 italic leading-relaxed">{{ dish.description }}</p>
+              <p v-if="dish.portion" class="text-xs text-gray-600 italic">{{ dish.portion }}</p>
             </div>
           </div>
         </div>
 
-        <!-- Right Side Container -->
-        <div class="lg:w-[60%] flex flex-col gap-4">
-          <!-- Image Container with Loading State -->
-          <div class="w-full h-[400px] lg:h-[500px] rounded-xl overflow-hidden relative">
-            <div v-if="isLoading && loadingStates.get(currentImage)" class="absolute inset-0 flex items-center justify-center bg-black/40 z-10">
-              <div class="loading-spinner"></div>
-            </div>
-            <ClientOnly>
-              <nuxt-img 
-                :src="currentImage" 
-                :alt="title"
-                class="w-full h-full object-cover transition-all duration-700"
-                :class="{'scale-105': isHovered}"
-                preset="showcase"
-                loading="eager"
-                fetchpriority="high"
-                @load="() => onImageLoaded(currentImage)"
-                @error="() => onImageError(currentImage)"
-              />
-            </ClientOnly>
+        <!-- Right Side Image -->
+        <div class="lg:w-[60%] relative rounded-lg overflow-hidden h-[400px] bg-black/80 backdrop-blur-sm">
+          <div v-if="isLoading" class="absolute inset-0 flex items-center justify-center z-10">
+            <div class="loading-spinner"></div>
           </div>
-
-          <!-- Bottom Cards -->
-          <div class="flex flex-wrap gap-4">
-            <div v-for="dish in bottomCards" :key="dish.name" 
-                 @click="setActiveImage(dish.name)"
-                 class="flex-1 p-4 rounded-lg transition-all duration-300 relative backdrop-blur-sm hover:-translate-y-0.5 group min-w-[280px] cursor-pointer"
-                 :class="{ 'active-card': activeCard === dish.name }"
-                 :style="{ background: 'rgba(0, 0, 0, 0.4)' }">
-              <div class="space-y-2">
-                <div class="flex justify-between items-start gap-4">
-                  <div class="flex items-center gap-2 flex-1">
-                    <h4 class="text-lg text-gray-200 font-medium transition-colors duration-300 group-hover:text-orange-500">{{ dish.name }}</h4>
-                    <span v-if="dishImages && dishImages[dish.name]" class="text-orange-500">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                    </span>
-                  </div>
-                  <span class="text-orange-500 font-semibold whitespace-nowrap">{{ dish.price }} €</span>
-                </div>
-                <p v-if="dish.description" class="text-sm text-gray-400 italic leading-relaxed">{{ dish.description }}</p>
-                <p v-if="dish.portion" class="text-sm text-orange-500/80 italic mt-1">{{ dish.portion }}</p>
-              </div>
-            </div>
+          <div v-else-if="loadError" class="absolute inset-0 flex flex-col items-center justify-center z-10 bg-black/90 p-6 text-center">
+            <p class="text-gray-400 mb-4">Impossible de charger l'image</p>
+            <button @click="retryLoading" class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">
+              Réessayer
+            </button>
+          </div>
+          <nuxt-img 
+            v-else-if="currentImage" 
+            :src="currentImage" 
+            class="w-full h-full object-cover transition-opacity duration-300"
+            loading="lazy"
+            format="webp"
+            quality="90"
+            placeholder
+          />
+          <div v-else class="absolute inset-0 flex items-center justify-center bg-black/80 text-gray-500">
+            Aucune image disponible
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Version Mobile -->
-    <div class="lg:hidden space-y-4" v-if="dishImages">
+    <!-- Version Mobile et Fallback -->
+    <div v-else class="dishes-grid fade-in">
       <div v-for="dish in dishes" :key="dish.name" 
-           class="rounded-lg overflow-hidden transition-all duration-300"
-           :class="{ 'active-card': activeCard === dish.name }">
-        <!-- En-tête de la carte (toujours visible) -->
-        <div @click="toggleMobileCard(dish.name)"
-             class="p-4 cursor-pointer backdrop-blur-sm transition-all duration-300 relative"
-             :style="{ background: 'rgba(0, 0, 0, 0.4)' }">
-          <div class="flex justify-between items-start gap-4">
-            <div class="flex items-center gap-2 flex-1">
-              <h4 class="text-lg text-gray-200 font-medium">{{ dish.name }}</h4>
-              <span v-if="dishImages && dishImages[dish.name]" 
-                    class="text-orange-500 transition-transform duration-300"
-                    :class="{ 'rotate-180': activeCard === dish.name }">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </span>
-            </div>
-            <span class="text-orange-500 font-semibold whitespace-nowrap">{{ dish.price }} €</span>
-          </div>
-          <p v-if="dish.description" class="text-sm text-gray-400 italic leading-relaxed mt-2">{{ dish.description }}</p>
-          <p v-if="dish.portion" class="text-sm text-orange-500/80 italic mt-1">{{ dish.portion }}</p>
-        </div>
-
-        <!-- Contenu déroulant (image) -->
-        <div v-if="dishImages[dish.name]" 
-             class="transition-all duration-500 ease-in-out overflow-hidden"
-             :class="{ 'h-0': activeCard !== dish.name, 'h-[300px]': activeCard === dish.name }">
-          <div class="relative h-[300px]">
-            <div v-if="loadingStates.get(dish.name)" 
-                 class="absolute inset-0 flex items-center justify-center bg-black/40 z-10">
-              <div class="loading-spinner"></div>
-            </div>
-            <div v-if="errorStates.get(dish.name)"
-                 class="absolute inset-0 flex flex-col items-center justify-center bg-black/40 z-10">
-              <p class="text-orange-500 mb-2">Erreur de chargement</p>
-              <button @click="retryLoadImage(dish.name)" 
-                      class="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition-colors">
-                Réessayer
-              </button>
-            </div>
-            <img v-if="activeCard === dish.name && !errorStates.get(dish.name)"
-                 :src="dishImages[dish.name]"
-                 :alt="dish.name"
-                 class="w-full h-full object-cover opacity-0 transition-opacity duration-300"
-                 :class="{ 'opacity-100': !loadingStates.get(dish.name) }"
-                 @load="() => onImageLoaded(dish.name)"
-                 @error="() => onImageError(dish.name)"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Original grid for sections without images -->
-    <div class="grid gap-8 dishes-grid" v-else>
-      <div v-for="dish in dishes" :key="dish.name" 
-           class="p-4 rounded-lg transition-all duration-300 relative w-full backdrop-blur-sm hover:-translate-y-0.5 group"
-           :style="{ background: 'rgba(0, 0, 0, 0.4)' }">
+           class="p-4 rounded-lg transition-all duration-300 relative backdrop-blur-sm hover:-translate-y-0.5 group"
+           :style="{ background: 'rgba(0, 0, 0, 0.9)' }">
         <div class="space-y-2">
           <div class="flex justify-between items-start gap-4">
-            <h4 class="text-lg text-gray-200 font-medium flex-1 transition-colors duration-300 group-hover:text-orange-500">{{ dish.name }}</h4>
+            <h4 class="text-lg text-gray-400 font-medium transition-colors duration-300 group-hover:text-orange-500">{{ dish.name }}</h4>
             <span class="text-orange-500 font-semibold whitespace-nowrap">{{ dish.price }} €</span>
           </div>
-          <p v-if="dish.description" class="text-sm text-gray-400 italic leading-relaxed">{{ dish.description }}</p>
-          <p v-if="dish.portion" class="text-sm text-orange-500/80 italic mt-1">{{ dish.portion }}</p>
+          <p v-if="dish.description" class="text-sm text-gray-500 italic leading-relaxed">{{ dish.description }}</p>
+          <p v-if="dish.portion" class="text-xs text-gray-600 italic">{{ dish.portion }}</p>
         </div>
       </div>
     </div>
@@ -346,12 +267,18 @@ onMounted(() => {
 
 /* Ajout d'une bordure transparente par défaut sur toutes les cartes */
 [class*="flex-1"] {
-  border: 1px solid transparent;
-  transition: border-color 0.3s ease;
+  border: 1px solid rgba(234, 92, 11, 0.2);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+[class*="flex-1"]:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
 }
 
 .active-card {
-  border-color: rgb(249, 115, 22);
+  border-color: rgb(249, 115, 22, 0.6);
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
 }
 
 /* Loading Spinner */

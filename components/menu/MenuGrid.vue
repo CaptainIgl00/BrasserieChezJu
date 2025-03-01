@@ -325,6 +325,9 @@ onMounted(() => {
 <style scoped>
 .menu-container {
   animation: fadeIn 0.6s ease-out;
+  @apply bg-black/90 backdrop-blur-sm rounded-xl p-6 md:p-8;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(234, 92, 11, 0.2);
 }
 
 @keyframes fadeIn {
@@ -353,6 +356,10 @@ onMounted(() => {
 
 /* Responsive adjustments */
 @media (max-width: 640px) {
+  .menu-container {
+    @apply p-4;
+  }
+  
   .w-full {
     @apply py-8;
   }

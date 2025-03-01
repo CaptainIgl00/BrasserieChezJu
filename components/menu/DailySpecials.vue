@@ -106,7 +106,9 @@ const selectFormula = () => {
 
 <style scoped>
 .suggestion-wrapper {
-  @apply bg-black/40 rounded-xl p-1 transition-all duration-300 hover:bg-orange-500/5;
+  @apply bg-black/90 backdrop-blur-sm rounded-xl p-1 transition-all duration-300 hover:bg-black/95;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(234, 92, 11, 0.2);
 }
 
 .suggestion-container {
@@ -114,7 +116,8 @@ const selectFormula = () => {
 }
 
 .time-badge {
-  @apply px-4 py-2 rounded-lg bg-orange-500/10 text-orange-500 font-medium text-sm border border-orange-500/20 whitespace-nowrap;
+  @apply px-4 py-2 rounded-lg bg-black/90 text-orange-500 font-medium text-sm border border-orange-500/30 whitespace-nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .content {
@@ -123,22 +126,31 @@ const selectFormula = () => {
 
 .title {
   @apply text-xl font-medium text-orange-500 mb-1 truncate;
+  font-family: 'Dancing Script', cursive;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .description {
-  @apply text-sm text-gray-400 italic truncate;
+  @apply text-sm text-gray-500 italic truncate;
+  font-family: 'Cormorant Garamond', serif;
 }
 
 .price {
   @apply text-2xl font-bold text-orange-500 whitespace-nowrap;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .action {
-  @apply flex items-center gap-2 text-orange-500 whitespace-nowrap;
+  @apply flex items-center gap-2 text-orange-500 whitespace-nowrap transition-all duration-300;
 }
 
 .action span {
   @apply text-sm font-medium;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.suggestion-container:hover .action {
+  @apply translate-x-1;
 }
 
 @media (max-width: 768px) {
@@ -152,6 +164,10 @@ const selectFormula = () => {
 
   .action {
     @apply w-full justify-center;
+  }
+  
+  .suggestion-container:hover .action {
+    @apply translate-x-0 translate-y-1;
   }
 }
 </style>
