@@ -27,7 +27,7 @@
                     </svg>
                   </span>
                 </div>
-                <span class="text-orange-500 font-semibold whitespace-nowrap">{{ dish.price }} €</span>
+                <span class="text-orange-500 font-semibold whitespace-nowrap">{{ formatPrice(dish.price) }}</span>
               </div>
               <p v-if="dish.description" class="text-sm text-gray-500 italic leading-relaxed">{{ dish.description }}</p>
               <p v-if="dish.portion" class="text-xs text-gray-600 italic">{{ dish.portion }}</p>
@@ -84,7 +84,7 @@
                   </svg>
                 </span>
               </div>
-              <span class="text-orange-500 font-semibold whitespace-nowrap">{{ dish.price }} €</span>
+              <span class="text-orange-500 font-semibold whitespace-nowrap">{{ formatPrice(dish.price) }}</span>
             </div>
             <p v-if="dish.description" class="text-sm text-gray-500 italic leading-relaxed">{{ dish.description }}</p>
             <p v-if="dish.portion" class="text-xs text-gray-600 italic">{{ dish.portion }}</p>
@@ -115,7 +115,7 @@
                   </svg>
                 </span>
               </div>
-              <span class="text-orange-500 font-semibold whitespace-nowrap">{{ dish.price }} €</span>
+              <span class="text-orange-500 font-semibold whitespace-nowrap">{{ formatPrice(dish.price) }}</span>
             </div>
             <p v-if="dish.description" class="text-sm text-gray-500 italic leading-relaxed mt-2">{{ dish.description }}</p>
             <p v-if="dish.portion" class="text-xs text-gray-600 italic mt-1">{{ dish.portion }}</p>
@@ -204,6 +204,19 @@ const leftSideCards = computed(() => {
 const bottomCards = computed(() => {
   return props.dishes.slice(4);
 });
+
+// Fonction pour formater le prix
+const formatPrice = (price) => {
+  if (!price) return '';
+  
+  // Si le prix est déjà une chaîne et contient un symbole €, le retourner tel quel
+  if (typeof price === 'string' && price.includes('€')) {
+    return price;
+  }
+  
+  // Sinon, formater le prix avec le symbole €
+  return `${price} €`;
+};
 
 const setActiveImage = async (dish) => {
   if (dish.image) {

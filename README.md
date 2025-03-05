@@ -1,65 +1,132 @@
-# Brasserie Chez Ju - Site Web
+# Brasserie Chez Ju
 
-Site web de la Brasserie Chez Ju, un restaurant traditionnel situé à Carcassonne. Développé avec Nuxt 3 et déployé sur un VPS OVH.
+Site web de la Brasserie Chez Ju, un restaurant traditionnel français.
 
-## Technologies
+## Architecture du projet
 
-- **Frontend**: Nuxt 3, Vue.js, TailwindCSS
-- **Déploiement**: Docker, Docker Hub, GitHub Actions
-- **Serveur**: Traefik, VPS OVH
+Le projet est composé de deux parties principales :
 
-## Fonctionnalités
+1. **Frontend** : Application Nuxt 3 avec TailwindCSS
+2. **Backend** : API FastAPI + CMS Directus avec PostgreSQL
 
-- Page d'accueil avec présentation du restaurant
-- Menu interactif avec catégories
-- Section équipe
-- Galerie d'images
-- Intégration Instagram
-- Formulaire de contact
-- Design responsive
+### Frontend (Nuxt 3)
 
-## Installation locale
+Le frontend est une application Nuxt 3 qui utilise TailwindCSS pour le style. Il est conçu pour être responsive et offrir une expérience utilisateur optimale sur tous les appareils.
+
+### Backend (FastAPI + Directus)
+
+Le backend est composé de deux éléments principaux :
+
+- **FastAPI** : API REST qui expose les données au frontend
+- **Directus** : CMS headless qui permet de gérer facilement le contenu (images, textes, etc.)
+- **PostgreSQL** : Base de données relationnelle
+
+## Installation et démarrage
+
+### Prérequis
+
+- Docker et Docker Compose
+- Node.js 18+ et npm/yarn
+
+### Frontend
 
 ```bash
-# Installer les dépendances
+# Installation des dépendances
 npm install
 
-# Lancer en mode développement
+# Démarrage du serveur de développement
 npm run dev
 
-# Build pour la production
+# Construction pour la production
 npm run build
 ```
 
-## Déploiement Docker
-
-Le projet utilise Docker pour le déploiement. Pour lancer l'application :
+### Backend
 
 ```bash
-# Build et démarrage
+# Copier le fichier d'environnement
+cp .env.backend .env
+
+# Modifier les valeurs dans .env selon vos besoins
+nano .env
+
+# Démarrer les services backend
+docker-compose -f docker-compose.backend.yml up -d
+```
+
+## Déploiement
+
+Le projet est configuré pour être déployé avec Docker et Traefik comme reverse proxy. Le fichier `docker-compose.yml` à la racine du projet contient la configuration pour le déploiement du frontend, tandis que `docker-compose.backend.yml` contient la configuration pour le déploiement du backend.
+
+```bash
+# Déploiement du frontend
 docker-compose up -d
 
-# Vérifier le statut
-docker-compose ps
-
-# Arrêter les conteneurs
-docker-compose down
+# Déploiement du backend
+docker-compose -f docker-compose.backend.yml up -d
 ```
 
 ## Structure du projet
 
 ```
-├── components/          # Composants Vue réutilisables
-├── pages/              # Pages de l'application
-├── public/             # Assets statiques
-│   ├── images/         # Images du site
-│   └── fonts/          # Polices personnalisées
-└── docker-compose.yml  # Configuration Docker
+/
+├── app.vue                  # Point d'entrée de l'application Nuxt
+├── components/              # Composants Vue réutilisables
+│   ├── layout/              # Composants de mise en page
+│   ├── menu/                # Composants liés au menu
+│   └── home/                # Composants de la page d'accueil
+├── composables/             # Composables Vue (hooks)
+├── pages/                   # Pages de l'application
+├── public/                  # Fichiers statiques
+├── backend/                 # Code du backend FastAPI
+│   ├── app/                 # Application FastAPI
+│   │   ├── api/             # Endpoints API
+│   │   ├── core/            # Configuration et utilitaires
+│   │   ├── models/          # Modèles de données
+│   │   ├── schemas/         # Schémas Pydantic
+│   │   └── main.py          # Point d'entrée de l'API
+│   ├── Dockerfile           # Dockerfile pour le backend
+│   └── requirements.txt     # Dépendances Python
+├── docker-compose.yml       # Configuration Docker pour le frontend
+├── docker-compose.backend.yml # Configuration Docker pour le backend
+└── .env.backend             # Variables d'environnement pour le backend
 ```
 
-## Déploiement automatique
+## Interface d'administration
 
-Le déploiement est automatisé via GitHub Actions. À chaque tag :
-1. Build de l'image Docker
-2. Push sur Docker Hub
-3. Déploiement sur le VPS OVH via Watchtower
+L'interface d'administration Directus est accessible à l'adresse suivante :
+
+```
+https://admin.brasseriechezju.com
+```
+
+Elle permet de gérer facilement le contenu du site, notamment :
+
+- Les catégories de menu
+- Les plats et leurs images
+- La carte des vins
+- Les suggestions du jour
+
+## Développement
+
+### Frontend
+
+Le frontend utilise Nuxt 3 avec les fonctionnalités suivantes :
+
+- Composables pour la gestion de l'état et les appels API
+- Composants Vue réutilisables
+- TailwindCSS pour le style
+- Optimisation des images avec @nuxt/image
+
+### Backend
+
+Le backend utilise FastAPI avec les fonctionnalités suivantes :
+
+- Architecture en couches (API, services, modèles)
+- Validation des données avec Pydantic
+- Documentation automatique avec Swagger UI
+- Intégration avec Directus pour la gestion du contenu
+
+## Licence
+
+Ce projet est sous licence privée. Tous droits réservés.

@@ -7,79 +7,94 @@
       <div class="flex-grow h-px bg-orange-500/50 max-w-[100px]"></div>
     </div>
 
+    <!-- Message de chargement -->
+    <div v-if="isLoading" class="flex flex-col items-center justify-center py-12">
+      <div class="loading-spinner mb-4"></div>
+      <p class="text-gray-400">Chargement du menu...</p>
+    </div>
+
+    <!-- Message d'erreur -->
+    <div v-else-if="error" class="bg-red-900/30 text-red-200 p-6 rounded-lg text-center">
+      <p class="mb-2">Une erreur est survenue lors du chargement du menu.</p>
+      <p class="text-sm">{{ error }}</p>
+      <button @click="loadMenuData" class="mt-4 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">
+        Réessayer
+      </button>
+    </div>
+
     <!-- Sections du menu -->
-    <div class="space-y-16">
+    <div v-else class="space-y-16">
       <!-- Entrées -->
-      <div>
+      <div v-if="getDishesByCategory('Toc toc toc... entrées').length > 0">
         <MenuCategory 
           title="Toc toc toc... entrées"
-          :dishes="starters"
+          :dishes="getDishesByCategory('Toc toc toc... entrées')"
         />
       </div>
       
       <!-- Séparateur -->
-      <BaseDivider />
+      <BaseDivider v-if="getDishesByCategory('Toc toc toc... entrées').length > 0 && getDishesByCategory('On se met au vert ?').length > 0" />
 
       <!-- Salades -->
-      <div>
+      <div v-if="getDishesByCategory('On se met au vert ?').length > 0">
         <MenuCategory 
           title="On se met au vert ?"
-          :dishes="salads"
+          :dishes="getDishesByCategory('On se met au vert ?')"
         />
       </div>
 
       <!-- Séparateur -->
-      <BaseDivider />
+      <BaseDivider v-if="getDishesByCategory('On se met au vert ?').length > 0 && getDishesByCategory('T\'as faim de tradition ?').length > 0" />
       
       <!-- T'as faim de tradition ? -->
-      <div>
+      <div v-if="getDishesByCategory('T\'as faim de tradition ?').length > 0">
         <MenuCategory 
         title="T'as faim de tradition ?"
-        :dishes="traditional"
+        :dishes="getDishesByCategory('T\'as faim de tradition ?')"
         />
       </div>
       
       <!-- Séparateur -->
-      <BaseDivider />
+      <BaseDivider v-if="getDishesByCategory('T\'as faim de tradition ?').length > 0 && getDishesByCategory('Côté Mer').length > 0" />
       
       <!-- Côté Mer -->
-      <div>
+      <div v-if="getDishesByCategory('Côté Mer').length > 0">
         <MenuCategory 
         title="Côté Mer"
-        :dishes="seafood"
+        :dishes="getDishesByCategory('Côté Mer')"
         />
       </div>
       
       <!-- Séparateur -->
-      <BaseDivider />
+      <BaseDivider v-if="getDishesByCategory('Côté Mer').length > 0 && getDishesByCategory('Côté Terre').length > 0" />
       
       <!-- Côté Terre -->
-      <div>
+      <div v-if="getDishesByCategory('Côté Terre').length > 0">
         <MenuCategory 
         title="Côté Terre"
-        :dishes="meat"
+        :dishes="getDishesByCategory('Côté Terre')"
         />
       </div>
       
       <!-- Séparateur -->
-      <BaseDivider />
+      <BaseDivider v-if="getDishesByCategory('Côté Terre').length > 0 && getDishesByCategory('Côté Flamme').length > 0" />
       
       <!-- Côté Flamme -->
-      <div>
+      <div v-if="getDishesByCategory('Côté Flamme').length > 0">
         <MenuCategory 
         title="Côté Flamme"
-        :dishes="grill"
+        :dishes="getDishesByCategory('Côté Flamme')"
         />
       </div>
 
       <!-- Séparateur -->
-      <BaseDivider />
+      <BaseDivider v-if="getDishesByCategory('Côté Flamme').length > 0 && getDishesByCategory('Finir en douceur').length > 0" />
 
       <!-- Desserts -->
-      <div>
+      <div v-if="getDishesByCategory('Finir en douceur').length > 0">
         <MenuCategory 
         title="Finir en douceur"
-        :dishes="desserts"
+        :dishes="getDishesByCategory('Finir en douceur')"
         />
       </div>
     </div>
@@ -87,225 +102,41 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import MenuCategory from './MenuCategory.vue'
 import BaseDivider from '../layout/BaseDivider.vue'
+import { useMenu } from '~/composables/useMenu'
 
-// Données du menu (à déplacer dans un store ou une API plus tard)
-const starters = [
-  {
-    name: "Planche de jambon Serrano et jambon blanc truffé",
-    price: "17",
-    image: '/images/menu/planche_charcuterie.jpg'
-  },
-  {
-    name: "Camembert entier rôti au piment d'Espelette",
-    description: "Servi avec ses mouillettes",
-    price: "14"
-  },
-  {
-    name: "Tapenade maison et ses toasts grillés",
-    price: "8",
-    image: '/images/menu/tapenade.png'
-  },
-  {
-    name: "Planche de foie gras mi-cuit du Périgord",
-    portion: "1 tranche 15€ ou 2 tranches 24€",
-    price: "15",
-    image: '/images/menu/foie_gras.jpg'
-  },
-  {
-    name: "Filets de sardines fraîches",
-    description: "Marinés au cidre et aux agrumes",
-    price: "14"
-  },
-  {
-    name: "Soupe de lentilles du Pays d'Oc",
-    description: "Avec ses lardons, croûtons et son œuf fermier mollet",
-    price: "13"
-  },
-  {
-    name: "La grande planche de Becq à partager",
-    description: "Serrano, jambon truffé, foie gras, camembert rôti, saumon mariné, sardines, tapenade",
-    price: "59"
-  }
-]
+// Utiliser le composable pour récupérer les données du menu
+const { dishes, isLoading, error, fetchDishes, loadMenuData } = useMenu()
 
-const salads = [
-  {
-    name: "Salade César",
-    description: "Poulet pané, tomates, olives, croûtons, parmesan, œuf fermier mollet frit, sauce césar",
-    price: "19"
-  },
-  {
-    name: "Salade Gourmande",
-    description: "Gésiers, toast de foie gras, œuf fermier mollet frit, tomates, olives",
-    price: "21"
-  },
-  {
-    name: "Escalopes de saumon mariné à l'aneth",
-    description: "Frites maison et salade",
-    price: "21",
-    image: '/images/menu/saumon.png'
-  }
-]
+// Fonction pour obtenir les plats par catégorie
+const getDishesByCategory = (categoryName) => {
+  return dishes.value.filter(dish => dish.category === categoryName)
+}
 
-const traditional = [
-  {
-    name: "Cassoulet du chef Becq",
-    description: "Élaboré dans le respect de la tradition, servi avec sa salade",
-    price: "24",
-    image: '/images/menu/cassoulet.jpg'
-  },
-  {
-    name: "Le fameux Welsh de Fred au Maroilles",
-    description: "Œuf poché, frites maison et salade",
-    price: "16",
-    image: '/images/menu/welch.jpg'
-  }
-]
-
-const seafood = [
-  {
-    name: "Filets de bar à la plancha",
-    description: "Toast de tapenade, sauce vierge à la ricotta et roquette",
-    price: "24",
-    image: '/images/menu/filet_de_bar.jpg'
-  },
-  {
-    name: "Seiches à la plancha",
-    description: "En persillade (500g)",
-    price: "20"
-  }
-]
-
-const meat = [
-  {
-    name: "Le Burger de Ju",
-    description: "Steak haché de 180g, oignons confits grenadine, sauce cheddar, tomate, cornichon et servi avec ses frites maison",
-    price: "21",
-    image: '/images/menu/burger.png'
-  },
-  {
-    name: "Tartare de bœuf",
-    description: "Ses condiments, ses frites maison et sa salade verte - Simple 180g",
-    price: "20"
-  },
-  {
-    name: "Tartare de bœuf double",
-    description: "360g",
-    price: "35"
-  },
-  {
-    name: "Tagliatelles de Ju",
-    description: "Magret de canard, sauce cèpes et parmesan",
-    price: "23"
-  },
-  {
-    name: "Tagliatelles fraîches",
-    description: "Au pesto et parmesan",
-    price: "14"
-  }
-]
-
-const grill = [
-  {
-    name: "Entrecôte grillée",
-    description: "Beurre maître d'hôtel (350 g)",
-    price: "28",
-    image: '/images/menu/entrecote.png'
-  },
-  {
-    name: "Magret de canard du Périgord",
-    description: "Grillé fleur de sel de Guérande",
-    price: "26",
-    image: '/images/menu/magret.jpg'
-  },
-  {
-    name: "Côte de porc noir de Bigorre",
-    description: "En deux cuissons (500 g)",
-    price: "35",
-    image: '/images/menu/cote_porc.png'
-  },
-  {
-    name: "Le demi lapin du Lauragais",
-    description: "Grillé et son aïoli (800 g)",
-    price: "27"
-  },
-  {
-    name: "Côte de bœuf à partager",
-    description: "Demandez l'ardoise",
-    portion: "Sauces aux choix: Poivre, cèpes ou roquefort 4€",
-    price: "55/kg"
-  }
-]
-
-const desserts = [
-  {
-    name: 'Plateau de fromage de l\'épicerie fine "Chez Julien"',
-    price: "16"
-  },
-  {
-    name: "Moelleux au chocolat",
-    description: "Crème anglaise",
-    price: "7",
-    image: '/images/menu/moelleux.png'
-  },
-  {
-    name: "Crème brûlée",
-    description: "Au caramel beurre salé",
-    price: "7",
-    image: '/images/menu/creme_brulee.jpg'
-  },
-  {
-    name: "Pavlova aux fruits rouges",
-    description: "Et sa chantilly au pamplemousse",
-    price: "9",
-    image: '/images/menu/pavlova.jpg'
-  },
-  {
-    name: "Profiterole XL",
-    description: "Chocolat chaud",
-    price: "9",
-    image: '/images/menu/profiteroles.jpg'
-  },
-  {
-    name: "Café ou chocolat liégeois",
-    price: "9"
-  },
-  {
-    name: "Café ou thé gourmand",
-    price: "10",
-    image: '/images/menu/cafe_gourmand.jpg'
-  },
-  {
-    name: "Glaces",
-    portion: "1 boule 3,50€, 2 boules 6€, 3 boules 8€, Supplément chantilly 1,50€",
-    price: "3.50",
-    image: '/images/menu/glace.png'
-  },
-  {
-    name: "Irish coffee ou Colonel",
-    price: "12"
-  }
-]
-
-onMounted(() => {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('fade-in-visible')
-      }
-    })
-  }, {
-    threshold: 0.1,
-    rootMargin: '50px'
-  })
-
-  document.querySelectorAll('.fade-in').forEach(el => {
-    observer.observe(el)
-  })
+// Charger les données du menu au montage du composant
+onMounted(async () => {
+  await loadMenuData()
 })
+
+// Données de secours au cas où l'API ne répond pas
+const fallbackData = {
+  starters: [
+    {
+      name: "Planche de jambon Serrano et jambon blanc truffé",
+      price: "17",
+      image: '/images/menu/planche_charcuterie.jpg'
+    },
+    {
+      name: "Camembert entier rôti au piment d'Espelette",
+      description: "Servi avec ses mouillettes",
+      price: "14"
+    },
+    // ... autres entrées
+  ],
+  // ... autres catégories
+}
 </script>
 
 <style scoped>
@@ -338,6 +169,22 @@ onMounted(() => {
 .fade-in-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border-top-color: #f97316;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive adjustments */
