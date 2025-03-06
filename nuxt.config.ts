@@ -16,6 +16,14 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@vite-pwa/nuxt'
   ],
+  nitro: {
+    devProxy: {
+      '/api/v1/assets': {
+        target: 'http://localhost:8000/api/v1/assets',
+        changeOrigin: true
+      }
+    }
+  },
   image: {
     provider: isProduction ? 'ipx' : 'none',
     dir: 'public',

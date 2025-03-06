@@ -28,6 +28,21 @@ const apiBaseUrl = process.env.NODE_ENV === 'production'
   ? '/api/v1' 
   : 'http://localhost:8000/api/v1'
 
+// Fonction pour normaliser les URLs d'images
+const normalizeImageUrl = (imageUrl: string | undefined): string | undefined => {
+  if (!imageUrl) return undefined
+  
+  // Si l'URL est déjà relative, la retourner telle quelle
+  if (imageUrl.startsWith('/api/')) return imageUrl
+  
+  // Si nous sommes en développement et que l'URL contient localhost:8000, la convertir en URL relative
+  if (process.env.NODE_ENV !== 'production' && imageUrl.includes('localhost:8000')) {
+    return imageUrl.replace('http://localhost:8000', '')
+  }
+  
+  return imageUrl
+}
+
 export function useMenu() {
   // Fonction pour récupérer les catégories de menu
   const fetchCategories = async () => {
@@ -66,7 +81,11 @@ export function useMenu() {
       }
       
       const data = await response.json()
-      dishes.value = data
+      // Normaliser les URLs d'images
+      dishes.value = data.map((dish: Dish) => ({
+        ...dish,
+        image: normalizeImageUrl(dish.image)
+      }))
     } catch (err) {
       console.error('Erreur lors du chargement des plats:', err)
       error.value = err instanceof Error ? err.message : 'Erreur inconnue'
@@ -86,7 +105,12 @@ export function useMenu() {
         throw new Error(`Erreur lors de la récupération des plats par catégorie: ${response.status}`)
       }
       
-      return await response.json()
+      const data = await response.json()
+      // Normaliser les URLs d'images
+      return data.map((dish: Dish) => ({
+        ...dish,
+        image: normalizeImageUrl(dish.image)
+      }))
     } catch (err) {
       console.error(`Erreur lors du chargement des plats pour la catégorie ${categoryName}:`, err)
       error.value = err instanceof Error ? err.message : 'Erreur inconnue'

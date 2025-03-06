@@ -55,7 +55,8 @@
             quality="90"
             placeholder
             :imgAttrs="{
-              style: 'aspect-ratio: 4/3; object-position: center;'
+              style: 'aspect-ratio: 4/3; object-position: center;',
+              crossorigin: 'anonymous'
             }"
           />
           <div v-else class="absolute inset-0 flex items-center justify-center bg-black/80 text-gray-500">
@@ -147,7 +148,8 @@
                 quality="90"
                 placeholder
                 :imgAttrs="{
-                  style: 'aspect-ratio: 4/3; object-position: center;'
+                  style: 'aspect-ratio: 4/3; object-position: center;',
+                  crossorigin: 'anonymous'
                 }"
                 @load="() => onImageLoaded(dish.name)"
                 @error="() => onImageError(dish.name)"
