@@ -66,6 +66,8 @@ docker-compose up -d
 docker-compose -f docker-compose.backend.yml up -d
 ```
 
+Pour plus de détails sur le déploiement, consultez le [Guide de déploiement](docs/deployment/deployment_guide.md).
+
 ## Structure du projet
 
 ```
@@ -126,6 +128,15 @@ Le backend utilise FastAPI avec les fonctionnalités suivantes :
 - Validation des données avec Pydantic
 - Documentation automatique avec Swagger UI
 - Intégration avec Directus pour la gestion du contenu
+
+## Documentation
+
+Pour plus d'informations sur le projet, consultez la documentation suivante :
+
+- [Vue d'ensemble de l'architecture](docs/architecture/overview.md) - Description détaillée de l'architecture du projet
+- [Intégration Frontend-Backend](docs/development/frontend_backend_integration.md) - Guide pour intégrer le frontend et le backend
+- [Scripts de gestion des données](docs/scripts/data_management.md) - Documentation sur les scripts d'automatisation
+- [Guide de déploiement](docs/deployment/deployment_guide.md) - Instructions détaillées pour le déploiement
 
 ## Licence
 
