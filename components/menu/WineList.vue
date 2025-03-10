@@ -12,7 +12,7 @@
 
     <div v-else-if="error" class="error-container">
       <p class="error-message">{{ error }}</p>
-      <button @click="fetchWines" class="retry-button">Réessayer</button>
+      <button @click="loadWineData" class="retry-button">Réessayer</button>
     </div>
 
     <template v-else>
@@ -148,12 +148,13 @@ const {
   whiteWines, 
   roseWines, 
   champagnes, 
-  fetchWines 
+  fetchWines,
+  loadWineData
 } = useWines()
 
 onMounted(async () => {
   // Charger les vins au montage du composant
-  await fetchWines()
+  await loadWineData()
   
   // Configuration de l'animation au scroll
   const observer = new IntersectionObserver((entries) => {

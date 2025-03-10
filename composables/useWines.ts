@@ -30,7 +30,7 @@ const apiBaseUrl = process.env.NODE_ENV === 'production'
   : 'http://localhost:8000/api/v1'
 
 // Endpoint API
-const API_ENDPOINT = 'wines'
+const API_ENDPOINT = 'menu/wines'
 
 /**
  * Composable pour gérer les données des vins
@@ -64,72 +64,6 @@ export function useWines() {
       
       console.log('Fetching wines from:', url)
       
-      // Simuler des données pour le développement si l'API n'est pas disponible
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Mode développement: simulation de données')
-        
-        // Attendre un peu pour simuler une requête réseau
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        
-        // Données simulées
-        const mockWines: Wine[] = [
-          {
-            id: '1',
-            name: 'Cuvée Archibald',
-            domain: 'Domaine La Sapinière',
-            region: 'AOP Malepère',
-            description: 'Cabernet Franc et Merlot aux arômes de fruits mûrs, vanille et menthol. Bouche concentrée, tanins soyeux, finale cacao.',
-            bottlePrice: 29,
-            category: 'Rouge'
-          },
-          {
-            id: '2',
-            name: 'Le rouge de L\'Azérolle',
-            domain: 'Raymond Julien - Domaine Mirausse',
-            region: 'AOP Minervois',
-            description: 'Cinsault, Grenache et Syrah aux notes de violette et cassis. Frais, fruité et souple en bouche.',
-            glassPrice: 4,
-            bottlePrice: 19,
-            category: 'Rouge'
-          },
-          {
-            id: '3',
-            name: 'Uby n°4',
-            domain: 'Domaine Uby',
-            region: 'IGP Côtes de Gascogne',
-            description: 'Blanc moelleux issu de Gros et Petit Manseng. Nez exotique, bouche veloutée et crémeuse, finale sur le coing et le citron confit.',
-            glassPrice: 4,
-            bottlePrice: 20,
-            category: 'Blanc'
-          },
-          {
-            id: '4',
-            name: 'Tom et Lilly',
-            domain: 'Raymond Julien – Domaine Mirausse',
-            region: 'AOP Minervois',
-            description: 'Rosé frais et fruité à base de Grenache et Cinsault. Léger, équilibré et rafraîchissant, parfait pour les journées ensoleillées.',
-            glassPrice: 3.5,
-            bottlePrice: 18,
-            category: 'Rosé'
-          },
-          {
-            id: '5',
-            name: 'Première Bulles',
-            domain: 'Sieur d\'Arques',
-            region: 'AOC Limoux',
-            description: 'Élaboré selon la méthode traditionnelle, cet assemblage de Chardonnay, Chenin et Mauzac offre des bulles fines, une bouche onctueuse et une finale toastée.',
-            glassPrice: 5,
-            bottlePrice: 26,
-            category: 'Champagne'
-          }
-        ]
-        
-        wines.value = mockWines
-        console.log('Données simulées chargées:', wines.value)
-        isLoading.value = false
-        return
-      }
-      
       // Appel API réel
       const response = await fetch(url)
       
@@ -140,7 +74,32 @@ export function useWines() {
       const data = await response.json()
       console.log('Données reçues de l\'API:', data)
       
-      wines.value = data
+      // Transformer les données pour correspondre à notre structure
+      const allWines: Wine[] = []
+      
+      // Parcourir chaque catégorie et ajouter les vins à notre tableau
+      data.forEach((categoryData: { name: string, wines: any[] }) => {
+        const categoryName = categoryData.name
+        
+        // Transformer chaque vin pour correspondre à notre interface Wine
+        const categoryWines = categoryData.wines.map(wine => ({
+          id: wine.id,
+          name: wine.name,
+          description: wine.description,
+          category: categoryName,
+          region: wine.region,
+          domain: wine.domain,
+          year: wine.year,
+          glassPrice: undefined, // L'API ne semble pas fournir de prix au verre
+          bottlePrice: parseFloat(wine.price),
+          type: wine.type
+        }))
+        
+        // Ajouter les vins de cette catégorie à notre tableau
+        allWines.push(...categoryWines)
+      })
+      
+      wines.value = allWines
     } catch (err) {
       console.error('Erreur lors de la récupération des vins:', err)
       error.value = err instanceof Error ? err.message : 'Erreur inconnue'
@@ -157,23 +116,23 @@ export function useWines() {
     error.value = null
     
     try {
-      const response = await fetch(`${apiBaseUrl}/${API_ENDPOINT}/${id}`)
-      
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP: ${response.status}`)
+      // Vérifier si le vin est déjà dans notre liste
+      const existingWine = wines.value.find(wine => wine.id === id)
+      if (existingWine) {
+        return existingWine
       }
       
-      const data = await response.json()
-      
-      // Mettre à jour le vin dans la liste si déjà chargé
-      const index = wines.value.findIndex(wine => wine.id === id)
-      if (index !== -1) {
-        wines.value[index] = data
-      } else {
-        wines.value.push(data)
+      // Si nous n'avons pas encore chargé les vins, charger tous les vins
+      if (wines.value.length === 0) {
+        await fetchWines()
+        const wine = wines.value.find(wine => wine.id === id)
+        if (wine) {
+          return wine
+        }
       }
       
-      return data
+      // Si nous n'avons toujours pas trouvé le vin, c'est qu'il n'existe pas
+      throw new Error(`Vin avec l'ID ${id} non trouvé`)
     } catch (err) {
       console.error(`Erreur lors de la récupération du vin ${id}:`, err)
       error.value = err instanceof Error ? err.message : 'Erreur inconnue'
@@ -190,6 +149,13 @@ export function useWines() {
     wines.value = []
     isLoading.value = false
     error.value = null
+  }
+
+  /**
+   * Charge toutes les données des vins
+   */
+  const loadWineData = async (category?: string, sort?: string) => {
+    await fetchWines(category, sort)
   }
 
   // Computed properties
@@ -220,6 +186,7 @@ export function useWines() {
     // Actions
     fetchWines,
     fetchWineById,
-    resetState
+    resetState,
+    loadWineData
   }
 } 
