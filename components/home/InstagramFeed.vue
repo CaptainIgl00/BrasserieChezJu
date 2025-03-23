@@ -114,7 +114,7 @@ const instagramPosts = ref<InstagramPost[]>([
     imageUrl: '/images/instagram/menu_semaine.webp',
     postUrl: 'https://www.instagram.com/p/DHgLRp7o1tU/',
     title: 'Menu de la semaine',
-    description: 'Du lundi 16 au vendredi 20 mars'
+    description: 'Du lundi 24 au vendredi 28 mars'
   },
   {
     id: '3',
