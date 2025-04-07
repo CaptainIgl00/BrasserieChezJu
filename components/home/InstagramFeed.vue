@@ -112,9 +112,9 @@ const instagramPosts = ref<InstagramPost[]>([
   {
     id: '2',
     imageUrl: '/images/instagram/menu_semaine.jpg',
-    postUrl: 'https://www.instagram.com/p/DH0ff07J-ig/',
+    postUrl: 'https://www.instagram.com/p/DIGdngTx6eM/',
     title: 'Menu de la semaine',
-    description: 'Du lundi 31 mars au vendredi 4 avril'
+    description: 'Du lundi 7 avril au vendredi 11 avril'
   },
   {
     id: '3',
