@@ -22,7 +22,8 @@ export default defineNuxtConfig({
         target: 'http://localhost:8000/api/v1/assets',
         changeOrigin: true
       }
-    }
+    },
+    preset: 'static'
   },
   image: {
     provider: isProduction ? 'ipx' : 'none',
@@ -124,7 +125,7 @@ export default defineNuxtConfig({
   },
   experimental: {
     treeshakeClientOnly: true,
-    viewTransition: true,
+    viewTransition: false,
     renderJsonPayloads: true,
     payloadExtraction: false,
     localLayerAliases: false
@@ -145,6 +146,8 @@ export default defineNuxtConfig({
   },
   vite: {
     build: {
+      target: 'es2019',
+      polyfillModulePreload: false,
       cssMinify: true,
       cssCodeSplit: true,
       minify: 'terser',
@@ -176,6 +179,7 @@ export default defineNuxtConfig({
     }
   },
   devServer: {
+    host: '0.0.0.0',
     port: 3300
   },
   components: {
