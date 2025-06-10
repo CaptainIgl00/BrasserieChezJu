@@ -112,16 +112,16 @@ const instagramPosts = ref<InstagramPost[]>([
   {
     id: '2',
     imageUrl: '/images/instagram/menu_semaine.jpg',
-    postUrl: 'https://www.instagram.com/p/DKZDNEpCCDK/',
+    postUrl: 'https://www.instagram.com/p/DKpfON_CYBo/',
     title: 'Menu de la semaine',
-    description: 'Du lundi 02 juin au vendredi 06 juin'
+    description: 'Du lundi 09 juin au vendredi 13 juin'
   },
   {
     id: '3',
-    imageUrl: '/images/instagram/saint_valentin.jpg',
-    postUrl: 'https://www.instagram.com/p/DExcRqEBDZj/',
-    title: 'Menu spéciale Saint Valentin ✨️',
-    description: 'Animation au piano par Gabriel'
+    imageUrl: '/images/instagram/soiree_ete.webp',
+    postUrl: 'https://www.instagram.com/p/DKsFnQJoUa3/',
+    title: "Première soirée de l'été ☀️",
+    description: 'Animation musicale avec le DJ Bob Dassin, tapas, brasero, cocktails' 
   }
 ])
 
