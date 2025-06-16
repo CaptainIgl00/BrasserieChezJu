@@ -81,7 +81,7 @@
         <span class="font-bold">Sam.</span> 10h00 – 14h00 | 18h30 – 22h00
       </p>
       <p>
-        <span class="font-bold">Dim.</span> 10h00 – 14h30
+        <span class="font-bold">Dim.</span> 10h00 – 14h30 | 18h30 – 22h00
       </p>
     </div>
   </div>
