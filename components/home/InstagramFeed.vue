@@ -104,17 +104,17 @@ interface InstagramPost {
 const instagramPosts = ref<InstagramPost[]>([
   {
     id: '1',
-    imageUrl: '/images/instagram/mere.jpg',
-    postUrl: 'https://www.instagram.com/p/DJuNhWwika5/',
-    title: 'Menu fête des mères',
-    description: 'Dimanche 25 mai'
+    imageUrl: '/images/instagram/soire_ete1.jpg',
+    postUrl: 'https://www.instagram.com/p/DLSoo88ifW4/',
+    title: "Deuxième soirée de l'été",
+    description: 'Vendredi 4 juillet 19h-00h'
   },
   {
     id: '2',
     imageUrl: '/images/instagram/menu_semaine.jpg',
-    postUrl: 'https://www.instagram.com/p/DLNe-QBP5si/',
+    postUrl: 'https://www.instagram.com/p/DLhI8kqCumY/',
     title: 'Menu de la semaine',
-    description: 'Du lundi 23 juin au vendredi 27 juin'
+    description: 'Du lundi 30 juin au vendredi 04 juillet'
   },
   {
     id: '3',
