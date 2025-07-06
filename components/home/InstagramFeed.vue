@@ -104,7 +104,7 @@ interface InstagramPost {
 const instagramPosts = ref<InstagramPost[]>([
   {
     id: '1',
-    imageUrl: '/images/instagram/soire_ete1.jpg',
+    imageUrl: '/images/instagram/soiree_ete1.jpg',
     postUrl: 'https://www.instagram.com/p/DLSoo88ifW4/',
     title: "Deuxième soirée de l'été",
     description: 'Vendredi 4 juillet 19h-00h'
