@@ -188,7 +188,8 @@ const seafood = [
   {
     name: "Seiche à la plancha",
     description: "(300g environ) et persillade ",
-    price: "22"
+    price: "22",
+    image: '/images/menu/filet_de_bar.jpg'
   },
   {
     name: "Moules",
