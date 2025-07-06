@@ -10,10 +10,6 @@
       <h3 class="section-title">Entrées</h3>
       <div class="dishes-container">
         <div class="dish-item">
-          <h4 class="dish-name">Soupe de lentilles</h4>
-          <p class="dish-description">Lardons, croûtons et œuf fermier mollet</p>
-          </div>
-        <div class="dish-item">
           <h4 class="dish-name">Escalope de saumon</h4>
           <p class="dish-description">Marinée à l'aneth</p>
         </div>
@@ -31,16 +27,16 @@
       <h3 class="section-title">Plats</h3>
       <div class="dishes-container">
         <div class="dish-item">
-          <h4 class="dish-name">Filet de bar</h4>
-          <p class="dish-description">À la plancha, sauce vierge à la ricotta et son toast de tapenade</p>
-          </div>
+          <h4 class="dish-name">Steak de thon planché</h4>
+          <p class="dish-description">et huile au piment d'Espelette</p>
+        </div>
         <div class="dish-item">
           <h4 class="dish-name">Cassoulet du chef Becq</h4>
           <p class="dish-description">Élaboré par le chef Becq dans le respect des traditions</p>
         </div>
         <div class="dish-item">
-          <h4 class="dish-name">Magret de canard grillé</h4>
-          <p class="dish-description">Du Périgord grillé à la fleur de sel à la plancha</p>
+          <h4 class="dish-name">"L-Bone" grillé</h4>
+          <p class="dish-description">et fleur de sel de Guérande</p>
         </div>
       </div>
     </div>
@@ -52,8 +48,8 @@
       <h3 class="section-title">Desserts</h3>
       <div class="dishes-container">
         <div class="dish-item">
-          <h4 class="dish-name">Crème brûlée</h4>
-          <p class="dish-description">Et son caramel au beurre salé</p>
+          <h4 class="dish-name">Salade de fruits frais</h4>
+          <p class="dish-description">Et sa glace au yaourt</p>
           </div>
         <div class="dish-item">
           <h4 class="dish-name">Moelleux au chocolat</h4>

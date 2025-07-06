@@ -90,11 +90,11 @@ const menus = [
     title: "Formule Côte de Boeuf",
     formule: [
       "Planche de jambon Serrano et jambon blanc truffé",
-      "Côte de boeuf à volonté",
+      "Côte de boeuf",
       "Planche de mignardises"
     ],
-    description: "55/personne (2 minimum)",
-    price: "55"
+    description: "60/personne (2 minimum)",
+    price: "60"
   },
   {
     title: "Formule des Loulous",

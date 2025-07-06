@@ -12,7 +12,7 @@
       <!-- Entrées -->
       <div>
         <MenuCategory 
-          title="Toc toc toc... entrées"
+          title="Toc toc toc... entrées 'à partager (ou pas)''"
           :dishes="starters"
         />
       </div>
@@ -23,7 +23,7 @@
       <!-- Salades -->
       <div>
         <MenuCategory 
-          title="On se met au vert ?"
+          title="On se met au vert ? Grandes salades"
           :dishes="salads"
         />
       </div>
@@ -34,7 +34,7 @@
       <!-- T'as faim de tradition ? -->
       <div>
         <MenuCategory 
-        title="T'as faim de tradition ?"
+        title="T'as faim de tradition ? Du Nord au Sud"
         :dishes="traditional"
         />
       </div>
@@ -99,11 +99,6 @@ const starters = [
     image: '/images/menu/planche_charcuterie.jpg'
   },
   {
-    name: "Camembert entier rôti au piment d'Espelette",
-    description: "Servi avec ses mouillettes",
-    price: "14"
-  },
-  {
     name: "Tapenade maison et ses toasts grillés",
     price: "8",
     image: '/images/menu/tapenade.png'
@@ -115,19 +110,23 @@ const starters = [
     image: '/images/menu/foie_gras.jpg'
   },
   {
-    name: "Filets de sardines fraîches",
-    description: "Marinés au cidre et aux agrumes",
+    name: "Gaspacho de tomates",
+    description: "Burrata, pesto et copeaux de parmesan",
+    price: "15"
+  },
+  {
+    name: "Assiette de bulots et son aïoli",
+    price: "12"
+  },
+  {
+    name: "Camembert entier rôti au piment d'Espelette",
+    description: "Servi avec ses mouillettes",
     price: "14"
   },
   {
-    name: "Soupe de lentilles du Pays d'Oc",
-    description: "Avec ses lardons, croûtons et son œuf fermier mollet",
-    price: "13"
-  },
-  {
-    name: "La grande planche de Becq à partager",
-    description: "Serrano, jambon truffé, foie gras, camembert rôti, saumon mariné, sardines, tapenade",
-    price: "59"
+    name: "Tataki de thon mariné",
+    description: "Au soja, vinaigrette wasabi et sésame forestier",
+    price: "17"
   }
 ]
 
@@ -135,12 +134,22 @@ const salads = [
   {
     name: "Salade César",
     description: "Poulet pané, tomates, olives, croûtons, parmesan, œuf fermier mollet frit, sauce césar",
+    price: "20"
+  },
+  {
+    name: "Salade du Sud-Ouest",
+    description: "Gésiers de canard maison, toast de foie gras, magret de canard séché, tomates, olives et pignons torréfiés",
+    price: "22"
+  },
+  {
+    name: "Salade Pelardon",
+    description: "'AOC Haute Corbières' Pelardon rôti, miel, romarin et jambon serrano",
     price: "19"
   },
   {
-    name: "Salade Gourmande",
-    description: "Gésiers, toast de foie gras, œuf fermier mollet frit, tomates, olives",
-    price: "21"
+    name: "Éventail de melon",
+    description: "Jambon serrano et son shooter de porto",
+    price: "19"
   },
   {
     name: "Escalopes de saumon mariné à l'aneth",
@@ -152,30 +161,39 @@ const salads = [
 
 const traditional = [
   {
-    name: "Cassoulet du chef Becq",
+    name: "Cassoulet de Fred",
     description: "Élaboré dans le respect de la tradition, servi avec sa salade",
     price: "24",
     image: '/images/menu/cassoulet.jpg'
   },
   {
-    name: "Le fameux Welsh de Fred au Maroilles",
-    description: "Œuf poché, frites maison et salade",
-    price: "16",
+    name: "Le fameux Welsh de Fred aux Maroilles",
+    description: "Bière, cheddar, jambon truffé, œuf poché, frites maison et salade",
+    price: "18",
     image: '/images/menu/welch.jpg'
   }
 ]
 
 const seafood = [
   {
-    name: "Filets de bar à la plancha",
-    description: "Toast de tapenade, sauce vierge à la ricotta et roquette",
+    name: "Daurade royale entière planchée",
+    description: "(350g environ), sauce vierge",
     price: "24",
-    image: '/images/menu/filet_de_bar.jpg'
   },
   {
-    name: "Seiches à la plancha",
-    description: "En persillade (500g)",
-    price: "20"
+    name: "Steack de thon planché",
+    description: "et huile au piment d'Espelette",
+    price: "25",
+  },
+  {
+    name: "Seiche à la plancha",
+    description: "(300g environ) et persillade ",
+    price: "22"
+  },
+  {
+    name: "Moules",
+    description: "Selon arrivage à la marinière",
+    price: "16"
   }
 ]
 
@@ -189,54 +207,52 @@ const meat = [
   {
     name: "Tartare de bœuf",
     description: "Ses condiments, ses frites maison et sa salade verte - Simple 180g",
-    price: "20"
+    price: "21"
   },
   {
     name: "Tartare de bœuf double",
     description: "360g",
-    price: "35"
+    price: "36"
   },
   {
-    name: "Tagliatelles de Ju",
+    name: "Tagliatelles fraîches 'du petit Becq'",
     description: "Magret de canard, sauce cèpes et parmesan",
-    price: "23"
+    price: "24"
   },
   {
     name: "Tagliatelles fraîches",
     description: "Au pesto et parmesan",
-    price: "14"
+    price: "15"
   }
 ]
 
 const grill = [
   {
-    name: "Entrecôte grillée",
-    description: "Beurre maître d'hôtel (350 g)",
-    price: "28",
-    image: '/images/menu/entrecote.png'
+    name: "L-Bone de boeuf grillé",
+    description: "'Faux filet sur os', fleur de sel (350g environ)",
+    price: "27",
   },
   {
     name: "Magret de canard du Périgord",
-    description: "Grillé fleur de sel de Guérande",
-    price: "26",
+    description: "Grillé, fleur de sel de Guérande (350g environ)",
+    price: "28",
     image: '/images/menu/magret.jpg'
   },
   {
-    name: "Côte de porc noir de Bigorre",
-    description: "En deux cuissons (500 g)",
-    price: "35",
-    image: '/images/menu/cote_porc.png'
+    name: "Travers de porc grillé",
+    description: "Huile au tandoori",
+    price: "18"
   },
   {
-    name: "Le demi lapin du Lauragais",
-    description: "Grillé et son aïoli (800 g)",
-    price: "27"
+    name: "Demi coquelet de chez 'Les Mexicots' grillé",
+    description: "Et son aïoli (400g environ)",
+    price: "22"
   },
   {
     name: "Côte de bœuf à partager",
     description: "Demandez l'ardoise",
     portion: "Sauces aux choix: Poivre, cèpes ou roquefort 4€",
-    price: "55/kg"
+    price: "65/kg"
   }
 ]
 
@@ -246,37 +262,36 @@ const desserts = [
     price: "16"
   },
   {
+    name: "Pavlova aux fruits rouges",
+    description: "Et sa chantilly au pamplemousse",
+    price: "10",
+    image: '/images/menu/pavlova.jpg'
+  },
+  {
+    name: "Profiterole XL",
+    description: "Chocolat chaud",
+    price: "10",
+    image: '/images/menu/profiteroles.jpg'
+  },
+  {
+    name: "Café ou chocolat liégeois",
+    price: "10"
+  },
+  {
+    name: "Café ou thé gourmand",
+    price: "11",
+    image: '/images/menu/cafe_gourmand.jpg'
+  },
+  {
     name: "Moelleux au chocolat",
     description: "Crème anglaise",
     price: "7",
     image: '/images/menu/moelleux.png'
   },
   {
-    name: "Crème brûlée",
-    description: "Au caramel beurre salé",
-    price: "7",
-    image: '/images/menu/creme_brulee.jpg'
-  },
-  {
-    name: "Pavlova aux fruits rouges",
-    description: "Et sa chantilly au pamplemousse",
-    price: "9",
-    image: '/images/menu/pavlova.jpg'
-  },
-  {
-    name: "Profiterole XL",
-    description: "Chocolat chaud",
-    price: "9",
-    image: '/images/menu/profiteroles.jpg'
-  },
-  {
-    name: "Café ou chocolat liégeois",
-    price: "9"
-  },
-  {
-    name: "Café ou thé gourmand",
-    price: "10",
-    image: '/images/menu/cafe_gourmand.jpg'
+    name: "Salade de fruits frais",
+    description: "Et sa boule de glace au yaourt",
+    price: "8"
   },
   {
     name: "Glaces",
