@@ -118,10 +118,10 @@ const instagramPosts = ref<InstagramPost[]>([
   },
   {
     id: '3',
-    imageUrl: '/images/instagram/soiree_ete.webp',
-    postUrl: 'https://www.instagram.com/p/DKsFnQJoUa3/',
-    title: "Première soirée de l'été ☀️",
-    description: 'Animation musicale avec le DJ Bob Dassin, tapas, brasero, cocktails' 
+    imageUrl: '/images/instagram/14juillet.webp',
+    postUrl: 'https://www.instagram.com/p/DL2txKYI4HV/',
+    title: "Menu du 14 juillet ☀️",
+    description: 'Pleins de bonnes choses seront au menu, alors on attend plus que vous ! ✨️' 
   }
 ])
 
