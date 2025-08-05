@@ -126,6 +126,7 @@ const starters = [
   {
     name: "Tataki de thon mariné",
     description: "Au soja, vinaigrette wasabi et sésame forestier",
+    image: '/images/menu/tataki.jpg',
     price: "17"
   }
 ]
